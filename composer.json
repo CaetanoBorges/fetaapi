@@ -1,0 +1,45 @@
+{
+    "config": {
+        "platform-check": false
+    },
+    "autoload": {
+        "psr-4": {
+            "Conta\\": "Conta/",
+            "Definicoes\\": "Definicoes/",
+            "Deposito\\": "Deposito/",
+            "Enviar\\": "Enviar/",
+            "Estatistica\\": "Estatistica/",
+            "Extrato\\": "Extrato/",
+            "Iban\\": "Iban/",
+            "Levantamento\\": "Levantamento/",
+            "Pagamentos\\": "Pagamentos/",
+            "Pendentes\\": "Pendentes/",
+            "Receber\\": "Receber/",
+            "Recorrentes\\": "Recorrentes/",
+            "Classes\\": "Classes/",
+            "Ferramentas\\": "FERRAMENTAS/"
+        },
+        "classmap": [
+            "Conta/",
+            "Definicoes/",
+            "Deposito/",
+            "Enviar/",
+            "Estatistica/",
+            "Extrato/",
+            "Iban/",
+            "Levantamento/",
+            "Pagamentos/",
+            "Pendentes/",
+            "Receber/",
+            "Recorrentes/",
+            "Classes/",
+            "FERRAMENTAS/"
+        ]
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.6",
+        "mpdf/mpdf": "^8.1",
+        "minishlink/web-push": "^7.0",
+        "cboden/ratchet": "v0.4"
+    }
+}
