@@ -172,7 +172,7 @@ class Funcoes
             return self::$conexao;
         }
 
-        self::$conexao = new \PDO("mysql:host=localhost;dbname=transporte", "root", "");
+        self::$conexao = pg_connect("host=localhost port=5432 dbname=fetafacil user=postgres password=root");
         return self::$conexao;
     }
 
