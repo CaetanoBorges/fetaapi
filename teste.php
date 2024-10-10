@@ -24,12 +24,12 @@ function queryDB($conexao, $sql, $retorna = true)
    }
    return true;
 }
-   $id7 = 110;
+   $id7 = 999;
    $id8 = 0;
    $id9 = 9;
-   $id10 = 1010;
+   $id10 = true;
 
-   $sqlInsert = "INSERT INTO cliente (identificador,empresa) VALUES ($id7, '$id8')";
+   $sqlInsert = "INSERT INTO cliente (identificador,empresa) VALUES ($id7, '$id10')";
    $sqlSelect = "select * from cliente";
 
 //pg_query($conexao, 'INSERT INTO cliente (identificador, empresa) VALUES ("pidUiytwe", false)');	
@@ -39,4 +39,10 @@ function queryDB($conexao, $sql, $retorna = true)
 
 //$result = Funcoes::queryDB($sqlInsert, false);
 $result = Funcoes::queryDB($sqlSelect, true);
-var_dump(json_encode($result)); //var_dump($result);
+
+foreach($result as $r){
+   if($r["empresa"] == "t"){
+      echo "empresa \n" ;
+   }
+}
+var_dump(($result)); //var_dump($result);

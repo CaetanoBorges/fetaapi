@@ -40,6 +40,7 @@
         "phpmailer/phpmailer": "^6.6",
         "mpdf/mpdf": "^8.1",
         "minishlink/web-push": "^7.0",
-        "cboden/ratchet": "v0.4"
+        "cboden/ratchet": "v0.4",
+        "forrest79/phpgsql": "^1.4"
     }
 }
