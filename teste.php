@@ -12,22 +12,31 @@ $dados = $_POST;
 $funcoes = new Funcoes;
 $conexao = $funcoes::conexao();
 
-   $sql =<<<EOF
-      INSERT INTO cliente (identificador,empresa)
-      VALUES (1, false);
+function queryDB($conexao, $sql, $retorna = true)
+{
+   $query = <<<EOF
+     $sql
+   EOF;
 
-      INSERT INTO cliente (identificador,empresa)
-      VALUES (2, true);     
-      
-      INSERT INTO cliente (identificador,empresa)
-      VALUES (3, true);      
-      
-      INSERT INTO cliente (identificador,empresa)
-      VALUES (4, false);
-EOF;
+   $result = pg_query($conexao, $query);
+   if($retorna){
+      return pg_fetch_all($result);
+   }
+   return true;
+}
+   $id7 = 110;
+   $id8 = 0;
+   $id9 = 9;
+   $id10 = 1010;
 
-pg_query($conexao, $sql);
+   $sqlInsert = "INSERT INTO cliente (identificador,empresa) VALUES ($id7, '$id8')";
+   $sqlSelect = "select * from cliente";
+
 //pg_query($conexao, 'INSERT INTO cliente (identificador, empresa) VALUES ("pidUiytwe", false)');	
 
-$result = pg_query($conexao, "select * from cliente");
-var_dump(pg_fetch_all($result));
+//$result = pg_query($conexao, "select * from cliente");
+//var_dump(pg_fetch_all($result));
+
+//$result = Funcoes::queryDB($sqlInsert, false);
+$result = Funcoes::queryDB($sqlSelect, true);
+var_dump(json_encode($result)); //var_dump($result);

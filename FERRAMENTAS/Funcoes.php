@@ -175,7 +175,19 @@ class Funcoes
         self::$conexao = pg_connect("host=localhost port=5432 dbname=fetafacil user=postgres password=root");
         return self::$conexao;
     }
+    static function queryDB($sql, $retorna = true)
+    {
+        $conexao = self::conexao();
+        $query = <<<EOF
+            $sql
+        EOF;
 
+        $result = pg_query($conexao, $query);
+        if($retorna){
+            return pg_fetch_all($result);
+        }
+        return true;
+    }
     static function substituiEspacoPorMais($variavel)
     {
         return str_replace(" ", "+", $variavel);
