@@ -1,7 +1,7 @@
 <?php
 
 namespace Ferramentas;
-
+use PDO;
 class Funcoes
 {
     public static $conexao = null;
@@ -171,10 +171,17 @@ class Funcoes
         if (isset(self::$conexao)) {
             return self::$conexao;
         }
+        
+        $dsn = "pgsql:host=localhost;port=5432;dbname=fetafacil;";
 
-        self::$conexao = pg_connect("host=localhost port=5432 dbname=fetafacil user=postgres password=root");
+        // make a database connection
+        self::$conexao = new \PDO($dsn, 'postgres', 'root', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
+        //self::$conexao = pg_connect("host=localhost port=5432 dbname=fetafacil user=postgres password=root");
         return self::$conexao;
+
     }
+
     static function queryDB($sql, $retorna = true)
     {
         $conexao = self::conexao();
