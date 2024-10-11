@@ -42,6 +42,7 @@
         "minishlink/web-push": "^7.0",
         "cboden/ratchet": "v0.4",
         "slim/slim": "4.*",
-        "slim/psr7": "^1.6"
+        "slim/psr7": "^1.6",
+        "vlucas/valitron": "^1.4"
     }
 }
