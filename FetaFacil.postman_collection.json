@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "4e5738b1-df54-4bab-a948-a3e35c0a89a3",
+		"name": "FetaFacil",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "verificaexistencia",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comercial\":false,\r\n    \"telefone\":\"921797626\",\r\n    \"bi\":\"921797626\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/auth/verificaexistencia",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"auth",
+								"verificaexistencia"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
