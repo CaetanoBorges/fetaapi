@@ -2,9 +2,13 @@
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Factory\AppFactory;
 
+
 use Ferramentas\Funcoes;
+use Controladores\AuthControl;
 
 require 'vendor/autoload.php';
 
@@ -17,7 +21,16 @@ $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
 $errorHandler->forceContentType("application/json");
-
+$afterMiddleware = function (Request $request, RequestHandler $handler) {
+    // Proceed with the next middleware
+    $response = $handler->handle($request);
+    
+    // Modify the response after the application has processed the request
+    $response = $response->withHeader('content-type',"application/json");
+    
+    return $response;
+};
+$app->add($afterMiddleware);
 $app->setBasePath("/fetaapi");
 $app->get('/', function (Request $request, Response $response, $args) {
 
@@ -36,7 +49,7 @@ $app->get('/{id}', function (Request $request, Response $response, $args) {
 
     return $response->withHeader('content-type',"application/json");
 });
-$app->post('/user/add', function (Request $request, Response $response, $args) {
+$app->get('/usuario/{id}', function (Request $request, Response $response, $args) {
     
     $body = $request->getParsedBody();
 
@@ -44,6 +57,8 @@ $app->post('/user/add', function (Request $request, Response $response, $args) {
 
     return $response->withHeader('content-type',"application/json")->withStatus(201);
 });
+
+$app->post('/auth/verificaexistencia', AuthControl::class.":verificaExistencia");
 
 
 // Run app

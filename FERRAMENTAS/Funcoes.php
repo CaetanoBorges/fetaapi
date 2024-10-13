@@ -56,7 +56,7 @@ class Funcoes
     static function enviaSMS($numero, $mensagem)
     {
         // get token
-        $enviar = self::HTTPpost("https://app.smshub.ao/api/authentication", ["authId" => "692533754324503635", "secretKey" => 'pd4x53HDSTRkqbEznKHzThkBA9behOHnNiPDX8QnKtHX8Rr07vtAXr8DPaWPRvZKo6uEg4SDSF7Gr6C3LcHThLDKl1AWsyH8tTVe']);
+        $enviar = self::HTTPpost("https://app.smshub.ao/api/authentication", ["authId" => "223849641474031576", "secretKey" => 'Rju26xnMYNNt5qTXrzPz6ziVv7q841pxx8Kys1A85gaXx9LJkMTJb8jvxYPQOQQoZW28E6mHpMSVkNMH7B0YG8NWwbjpgPRkxUwS']);
         $res = (array) json_decode($enviar);
         $data = (array) $res['data'];
 
@@ -84,7 +84,7 @@ class Funcoes
     static function setRemetente($nome)
     {
         // get token
-        $enviar = self::HTTPpost("https://app.smshub.ao/api/authentication", ["authId" => "692533754324503635", "secretKey" => 'pd4x53HDSTRkqbEznKHzThkBA9behOHnNiPDX8QnKtHX8Rr07vtAXr8DPaWPRvZKo6uEg4SDSF7Gr6C3LcHThLDKl1AWsyH8tTVe']);
+        $enviar = self::HTTPpost("https://app.smshub.ao/api/authentication", ["authId" => "223849641474031576", "secretKey" => 'Rju26xnMYNNt5qTXrzPz6ziVv7q841pxx8Kys1A85gaXx9LJkMTJb8jvxYPQOQQoZW28E6mHpMSVkNMH7B0YG8NWwbjpgPRkxUwS']);
         $res = (array) json_decode($enviar);
         $data = (array) $res['data'];
 
@@ -182,19 +182,6 @@ class Funcoes
 
     }
 
-    static function queryDB($sql, $retorna = true)
-    {
-        $conexao = self::conexao();
-        $query = <<<EOF
-            $sql
-        EOF;
-
-        $result = pg_query($conexao, $query);
-        if($retorna){
-            return pg_fetch_all($result);
-        }
-        return true;
-    }
     static function substituiEspacoPorMais($variavel)
     {
         return str_replace(" ", "+", $variavel);

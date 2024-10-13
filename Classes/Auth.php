@@ -3,7 +3,7 @@
 namespace Classes;
 
 
-class Cadastrar
+class Auth
 {
     protected $funcoes;
     protected $conexao;
