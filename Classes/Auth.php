@@ -88,14 +88,108 @@ class Auth
         return true;
     }
 
-    public function cadastrarParticular()
+    public function cadastrarParticular($dados)
     {
-       
+        $identificador = $this->funcoes::chaveDB();
+        $pin = $this->funcoes::fazHash($dados['pin']);
         
+        $queryCliente=$this->conexao->prepare("INSERT INTO cliente (identificador, empresa) VALUES (:identificador, :empresa)");
+        $queryCliente->bindValue(':identificador', $identificador);
+        $queryCliente->bindValue(':empresa', "0");
+
+        $queryEndereco=$this->conexao->prepare("INSERT INTO endereco (cliente_identificador, atual) VALUES (:cliente_identificador, :atual)");
+        $queryEndereco->bindValue(':cliente_identificador', $identificador);
+        $queryEndereco->bindValue(':atual', "1");
+        
+        $queryContacto=$this->conexao->prepare("INSERT INTO contacto (cliente_identificador, telefone, atual) VALUES (:cliente_identificador, :telefone, :atual)");
+        $queryContacto->bindValue(':cliente_identificador', $identificador);
+        $queryContacto->bindValue(':telefone', $dados['telefone']);
+        $queryContacto->bindValue(':atual', "1");
+        
+        $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, auto_pagamento_recebimento, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :auto_pagamento_recebimento, :pin)");
+        $queryConfiguracao->bindValue(':cliente_identificador', $identificador);
+        $queryConfiguracao->bindValue(':tempo_bloqueio', "30");
+        $queryConfiguracao->bindValue(':auto_pagamento_recebimento', "0");
+        $queryConfiguracao->bindValue(':pin', $pin);
+
+        $identificador_conta = $this->funcoes::chaveDB();
+        $queryParticular=$this->conexao->prepare("INSERT INTO particular (identificador, cliente_identificador, bi, nome, genero, nascimento, balanco) VALUES (:identificador, :identificador_cliente, :bi, :nome, :genero, :nascimento, :balanco)");
+        $queryParticular->bindValue(':identificador', $identificador_conta);
+        $queryParticular->bindValue(':identificador_cliente', $identificador);
+        $queryParticular->bindValue(':bi', $dados['bi']);
+        $queryParticular->bindValue(':nome', $dados['nome']);
+        $queryParticular->bindValue(':genero', $dados['genero']);
+        $queryParticular->bindValue(':nascimento', $dados['nascimento']);
+        $queryParticular->bindValue(':balanco', "0.00");
+
+        try {
+            $this->conexao->beginTransaction();
+            $queryCliente->execute();
+            $queryEndereco->execute();
+            $queryContacto->execute();
+            $queryConfiguracao->execute();
+            $queryParticular->execute();
+            $this->conexao->commit();
+        } catch (\PDOException $e) {
+            
+            $this->conexao->rollBack();
+            return ["sms"=>$e->getMessage(),"ok"=>false];
+        }
+        return ["sms"=>"Conta criada com sucesso","ok"=>true];
     }
-    public function cadastrarEmpresa()
+    public function cadastrarEmpresa($dados)
     {
-       
+
+        $identificador = $this->funcoes::chaveDB();
+        $pin = $this->funcoes::fazHash($dados['pin']);
+        
+        $queryCliente=$this->conexao->prepare("INSERT INTO cliente (identificador, empresa) VALUES (:identificador, :empresa)");
+        $queryCliente->bindValue(':identificador', $identificador);
+        $queryCliente->bindValue(':empresa', "1");
+
+        $queryEndereco=$this->conexao->prepare("INSERT INTO endereco (cliente_identificador, atual) VALUES (:cliente_identificador, :atual)");
+        $queryEndereco->bindValue(':cliente_identificador', $identificador);
+        $queryEndereco->bindValue(':atual', "1");
+        
+        $queryContacto=$this->conexao->prepare("INSERT INTO contacto (cliente_identificador, telefone, atual) VALUES (:cliente_identificador, :telefone, :atual)");
+        $queryContacto->bindValue(':cliente_identificador', $identificador);
+        $queryContacto->bindValue(':telefone', $dados['telefone']);
+        $queryContacto->bindValue(':atual', "1");
+        
+        $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, auto_pagamento_recebimento, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :auto_pagamento_recebimento, :pin)");
+        $queryConfiguracao->bindValue(':cliente_identificador', $identificador);
+        $queryConfiguracao->bindValue(':tempo_bloqueio', "30");
+        $queryConfiguracao->bindValue(':auto_pagamento_recebimento', "0");
+        $queryConfiguracao->bindValue(':pin', $pin);
+
+        $identificador_conta = $this->funcoes::chaveDB();
+        $query=$this->conexao->prepare("INSERT INTO empresa (identificador, cliente_identificador, nif, nome, area_atuacao, balanco) VALUES (:identificador, :identificador_cliente, :nif, :nome, :area, :balanco)");
+        $query->bindValue(':identificador', $identificador_conta);
+        $query->bindValue(':identificador_cliente', $identificador);
+        $query->bindValue(':nif', $dados['nif']);
+        $query->bindValue(':nome', $dados['nome']);
+        $query->bindValue(':area', $dados['area']);
+        $query->bindValue(':balanco', "0.00");
+
+
+
+        try {
+
+            $this->conexao->beginTransaction();
+            $queryCliente->execute();
+            $queryEndereco->execute();
+            $queryContacto->execute();
+            $queryConfiguracao->execute();
+            $query->execute();
+            $this->conexao->commit();
+
+        } catch (\PDOException $e) {
+
+            $this->conexao->rollBack();
+            return ["sms"=>$e->getMessage(),"ok"=>false];
+
+        }
+        return ["sms"=>"Conta criada com sucesso","ok"=>true];
         
     }
 

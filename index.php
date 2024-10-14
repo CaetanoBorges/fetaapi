@@ -60,6 +60,7 @@ $app->get('/usuario/{id}', function (Request $request, Response $response, $args
 
 $app->post('/auth/verificaexistencia', AuthControl::class.":verificaExistencia");
 $app->post('/auth/verificatelefone', AuthControl::class.":verificaTelefone");
+$app->post('/auth/cadastrar', AuthControl::class.":cadastrar");
 
 // Run app
 $app->run();
