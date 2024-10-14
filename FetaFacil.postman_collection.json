@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4e5738b1-df54-4bab-a948-a3e35c0a89a3",
+		"_postman_id": "0c0d23a1-c07d-4878-b3c4-809b37d42203",
 		"name": "FetaFacil",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,13 +9,45 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "verificaexistencia",
+					"name": "verificaTelefone",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"comercial\":false,\r\n    \"telefone\":\"921797626\",\r\n    \"bi\":\"921797626\"\r\n}",
+							"raw": "{\r\n    \"id\":\"921797626\",\r\n    \"codigo\":\"305278\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/auth/verificatelefone",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"auth",
+								"verificatelefone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verificaExistencia",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comercial\":true,\r\n    \"telefone\":\"921797626\",\r\n    \"nif\":\"921797626\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -35,6 +67,38 @@
 								"fetaapi",
 								"auth",
 								"verificaexistencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comercial\":true,\r\n    \"nome\": \"nome da empresa\",\r\n    \"telefone\":\"921797626\",\r\n    \"nif\":\"921797626\",\r\n    \"area\": \"uite\",\r\n    \"pin\": 123456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/auth/cadastrar",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"auth",
+								"cadastrar"
 							]
 						}
 					},
