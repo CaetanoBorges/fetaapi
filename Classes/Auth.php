@@ -241,4 +241,54 @@ class Auth
             return ["sms"=>"Nao verificado","ok"=>false];
         }
     }
+
+    
+
+    public function Entrar($dados){
+        $res = [];
+        $query=$this->conexao->prepare("SELECT cliente_identificador FROM contacto WHERE telefone = :telefone AND atual = :atual");
+        $query->bindValue(':telefone', $dados['telefone']);
+        $query->bindValue(':atual', "1");
+        $query->execute();
+
+        if($query->rowCount() > 0){
+
+            $identificador_cliente = $query->fetch(\PDO::FETCH_ASSOC);
+
+            $query=$this->conexao->prepare("SELECT * FROM cliente WHERE identificador = :identificador");
+            $query->bindValue(':identificador', $identificador_cliente["cliente_identificador"]);
+            $query->execute();
+            $tipo = $query->fetch(\PDO::FETCH_ASSOC);
+
+            if($tipo["empresa"]){
+                $query=$this->conexao->prepare("SELECT identificador FROM empresa WHERE cliente_identificador = :identificador");
+                $query->bindValue(':identificador', $identificador_cliente["cliente_identificador"]);
+                $query->execute();
+                $r = $query->fetch(\PDO::FETCH_ASSOC);
+                array_push($res,["conta"=>$r["identificador"]]);
+            }else{  
+                $query=$this->conexao->prepare("SELECT identificador FROM particular WHERE cliente_identificador = :identificador");
+                $query->bindValue(':identificador', $identificador_cliente["cliente_identificador"]);
+                $query->execute();
+                $r = $query->fetch(\PDO::FETCH_ASSOC);
+                array_push($res,["conta"=>$r["identificador"]]);
+            }
+
+            $query=$this->conexao->prepare("SELECT * FROM configuracao WHERE pin = :pin AND cliente_identificador = :identificador");
+            $query->bindValue(':pin', $this->funcoes::fazHash($dados['pin']));
+            $query->bindValue(':identificador', $identificador_cliente["cliente_identificador"]);
+            $query->execute();
+
+            $res = array_merge($res[0], $tipo, ['telefone' => $dados['telefone'], "quando"=>time()]);
+            //var_dump($res);
+            if($query->rowCount() > 0){
+                return ["sms"=>"Logado com sucesso","ok"=>true, "dados"=>$res];
+            }else{
+                return ["sms"=>"Credenciais erradas","ok"=>false];
+            }
+
+        }else{
+            return ["sms"=>"Nao verificado","ok"=>false];
+        }
+    }
 }

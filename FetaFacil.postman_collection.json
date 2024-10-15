@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "80cacca4-5fba-4a3b-8c9a-b2cefb60fe24",
+		"_postman_id": "b1b03437-4193-49a2-a833-8fde84ae1483",
 		"name": "FetaFacil",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -99,6 +99,38 @@
 								"fetaapi",
 								"auth",
 								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Entrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"telefone\":\"921797626\",\r\n    \"pin\": 123456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/auth/entrar",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"auth",
+								"entrar"
 							]
 						}
 					},
