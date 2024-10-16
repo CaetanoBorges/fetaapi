@@ -97,7 +97,7 @@ class Auth
         
         $queryContacto=$this->conexao->prepare("INSERT INTO contacto (cliente_identificador, telefone, atual) VALUES (:cliente_identificador, :telefone, :atual)");
         $queryContacto->bindValue(':cliente_identificador', $identificador);
-        $queryContacto->bindValue(':telefone', $dados['telefone']);
+        $queryContacto->bindValue(':telefone', $dados['id']);
         $queryContacto->bindValue(':atual', "1");
         
         $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, auto_pagamento_recebimento, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :auto_pagamento_recebimento, :pin)");
@@ -107,7 +107,7 @@ class Auth
         $queryConfiguracao->bindValue(':pin', $pin);
 
         $identificador_conta = $this->funcoes::chaveDB();
-        $queryParticular=$this->conexao->prepare("INSERT INTO particular (identificador, cliente_identificador, bi, nome, genero, nascimento, balanco) VALUES (:identificador, :identificador_cliente, :bi, :nome, :genero, :nascimento, :balanco)");
+        $queryParticular=$this->conexao->prepare("INSERT INTO particular (identificador, cliente_identificador, bi, nome, genero, nascimento, balanco, foto) VALUES (:identificador, :identificador_cliente, :bi, :nome, :genero, :nascimento, :balanco, :foto)");
         $queryParticular->bindValue(':identificador', $identificador_conta);
         $queryParticular->bindValue(':identificador_cliente', $identificador);
         $queryParticular->bindValue(':bi', $dados['bi']);
@@ -115,6 +115,7 @@ class Auth
         $queryParticular->bindValue(':genero', $dados['genero']);
         $queryParticular->bindValue(':nascimento', $dados['nascimento']);
         $queryParticular->bindValue(':balanco', "0.00");
+        $queryParticular->bindValue(':foto', "default.png");
 
         try {
             $this->conexao->beginTransaction();
@@ -147,7 +148,7 @@ class Auth
         
         $queryContacto=$this->conexao->prepare("INSERT INTO contacto (cliente_identificador, telefone, atual) VALUES (:cliente_identificador, :telefone, :atual)");
         $queryContacto->bindValue(':cliente_identificador', $identificador);
-        $queryContacto->bindValue(':telefone', $dados['telefone']);
+        $queryContacto->bindValue(':telefone', $dados['id']);
         $queryContacto->bindValue(':atual', "1");
         
         $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, auto_pagamento_recebimento, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :auto_pagamento_recebimento, :pin)");
@@ -157,15 +158,14 @@ class Auth
         $queryConfiguracao->bindValue(':pin', $pin);
 
         $identificador_conta = $this->funcoes::chaveDB();
-        $query=$this->conexao->prepare("INSERT INTO empresa (identificador, cliente_identificador, nif, nome, area_atuacao, balanco) VALUES (:identificador, :identificador_cliente, :nif, :nome, :area, :balanco)");
+        $query=$this->conexao->prepare("INSERT INTO empresa (identificador, cliente_identificador, nif, nome, area_atuacao, balanco, foto) VALUES (:identificador, :identificador_cliente, :nif, :nome, :area, :balanco, :foto)");
         $query->bindValue(':identificador', $identificador_conta);
         $query->bindValue(':identificador_cliente', $identificador);
         $query->bindValue(':nif', $dados['nif']);
         $query->bindValue(':nome', $dados['nome']);
         $query->bindValue(':area', $dados['area']);
         $query->bindValue(':balanco', "0.00");
-
-
+        $query->bindValue(':foto', "default.png");
 
         try {
 
@@ -189,7 +189,7 @@ class Auth
 
     public function verificaExistencia($dados)
     {
-        if($this->existeTelefone($dados['telefone'])){
+        if($this->existeTelefone($dados['id'])){
             return ["message"=>"Este telefone ja existe numa conta","ok"=>true];
         }
 
@@ -240,7 +240,7 @@ class Auth
     public function Entrar($dados){
         $res = [];
         $query=$this->conexao->prepare("SELECT cliente_identificador FROM contacto WHERE telefone = :telefone AND atual = :atual");
-        $query->bindValue(':telefone', $dados['telefone']);
+        $query->bindValue(':telefone', $dados['id']);
         $query->bindValue(':atual', "1");
         $query->execute();
 
@@ -272,7 +272,7 @@ class Auth
             $query->bindValue(':identificador', $identificador_cliente["cliente_identificador"]);
             $query->execute();
 
-            $res = array_merge($res[0], $tipo, ['telefone' => $dados['telefone'], "quando"=>time()]);
+            $res = array_merge($res[0], $tipo, ['telefone' => $dados['id'], "quando"=>time()]);
             //var_dump($res);
             if($query->rowCount() > 0){
                 return ["message"=>"Logado com sucesso","ok"=>true, "dados"=>$res];

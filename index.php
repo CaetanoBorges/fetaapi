@@ -2,8 +2,8 @@
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Slim\Routing\RouteCollectorProxy;
 use Slim\Factory\AppFactory;
 
 
@@ -58,13 +58,25 @@ $app->get('/usuario/{id}', function (Request $request, Response $response, $args
     return $response->withHeader('content-type',"application/json")->withStatus(201);
 });
 
-$app->post('/auth/verificaexistencia', AuthControl::class.":verificaExistencia");
-$app->post('/auth/verificatelefone', AuthControl::class.":verificaTelefone");
-$app->post('/auth/cadastrar', AuthControl::class.":cadastrar");
-$app->post('/auth/entrar', AuthControl::class.":entrar");
-$app->post('/auth/recuperarconta', AuthControl::class.":recuperarConta");
-$app->post('/auth/confirmarcodigo', AuthControl::class.":confirmarCodigo");
-$app->post('/auth/novopin', AuthControl::class.":novoPin");
+
+$app->group('/auth', function (RouteCollectorProxy $group) {
+    $group->post('/verificaexistencia', AuthControl::class.":verificaExistencia");
+    $group->post('/verificatelefone', AuthControl::class.":verificaTelefone");
+    $group->post('/cadastrar', AuthControl::class.":cadastrar");
+    $group->post('/entrar', AuthControl::class.":entrar");
+    $group->post('/recuperarconta', AuthControl::class.":recuperarConta");
+    $group->post('/confirmarcodigo', AuthControl::class.":confirmarCodigo");
+    $group->post('/novopin', AuthControl::class.":novoPin");
+});
 
 // Run app
 $app->run();
+
+
+//$app->post('/auth/verificaexistencia', AuthControl::class.":verificaExistencia");
+//$app->post('/auth/verificatelefone', AuthControl::class.":verificaTelefone");
+//$app->post('/auth/cadastrar', AuthControl::class.":cadastrar");
+//$app->post('/auth/entrar', AuthControl::class.":entrar");
+//$app->post('/auth/recuperarconta', AuthControl::class.":recuperarConta");
+//$app->post('/auth/confirmarcodigo', AuthControl::class.":confirmarCodigo");
+//$app->post('/auth/novopin', AuthControl::class.":novoPin");

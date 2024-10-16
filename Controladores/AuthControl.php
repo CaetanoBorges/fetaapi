@@ -23,7 +23,7 @@ class AuthControl
         $body = $request->getParsedBody();
         $res = $this->auth->verificaExistencia($body);
         if(!$res['ok']){
-           $this->auth->enviaCodigo($body['telefone']);
+           $this->auth->enviaCodigo($body['id']);
         }
         $response->getBody()->write(json_encode($res));
         return $response;
@@ -44,10 +44,43 @@ class AuthControl
         $body = $request->getParsedBody();
         if($body['comercial']){
             $res = $this->auth->cadastrarEmpresa($body);
-            $response->getBody()->write(json_encode($res));
+            if($res['ok']){
+
+                $res = $this->auth->entrar($body);
+                $credencial = json_encode($res['dados']);
+                $cript = new Criptografia();
+                $chave_sms_real = $cript->fazChave();
+                $chave_sms = $cript->criptChave($chave_sms_real);
+
+                $sms = $cript->encrypt($credencial,$chave_sms_real);
+
+                $return['token'] = $sms.'.'.$chave_sms;
+                $return['sms'] = "Cadastro de conta comercial concluido";
+                $return['ok'] = true;
+                $response->getBody()->write(json_encode($return));
+            }else{
+                $response->getBody()->write(json_encode($res));
+            }
         }else{
             $res = $this->auth->cadastrarParticular($body);
-            $response->getBody()->write(json_encode($res));
+            
+            if($res['ok']){
+                $res = $this->auth->entrar($body);
+                $credencial = json_encode($res['dados']);
+                $cript = new Criptografia();
+                $chave_sms_real = $cript->fazChave();
+                $chave_sms = $cript->criptChave($chave_sms_real);
+
+                $sms = $cript->encrypt($credencial,$chave_sms_real);
+
+                $return['token'] = $sms.'.'.$chave_sms;
+                $return['sms'] = "Cadastro de conta particular concluido";
+                $return['ok'] = true;
+                $response->getBody()->write(json_encode($return));
+            }else{
+                $response->getBody()->write(json_encode($res));
+            }
+            
         }
         return $response;
     }
@@ -72,7 +105,6 @@ class AuthControl
         }else{
             $response->getBody()->write(json_encode($res));
         }
-        
         return $response;
     }
     
@@ -103,7 +135,7 @@ class AuthControl
         $body = $request->getParsedBody();
         $res = $this->auth->novoPin($body);
         if($res['ok']){
-            $res = $this->auth->entrar(["pin"=>$body["pin"], "telefone"=> $body["id"]]);
+            $res = $this->auth->entrar($body);
             if($res['ok']){
 
                 $credencial = json_encode($res['dados']);
@@ -123,6 +155,4 @@ class AuthControl
         }
         return $response;
     }
-
-
 }
