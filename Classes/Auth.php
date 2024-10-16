@@ -14,12 +14,6 @@ class Auth
         $this->funcoes = $funcoes;
     }
 
-    protected function _check()
-    {
-        
-        
-    }
-
     /**
      * Verifica se existe um particular com um determinado numero de BI
      * @param string $bi
@@ -133,9 +127,9 @@ class Auth
         } catch (\PDOException $e) {
             
             $this->conexao->rollBack();
-            return ["sms"=>$e->getMessage(),"ok"=>false];
+            return ["message"=>$e->getMessage(),"ok"=>false];
         }
-        return ["sms"=>"Conta criada com sucesso","ok"=>true];
+        return ["message"=>"Conta criada com sucesso","ok"=>true];
     }
     public function cadastrarEmpresa($dados)
     {
@@ -186,30 +180,30 @@ class Auth
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return ["sms"=>$e->getMessage(),"ok"=>false];
+            return ["message"=>$e->getMessage(),"ok"=>false];
 
         }
-        return ["sms"=>"Conta criada com sucesso","ok"=>true];
+        return ["message"=>"Conta criada com sucesso","ok"=>true];
         
     }
 
     public function verificaExistencia($dados)
     {
         if($this->existeTelefone($dados['telefone'])){
-            return ["sms"=>"Este telefone ja existe numa conta","ok"=>true];
+            return ["message"=>"Este telefone ja existe numa conta","ok"=>true];
         }
 
         if($dados['comercial']){
             if($this->existeNif($dados['nif'])){
-                return ["sms"=>"Este nif ja existe numa conta","ok"=>true];
+                return ["message"=>"Este nif ja existe numa conta","ok"=>true];
             }
         }
         if(!$dados['comercial']){
             if($this->existeBi($dados['bi'])){
-                return ["sms"=>"Este BI ja existe numa conta","ok"=>true];
+                return ["message"=>"Este BI ja existe numa conta","ok"=>true];
             }
         }
-        return ["sms"=>"Nao existe nenhuma conta com esses dados","ok"=>false];
+        return ["message"=>"Nao existe nenhuma conta com esses dados","ok"=>false];
     }
 
         /**
@@ -226,7 +220,6 @@ class Auth
         $query->bindValue(':codigo', $dados['codigo']);
         $query->bindValue(':confirmou', 0);
         $query->execute();
-        $res = $query->rowCount();
 
         if($query->rowCount() > 0){
 
@@ -235,10 +228,10 @@ class Auth
             $query->bindValue(':codigo', $dados['codigo']);
             $query->bindValue(':confirmou', 1);
             $query->execute();
-            return ["sms"=>"Verificacao completa","ok"=>true];
+            return ["message"=>"Verificacao completa","ok"=>true];
 
         }else{
-            return ["sms"=>"Nao verificado","ok"=>false];
+            return ["message"=>"Nao verificado","ok"=>false];
         }
     }
 
@@ -282,13 +275,83 @@ class Auth
             $res = array_merge($res[0], $tipo, ['telefone' => $dados['telefone'], "quando"=>time()]);
             //var_dump($res);
             if($query->rowCount() > 0){
-                return ["sms"=>"Logado com sucesso","ok"=>true, "dados"=>$res];
+                return ["message"=>"Logado com sucesso","ok"=>true, "dados"=>$res];
             }else{
-                return ["sms"=>"Credenciais erradas","ok"=>false];
+                return ["message"=>"Credenciais erradas","ok"=>false];
             }
 
         }else{
-            return ["sms"=>"Nao verificado","ok"=>false];
+            return ["message"=>"Nao verificado","ok"=>false];
         }
+    }
+
+    public function recuperar($dados){
+        $res = [];
+        $query=$this->conexao->prepare("SELECT * FROM contacto WHERE telefone = :telefone");
+        $query->bindValue(':telefone', $dados['id']);
+        $query->execute();
+
+        if($query->rowCount() > 0){
+
+            $cliente = $query->fetch(\PDO::FETCH_ASSOC);
+            $this->funcoes::setRemetente('FETA-FACIL');
+            $codigo = $this->funcoes::seisDigitos();
+            $mensagem = "Estimado cidadão, o seu código para recuperacao de conta é: $codigo";
+            $this->funcoes::enviaSMS($dados['id'], $mensagem);
+
+            $query=$this->conexao->prepare("INSERT INTO confirmar (cliente_identificador, acao, codigo_enviado, quando, confirmou) VALUES (:cliente, :acao, :codigo, :quando, :confirmou)");
+            $query->bindValue(':cliente', $dados["id"]);
+            $query->bindValue(':acao', "Recuperacao de pin");
+            $query->bindValue(':codigo', $codigo);
+            $query->bindValue(':quando', $this->funcoes::quando(time()));
+            $query->bindValue(':confirmou', "0");
+            $query->execute();
+            return ["message"=>"Numero de verificacao enviado","ok"=>true];
+        }else{
+            return ["message"=>"Este numero nao se encontra na nossa base de dados","ok"=>false];
+        }
+    }
+
+    public function confirmarCodigo($dados){
+        $confirmar = $this->verificaCodigo($dados);
+        if($confirmar["ok"]){
+            $confirmar["codigo"] = $dados["codigo"];
+            $confirmar["id"] = $dados["id"];
+            return $confirmar;
+        }
+        return $confirmar;
+    }
+
+    public function novoPin($dados){
+        $query=$this->conexao->prepare("SELECT cliente_identificador FROM contacto WHERE telefone = :telefone");
+        $query->bindValue(':telefone', $dados['id']);
+        $query->execute();
+        $identificador_cliente = $query->fetch(\PDO::FETCH_ASSOC);
+
+        
+        $query=$this->conexao->prepare("SELECT * FROM confirmar WHERE cliente_identificador = :telefone AND codigo_enviado = :codigo AND confirmou = :confirmou");
+        $query->bindValue(':telefone', $dados['id']);
+        $query->bindValue(':codigo', $dados['codigo']);
+        $query->bindValue(':confirmou', "1");
+        $query->execute();
+        if($query->rowCount() > 0){
+            $query=$this->conexao->prepare("UPDATE configuracao SET pin = :pin WHERE cliente_identificador = :cliente");
+            $query->bindValue(':pin', $this->funcoes::fazHash($dados['pin']));
+            $query->bindValue(':cliente', $identificador_cliente["cliente_identificador"]);
+            $query->execute();
+
+            
+            $query=$this->conexao->prepare("UPDATE confirmar SET codigo_enviado = :novo WHERE cliente_identificador = :telefone AND codigo_enviado = :codigo AND confirmou = :confirmou");
+            $query->bindValue(':novo', "------");
+            $query->bindValue(':telefone', $dados['id']);
+            $query->bindValue(':codigo', $dados['codigo']);
+            $query->bindValue(':confirmou', "1");
+            $query->execute();
+
+            return ["message"=>"Pin atualizado","ok"=>true];
+        }
+
+        return ["message"=>"Erro inexperado, tente mais tarde","ok"=>false];
+
     }
 }

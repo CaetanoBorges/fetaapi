@@ -6,7 +6,7 @@ use Ferramentas\Funcoes;
 
 require 'vendor/autoload.php';
 
-function remover_acentos($string) {
+function rm_special_chars($string) {
 
     if ( !preg_match('/[\x80-\xff]/', $string) )
         return $string;
@@ -108,7 +108,9 @@ function remover_acentos($string) {
     );
 
     $string = strtr($string, $chars);
-    return $string;
+    $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+    $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+    return str_replace('-', ' ', $string);
 }
 
-echo remover_acentos('Olá roça %$ª ão !'); // Ola mundo!
+echo rm_special_chars('Olá roça %$ª ão & / \ | > >!'); // Ola mundo!

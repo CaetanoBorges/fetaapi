@@ -135,6 +135,102 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "RecuperarConta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"921797626\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/auth/recuperarconta",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"auth",
+								"recuperarconta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConfirmarCodigo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"921797626\",\r\n    \"codigo\": 589499\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/auth/confirmarcodigo",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"auth",
+								"confirmarcodigo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NovoPin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"921797626\",\r\n    \"codigo\":\"589499\",\r\n    \"pin\": 654321\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/auth/novopin",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"auth",
+								"novopin"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

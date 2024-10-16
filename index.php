@@ -62,6 +62,9 @@ $app->post('/auth/verificaexistencia', AuthControl::class.":verificaExistencia")
 $app->post('/auth/verificatelefone', AuthControl::class.":verificaTelefone");
 $app->post('/auth/cadastrar', AuthControl::class.":cadastrar");
 $app->post('/auth/entrar', AuthControl::class.":entrar");
+$app->post('/auth/recuperarconta', AuthControl::class.":recuperarConta");
+$app->post('/auth/confirmarcodigo', AuthControl::class.":confirmarCodigo");
+$app->post('/auth/novopin', AuthControl::class.":novoPin");
 
 // Run app
 $app->run();

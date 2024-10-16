@@ -75,6 +75,54 @@ class AuthControl
         
         return $response;
     }
+    
+    public function recuperarConta(Request $request, Response $response, $args) 
+    {
+        $body = $request->getParsedBody();
+        $res = $this->auth->recuperar($body);
+        if($res['ok']){
+            $response->getBody()->write(json_encode($res));
+        }else{
+            $response->getBody()->write(json_encode($res));
+        }
+        return $response;
+    }
+    public function confirmarCodigo(Request $request, Response $response, $args) 
+    {
+        $body = $request->getParsedBody();
+        $res = $this->auth->confirmarCodigo($body);
+        if($res['ok']){
+            $response->getBody()->write(json_encode($res));
+        }else{
+            $response->getBody()->write(json_encode($res));
+        }
+        return $response;
+    }
+    public function novoPin(Request $request, Response $response, $args) 
+    {
+        $body = $request->getParsedBody();
+        $res = $this->auth->novoPin($body);
+        if($res['ok']){
+            $res = $this->auth->entrar(["pin"=>$body["pin"], "telefone"=> $body["id"]]);
+            if($res['ok']){
+
+                $credencial = json_encode($res['dados']);
+                $cript = new Criptografia();
+                $chave_sms_real = $cript->fazChave();
+                $chave_sms = $cript->criptChave($chave_sms_real);
+
+                $sms = $cript->encrypt($credencial,$chave_sms_real);
+
+                $return['token'] = $sms.'.'.$chave_sms;
+                $return['sms'] = "Pin atualizado";
+                $return['ok'] = true;
+                $response->getBody()->write(json_encode($return));
+            }
+        }else{
+            $response->getBody()->write(json_encode($res));
+        }
+        return $response;
+    }
 
 
 }
