@@ -115,3 +115,7 @@ function rm_special_chars($string) {
 
 #echo rm_special_chars('Olá roça %$ª ão & / \ | > >!'); // Ola mundo!
 echo Funcoes::gen_uuid();
+
+$json_update = `UPDATE <table>
+SET <field-name> = <field-name> || '{"a": 1}'::jsonb
+WHERE id = <some id>`;
