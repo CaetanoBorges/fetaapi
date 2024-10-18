@@ -113,4 +113,5 @@ function rm_special_chars($string) {
     return str_replace('-', ' ', $string);
 }
 
-echo rm_special_chars('Olá roça %$ª ão & / \ | > >!'); // Ola mundo!
+#echo rm_special_chars('Olá roça %$ª ão & / \ | > >!'); // Ola mundo!
+echo Funcoes::gen_uuid();
