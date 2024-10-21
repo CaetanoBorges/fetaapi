@@ -172,10 +172,10 @@ class Funcoes
             return self::$conexao;
         }
         
-        $dsn = "pgsql:host=localhost;port=5432;dbname=fetafacil;";
+        $dsn = "mysql:host=localhost;dbname=fetafacil";
 
         // make a database connection
-        self::$conexao = new \PDO($dsn, 'postgres', 'root', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        self::$conexao = new \PDO($dsn, 'root', '', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
         //self::$conexao = pg_connect("host=localhost port=5432 dbname=fetafacil user=postgres password=root");
         return self::$conexao;
