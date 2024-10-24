@@ -46,6 +46,8 @@ class Transacao {
             $r = array_merge($resPrincipal,$res, ["pagamentos"=>$transacoes]);
             return $r;
         }
+
+        return $resPrincipal;
     }
     public function verTodos($conta,$mes, $ano){
         $query=$this->conexao->prepare("SELECT * FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND para = :para");
