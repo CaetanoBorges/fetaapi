@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Out-2024 às 14:36
--- Versão do servidor: 10.4.25-MariaDB
--- versão do PHP: 8.0.0
+-- Tempo de geração: 24-Out-2024 às 20:38
+-- Versão do servidor: 10.4.24-MariaDB
+-- versão do PHP: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -50,7 +50,6 @@ CREATE TABLE `configuracao` (
   `identificador` int(11) NOT NULL,
   `cliente_identificador` text NOT NULL,
   `tempo_bloqueio` int(11) NOT NULL,
-  `auto_pagamento_recebimento` tinyint(1) NOT NULL,
   `pin` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -58,9 +57,9 @@ CREATE TABLE `configuracao` (
 -- Extraindo dados da tabela `configuracao`
 --
 
-INSERT INTO `configuracao` (`identificador`, `cliente_identificador`, `tempo_bloqueio`, `auto_pagamento_recebimento`, `pin`) VALUES
-(2, '6710363e3da0a', 30, 0, 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413'),
-(3, '671039056e390', 30, 0, 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413');
+INSERT INTO `configuracao` (`identificador`, `cliente_identificador`, `tempo_bloqueio`, `pin`) VALUES
+(2, '6710363e3da0a', 30, 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413'),
+(3, '671039056e390', 30, 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413');
 
 -- --------------------------------------------------------
 
@@ -139,14 +138,14 @@ CREATE TABLE `empresa` (
   `nome` text NOT NULL,
   `area_atuacao` text NOT NULL,
   `balanco` decimal(16,2) DEFAULT NULL,
-  `foto` text NOT NULL
+  `img` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `empresa`
 --
 
-INSERT INTO `empresa` (`identificador`, `cliente_identificador`, `nif`, `nome`, `area_atuacao`, `balanco`, `foto`) VALUES
+INSERT INTO `empresa` (`identificador`, `cliente_identificador`, `nif`, `nome`, `area_atuacao`, `balanco`, `img`) VALUES
 ('671039056e3cc', '671039056e390', '921797626', 'nome da empresa', 'uite', '108095.09', 'default.png');
 
 -- --------------------------------------------------------
@@ -275,14 +274,14 @@ CREATE TABLE `particular` (
   `genero` text DEFAULT NULL,
   `nascimento` text DEFAULT NULL,
   `balanco` decimal(16,2) NOT NULL,
-  `foto` text NOT NULL
+  `img` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `particular`
 --
 
-INSERT INTO `particular` (`identificador`, `cliente_identificador`, `bi`, `nome`, `genero`, `nascimento`, `balanco`, `foto`) VALUES
+INSERT INTO `particular` (`identificador`, `cliente_identificador`, `bi`, `nome`, `genero`, `nascimento`, `balanco`, `img`) VALUES
 ('6710363e3da27', '6710363e3da0a', 'AH09765345O45', 'nome da empresa', 'm', '15-08-1996', '1904.91', 'default.png');
 
 -- --------------------------------------------------------
