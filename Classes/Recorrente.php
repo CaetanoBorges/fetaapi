@@ -64,7 +64,10 @@ class Recorrente {
         $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         $parcelado = array_merge($resUm, $resDois);
-        
+        foreach($parcelado as $k => $v){
+            $parcelado[$k]["tipo"] = "parcelado";
+        }
+
         $query=$this->conexao->prepare("SELECT * FROM recorrente WHERE ativo = :ativo AND para = :para");
         $query->bindValue(':ativo', '1');
         $query->bindValue(':para', $conta);
@@ -78,8 +81,19 @@ class Recorrente {
         $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         $recorrente = array_merge($resUm, $resDois);
+        foreach($recorrente as $k => $v){
+            $recorrente[$k]["tipo"] = "recorrente";
+        }
 
         $res = array_merge($parcelado, $recorrente);
+
+        foreach($res as $k => $v){
+            if($v["de"]==$conta){
+                $res[$k]["enviar"] = 1;
+            }else{
+                $res[$k]["enviar"] = 0;
+            }
+        }
         return $res;
     }
     

@@ -19,7 +19,7 @@ class Transacao {
 
         $r = [];
 
-        $query=$this->conexao->prepare("SELECT * FROM transacao WHERE pid = :pid");
+        $query=$this->conexao->prepare("SELECT *, pid AS identificador FROM transacao WHERE pid = :pid");
         $query->bindValue(':pid', $pid);
         $query->execute();
         $resPrincipal = $query->fetch(\PDO::FETCH_ASSOC);
@@ -50,7 +50,7 @@ class Transacao {
         return $resPrincipal;
     }
     public function verTodos($conta,$mes, $ano){
-        $query=$this->conexao->prepare("SELECT * FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND para = :para");
+        $query=$this->conexao->prepare("SELECT *, pid AS identificador FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND para = :para");
         $query->bindValue(':executado', '1');
         $query->bindValue(':mes', $mes);
         $query->bindValue(':ano', $ano);
@@ -58,7 +58,7 @@ class Transacao {
         $query->execute();
         $resUm = $query->fetchAll(\PDO::FETCH_ASSOC);
         
-        $query=$this->conexao->prepare("SELECT * FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND de = :de");
+        $query=$this->conexao->prepare("SELECT *, pid AS identificador FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND de = :de");
         $query->bindValue(':executado', '1');
         $query->bindValue(':mes', $mes);
         $query->bindValue(':ano', $ano);
@@ -67,7 +67,13 @@ class Transacao {
         $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         $res = array_merge($resUm, $resDois);
-
+        foreach($res as $k => $v){
+            if($v["de"]==$conta){
+                $res[$k]["enviar"] = 1;
+            }else{
+                $res[$k]["enviar"] = 0;
+            }
+        }
         return $res;
     }
     public function verTodosInit($conta){
@@ -104,7 +110,7 @@ class Transacao {
             //var_dump($r);
         }
 
-        $query=$this->conexao->prepare("SELECT * FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND para = :para");
+        $query=$this->conexao->prepare("SELECT *, pid AS identificador FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND para = :para");
         $query->bindValue(':executado', '1');
         $query->bindValue(':mes', $mes);
         $query->bindValue(':ano', $ano);
@@ -112,7 +118,7 @@ class Transacao {
         $query->execute();
         $resUm = $query->fetchAll(\PDO::FETCH_ASSOC);
         
-        $query=$this->conexao->prepare("SELECT * FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND de = :de");
+        $query=$this->conexao->prepare("SELECT *, pid AS identificador FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND de = :de");
         $query->bindValue(':executado', '1');
         $query->bindValue(':mes', $mes);
         $query->bindValue(':ano', $ano);
@@ -121,14 +127,17 @@ class Transacao {
         $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         $res = array_merge($resUm, $resDois);
+        foreach($res as $k => $v){
+            if($v["de"]==$conta){
+                $res[$k]["enviar"] = 1;
+            }else{
+                $res[$k]["enviar"] = 0;
+            }
+        }
         $r["atual"]["res"] = $res;
         $r["atual"]["mes"] = $mes;
         $r["atual"]["ano"] = $ano;
 
         return $r;
-    }
-    public function Estatistica($array){
-        
-    }
-    
+    }    
 }

@@ -107,7 +107,7 @@ class Auth
         $queryConfiguracao->bindValue(':pin', $pin);
 
         $identificador_conta = $this->funcoes::chaveDB();
-        $queryParticular=$this->conexao->prepare("INSERT INTO particular (identificador, cliente_identificador, bi, nome, genero, nascimento, balanco, foto) VALUES (:identificador, :identificador_cliente, :bi, :nome, :genero, :nascimento, :balanco, :foto)");
+        $queryParticular=$this->conexao->prepare("INSERT INTO particular (identificador, cliente_identificador, bi, nome, genero, nascimento, balanco, img) VALUES (:identificador, :identificador_cliente, :bi, :nome, :genero, :nascimento, :balanco, :img)");
         $queryParticular->bindValue(':identificador', $identificador_conta);
         $queryParticular->bindValue(':identificador_cliente', $identificador);
         $queryParticular->bindValue(':bi', $dados['bi']);
@@ -115,7 +115,7 @@ class Auth
         $queryParticular->bindValue(':genero', $dados['genero']);
         $queryParticular->bindValue(':nascimento', $dados['nascimento']);
         $queryParticular->bindValue(':balanco', "0.00");
-        $queryParticular->bindValue(':foto', "default.png");
+        $queryParticular->bindValue(':img', "default.png");
 
         try {
             $this->conexao->beginTransaction();
@@ -158,14 +158,14 @@ class Auth
         $queryConfiguracao->bindValue(':pin', $pin);
 
         $identificador_conta = $this->funcoes::chaveDB();
-        $query=$this->conexao->prepare("INSERT INTO empresa (identificador, cliente_identificador, nif, nome, area_atuacao, balanco, foto) VALUES (:identificador, :identificador_cliente, :nif, :nome, :area, :balanco, :foto)");
+        $query=$this->conexao->prepare("INSERT INTO empresa (identificador, cliente_identificador, nif, nome, area_atuacao, balanco, img) VALUES (:identificador, :identificador_cliente, :nif, :nome, :area, :balanco, :img)");
         $query->bindValue(':identificador', $identificador_conta);
         $query->bindValue(':identificador_cliente', $identificador);
         $query->bindValue(':nif', $dados['nif']);
         $query->bindValue(':nome', $dados['nome']);
         $query->bindValue(':area', $dados['area']);
         $query->bindValue(':balanco', "0.00");
-        $query->bindValue(':foto', "default.png");
+        $query->bindValue(':img', "default.png");
 
         try {
 
