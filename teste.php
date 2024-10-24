@@ -3,6 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 
 use Ferramentas\Funcoes;
+use Ferramentas\Autorizacao;
 use Classes\Transacao;
 use Classes\Estatistica;
 use Classes\Pendente;
@@ -12,6 +13,18 @@ use Classes\Perfil;
 
 require 'vendor/autoload.php';
 
+$token = 'mU9rDW+N2P8WoP8E4fObtBID4ss+4CJnaB71BQ3KzDezaFVKII5lrcLH/Jdu2puRtgrTO2ec2EZKIYwF7ibe0cVSYmPfPQ8g55xGYCeKVPZOBbhz9XRRenUqEKMcQCQL8r+OfVqu4k8D+XG6f61rbitTGKobR4IukQziOOaa7yBRcQ==.NTA3ODVhNmE2NzQ0MzA1NTVhNGI2NDQ2NDczNzZhMzU1ODYzNTM3NTczNmIzOTY2NTA1NzMwNGIzNTRkNTU0ZDMwNDg3MDMwNTM0MjZiNTc=';
+
+$Auth;
+try{
+    $autorizacao = new Autorizacao($token);
+    $Auth = $autorizacao;
+}catch(Exception $e){
+    echo $e->getMessage();
+    return;
+}
+var_dump($Auth->eEmpresa());
+return;
 
 $t = new Transacao(Funcoes::conexao(), new Funcoes());
 #$res = $t->verTodosInit("947436662");
@@ -40,5 +53,5 @@ $c = new Configuracao(Funcoes::conexao(), new Funcoes());
 
 $p = new Perfil(Funcoes::conexao(), new Funcoes());
 //$res = $p->verDetalhes("6710363e3da0a");
-$res = $p->init("6710363e3da0a");
+$res = $p->init("671039056e390");
 echo json_encode($res);
