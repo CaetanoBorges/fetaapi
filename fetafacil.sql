@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21-Out-2024 às 17:04
+-- Tempo de geração: 24-Out-2024 às 14:36
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.0.0
 
@@ -239,7 +239,7 @@ CREATE TABLE `levantamento` (
 --
 
 CREATE TABLE `parcelado` (
-  `identificador` int(11) NOT NULL,
+  `identificador` varchar(500) NOT NULL,
   `transacao_pid` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`transacao_pid`)),
   `de` varchar(255) NOT NULL,
   `para` varchar(255) NOT NULL,
@@ -259,7 +259,7 @@ CREATE TABLE `parcelado` (
 --
 
 INSERT INTO `parcelado` (`identificador`, `transacao_pid`, `de`, `para`, `parcelas`, `valor_parcela`, `valor_total`, `periodicidade`, `quando`, `dia`, `mes`, `ano`, `ativo`) VALUES
-(1, '[6]', '921797626', '947436662', '5', '900.00', '4500.00', 'semanal', '01-10-2024', '01', '10', '2024', 1);
+('1099985634', '[6]', '921797626', '947436662', '5', '900.00', '4500.00', 'semanal', '01-10-2024', '01', '10', '2024', 1);
 
 -- --------------------------------------------------------
 
@@ -292,7 +292,7 @@ INSERT INTO `particular` (`identificador`, `cliente_identificador`, `bi`, `nome`
 --
 
 CREATE TABLE `recorrente` (
-  `identificador` int(11) NOT NULL,
+  `identificador` varchar(500) NOT NULL,
   `transacao_pid` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`transacao_pid`)),
   `de` varchar(255) NOT NULL,
   `para` varchar(255) NOT NULL,
@@ -310,7 +310,7 @@ CREATE TABLE `recorrente` (
 --
 
 INSERT INTO `recorrente` (`identificador`, `transacao_pid`, `de`, `para`, `valor`, `periodicidade`, `quando`, `dia`, `mes`, `ano`, `ativo`) VALUES
-(1, '[7]', '921797626', '947436662', '70.00', 'mensal', '07-10-2024', '07', '10', '2024', 1);
+('1785469045', '[7]', '921797626', '947436662', '70.00', 'mensal', '07-10-2024', '07', '10', '2024', 1);
 
 -- --------------------------------------------------------
 
@@ -347,7 +347,7 @@ INSERT INTO `transacao` (`identificador_conta`, `pid`, `tipo`, `de`, `para`, `on
 ('6710363e3da27', '5', 'normal', '921797626', '947436662', 'app', '1500.00', 'urgente', '01-10-2024', '01', '10', '2024', 1),
 ('6710363e3da27', '6', 'parcelado', '921797626', '947436662', 'app', '900.00', 'urgente', '01-10-2024', '01', '10', '2024', 1),
 ('6710363e3da27', '7', 'recorrente', '921797626', '947436662', 'app', '70.00', 'urgente', '07-10-2024', '07', '10', '2024', 1),
-('6710363e3da27', '8', 'normal', '921797626', '947436662', 'app', '5625.00', 'urgente', '17-10-2024', '17', '19', '2024', 1),
+('6710363e3da27', '8', 'normal', '921797626', '947436662', 'app', '5625.00', 'urgente', '17-10-2024', '17', '10', '2024', 1),
 ('6710363e3da27', '9', 'normal', '921797626', '947436662', 'app', '500.00', 'urgente', '18-10-2024', '18', '10', '2024', 0);
 
 --
@@ -472,18 +472,6 @@ ALTER TABLE `extrato`
 --
 ALTER TABLE `levantamento`
   MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `parcelado`
---
-ALTER TABLE `parcelado`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `recorrente`
---
-ALTER TABLE `recorrente`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
