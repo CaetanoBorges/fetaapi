@@ -33,7 +33,7 @@ $r = new Recorrente(Funcoes::conexao(), new Funcoes());
 #$res = $r->verDetalhes("1099985634");
 #echo json_encode($res);
 
-//$c = new Configuracao(Funcoes::conexao(), new Funcoes());
+$c = new Configuracao(Funcoes::conexao(), new Funcoes());
 //$res = $c->verPin("671039056e390");
 //echo json_encode($res);
 
