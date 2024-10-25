@@ -15,12 +15,8 @@
         ]
     },
     "require": {
-        "phpmailer/phpmailer": "^6.6",
         "mpdf/mpdf": "^8.1",
-        "minishlink/web-push": "^7.0",
-        "cboden/ratchet": "v0.4",
         "slim/slim": "4.*",
-        "slim/psr7": "^1.6",
-        "vlucas/valitron": "^1.4"
+        "slim/psr7": "^1.6"
     }
 }

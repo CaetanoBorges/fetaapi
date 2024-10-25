@@ -10,10 +10,6 @@ class Transacao {
         $this->conexao = $conexao;
         $this->funcoes = $funcoes;
     }
-
-    public function adicionar($array){
-
-    }
     
     public function verDetalhes($pid){
 

@@ -23,13 +23,15 @@ try{
     echo $e->getMessage();
     return;
 }
-var_dump($Auth->eEmpresa());
-return;
+#var_dump($Auth->eEmpresa());
+#return;
 
 $t = new Transacao(Funcoes::conexao(), new Funcoes());
 #$res = $t->verTodosInit("947436662");
 #$res = $t->verTodos("921797626","10","2024");
 #$res = $t->verDetalhes("1");
+$res = $t->verificaSaldo(1,"671039056e3cc","30");
+echo json_encode($res);
 
 
 $e = new Estatistica(Funcoes::conexao(), new Funcoes());
@@ -53,5 +55,5 @@ $c = new Configuracao(Funcoes::conexao(), new Funcoes());
 
 $p = new Perfil(Funcoes::conexao(), new Funcoes());
 //$res = $p->verDetalhes("6710363e3da0a");
-$res = $p->init("671039056e390");
-echo json_encode($res);
+#$res = $p->init("671039056e390");
+#echo json_encode($res);
