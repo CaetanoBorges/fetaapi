@@ -75,7 +75,7 @@ class Auth
         $query->bindValue(':cliente', $telefone);
         $query->bindValue(':acao', "cadastro");
         $query->bindValue(':codigo', $codigo);
-        $query->bindValue(':quando', $this->funcoes::quando(time()));
+        $query->bindValue(':quando', time());
         $query->bindValue(':confirmou', 0);
         $query->execute();
 
@@ -130,6 +130,9 @@ class Auth
             $this->conexao->rollBack();
             return ["message"=>$e->getMessage(),"ok"=>false];
         }
+        $this->funcoes::setRemetente('FETA-FACIL');
+        $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n É FETA É FACIL.";
+        $this->funcoes::enviaSMS($dados["id"], $mensagem);
         return ["message"=>"Conta criada com sucesso","ok"=>true];
     }
     public function cadastrarEmpresa($dados)
@@ -183,6 +186,8 @@ class Auth
             return ["message"=>$e->getMessage(),"ok"=>false];
 
         }
+        $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n É FETA É FACIL.";
+        $this->funcoes::enviaSMS($dados["id"], $mensagem);
         return ["message"=>"Conta criada com sucesso","ok"=>true];
         
     }

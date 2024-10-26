@@ -49,25 +49,19 @@ class Receber
         $pid = $this->funcoes::chaveDB();
         $quando = date("d-m-Y h:i:s");
         
-        $emissor = $this->contaBalancoTipo($de);
-        if ($emissor["saldo"] < $valor) {
-            throw new Exception(json_encode(["message" => "Saldo insuficiente", "ok" => false]));
-
-            return;
-        }
+        $receptor = $this->contaBalancoTipo($de);
+       
         if ($de == $para) {
-            throw new Exception(json_encode(["message" => "Nao pode transferir para a mesma conta", "ok" => false]));
+            throw new Exception(json_encode(["message" => "Nao pode cobrar para a mesma conta", "ok" => false]));
 
             return;
         }
 
-        $receptor = $this->contaBalancoTipo($para);
+        $emissor = $this->contaBalancoTipo($para);
         
         
         if ($tipo == "normal") {
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
-            $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
-            $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
             
             return;
         }
@@ -75,25 +69,20 @@ class Receber
         if ($tipo == "recorrente") {
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando);
             $this->recorrente($pid, $de, $para, $valor, $opcoes["periodicidade"], $quando);
-            $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
-            $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
-            
             return;
         }
 
         if ($tipo == "parcelado") {
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $opcoes["valor_parcelas"], $descricao, $quando);
             $this->parcelado($pid, $de, $para, $opcoes["parcelas"], $opcoes["valor_parcelas"], $valor, $opcoes["periodicidade"], $quando);
-            $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
-            $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
             
             return;
         }
     }
-    public function transacao($contaEmissor, $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado = true)
+    public function transacao($contaEmissor, $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado = false, $pedido = true)
     {
 
-        $queryTransacao = $this->conexao->prepare("INSERT INTO transacao (identificador_conta, pid, tipo, de, para, onde, valor, descricao, quando, dia, mes, ano, executado) VALUES (:conta, :pid, :tipo, :de, :para, :onde, :valor, :descricao, :quando, :dia, :mes, :ano, :executado)");
+        $queryTransacao = $this->conexao->prepare("INSERT INTO transacao (identificador_conta, pid, tipo, de, para, onde, valor, descricao, quando, dia, mes, ano, executado, pedido) VALUES (:conta, :pid, :tipo, :de, :para, :onde, :valor, :descricao, :quando, :dia, :mes, :ano, :executado, :pedido)");
         $queryTransacao->bindValue(':conta', $contaEmissor);
         $queryTransacao->bindValue(':pid', $pid);
         $queryTransacao->bindValue(':tipo', $tipo);
@@ -107,10 +96,11 @@ class Receber
         $queryTransacao->bindValue(':mes', date('m'));
         $queryTransacao->bindValue(':ano', date('Y'));
         $queryTransacao->bindValue(':executado', $executado);
+        $queryTransacao->bindValue(':pedido', $pedido);
 
         array_push($this->commits, $queryTransacao);
     }
-    public function recorrente($pid, $de, $para, $valor, $periodicidade, $quando, $ativo = true)
+    public function recorrente($pid, $de, $para, $valor, $periodicidade, $quando, $ativo = false)
     {
 
         $id = $this->funcoes->chaveDB();
@@ -131,7 +121,7 @@ class Receber
 
         array_push($this->commits, $queryRecorrente);
     }
-    public function parcelado($pid, $de, $para, $parcelas, $valor, $total, $periodicidade, $quando, $ativo = true)
+    public function parcelado($pid, $de, $para, $parcelas, $valor, $total, $periodicidade, $quando, $ativo = false)
     {
         $id = $this->funcoes->chaveDB();
         $queryParcelado = $this->conexao->prepare("INSERT INTO parcelado (identificador, transacao_pid, de, para, parcelas, valor_parcela, valor_total, periodicidade, quando, dia, mes, ano, ativo) 
@@ -153,45 +143,7 @@ class Receber
 
         array_push($this->commits, $queryParcelado);
     }
-    public function poeExtrato($empresa, $conta, $pid, $entrada, $movimento, $balancoAtual, $quando, $enviar = true)
-    {
-        if($enviar){
-            $balanco = $balancoAtual - $movimento;
-        }
-        
-        if(!$enviar){
-            $balanco = $balancoAtual + $movimento;
-        }
-        
-
-        $queryExtrato = $this->conexao->prepare("INSERT INTO extrato (identificador_conta, transacao_pid, entrada, movimento, balanco, quando, dia, mes, ano) 
-        VALUES (:conta, :pid, :entrada, :movimento, :balanco, :quando, :dia, :mes, :ano)");
-        $queryExtrato->bindValue(':conta', $conta);
-        $queryExtrato->bindValue(':pid', $pid);
-        $queryExtrato->bindValue(':entrada', $entrada);
-        $queryExtrato->bindValue(':movimento', $movimento);
-        $queryExtrato->bindValue(':balanco', $balanco);
-        $queryExtrato->bindValue(':quando', $quando);
-        $queryExtrato->bindValue(':dia', date('d'));
-        $queryExtrato->bindValue(':mes', date('m'));
-        $queryExtrato->bindValue(':ano', date('Y'));
-
-        $queryConta = null;
-
-        if ($empresa) {
-            $queryConta = $this->conexao->prepare("UPDATE empresa SET balanco = :balanco WHERE identificador = :conta");
-            $queryConta->bindValue(':balanco', $balanco);
-            $queryConta->bindValue(':conta', $conta);
-        }
-
-        if (!$empresa) {
-            $queryConta = $this->conexao->prepare("UPDATE particular SET  balanco = :balanco WHERE identificador = :conta");
-            $queryConta->bindValue(':balanco', $balanco);
-            $queryConta->bindValue(':conta', $conta);
-        }
-
-        array_push($this->commits, $queryConta, $queryExtrato);
-    }
+   
 
 
     function commit()

@@ -23,8 +23,8 @@ class Transacao {
 
         if($resPrincipal["tipo"] == "recorrente"){
 
-            $query=$this->conexao->prepare("SELECT * FROM recorrente WHERE JSON_CONTAINS(transacao_pid, :pid)");
-            $query->bindValue(':pid', $pid);
+            $query=$this->conexao->prepare("SELECT * FROM recorrente WHERE transacao_pid LIKE '%$pid%'");
+            //$query->bindValue(':pid', $pid);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $transacoes = count(json_decode($res["transacao_pid"]));
@@ -34,8 +34,8 @@ class Transacao {
         }
         if($resPrincipal["tipo"] == "parcelado"){
             
-            $query=$this->conexao->prepare("SELECT * FROM parcelado WHERE JSON_CONTAINS(transacao_pid, :pid)");
-            $query->bindValue(':pid', $pid);
+            $query=$this->conexao->prepare("SELECT * FROM parcelado WHERE transacao_pid LIKE '%$pid%'");
+            //$query->bindValue(':pid', $pid);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $transacoes = count(json_decode($res["transacao_pid"]));

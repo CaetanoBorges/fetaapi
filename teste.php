@@ -1,6 +1,11 @@
 <?php
 
+
 header("Access-Control-Allow-Origin: *");
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 use Ferramentas\Funcoes;
 use Ferramentas\Autorizacao;
@@ -11,6 +16,7 @@ use Classes\Recorrente;
 use Classes\Configuracao;
 use Classes\Perfil;
 use Classes\Enviar;
+use Classes\Receber;
 
 require 'vendor/autoload.php';
 
@@ -25,15 +31,40 @@ try {
 }
 //var_dump($Auth->getId());
 //return;
-/* 
-Transacao avancada
+
+
+
 $body = (array) json_decode('{
-	"valor":208,
+	"valor":300000,
+	"de": 921797626,
+	"descricao": "uma descricao",
+	"tipo": "parcelado",
+	"onde": "app",
+    "opcoes": "{\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"150000\"}"
+}');
+
+$t = new Receber(Funcoes::conexao(), new Funcoes());
+//escreva uma funcao que de fibonacci
+
+/*   try {
+    //code...
+    $t->nova($body["de"],$Auth->getId(), $body["tipo"], $body["onde"], $body["valor"], $body["descricao"], (array)json_decode($body["opcoes"]));
+    $envia = $t->commit();
+    echo ($envia);
+} catch (\Exception $e) {
+    
+    echo $e->getMessage();
+} */  
+
+/* 
+Enviar Transacao avancada
+$body = (array) json_decode('{
+	"valor":300000,
 	"para": 921797626,
 	"descricao": "uma descricao",
 	"tipo": "parcelado",
 	"onde": "app",
-    "opcoes": "{\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"100\"}"
+    "opcoes": "{\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"150000\"}"
 }');
 
 $t = new Enviar(Funcoes::conexao(), new Funcoes());
@@ -48,6 +79,16 @@ try {
     echo $e->getMessage();
 } */
 
+/* $t = new Enviar(Funcoes::conexao(), new Funcoes());
+try {
+    //code...
+    $t->aceitarPendente("671cb777663de");
+    $envia = $t->commit();
+    echo ($envia);
+} catch (\Exception $e) {
+    
+    echo $e->getMessage();
+}  */
 
 /* 
 #transacao normal
@@ -70,7 +111,6 @@ try {
 
 
 
-return;
 
 $t = new Transacao(Funcoes::conexao(), new Funcoes());
 #$res = $t->verTodosInit("947436662");
@@ -84,9 +124,10 @@ $e = new Estatistica(Funcoes::conexao(), new Funcoes());
 #$res = $e->verTodos("6710363e3da27","10","2024");
 
 $p = new Pendente(Funcoes::conexao(), new Funcoes());
-//$res = $p->verTodos("921797626");
-//$res = $p->verDetalhes("9");
-//echo json_encode($res);
+#$res = $p->verTodos("921797626");
+#$res = $p->verDetalhes("671cb777663de");
+#$res = $p->cancelarPendente("671c3f0ce9452");
+#echo json_encode($res);
 
 $r = new Recorrente(Funcoes::conexao(), new Funcoes());
 #$res = $r->verTodos("921797626");
