@@ -10,28 +10,73 @@ use Classes\Pendente;
 use Classes\Recorrente;
 use Classes\Configuracao;
 use Classes\Perfil;
+use Classes\Enviar;
 
 require 'vendor/autoload.php';
 
-$token = 'mU9rDW+N2P8WoP8E4fObtBID4ss+4CJnaB71BQ3KzDezaFVKII5lrcLH/Jdu2puRtgrTO2ec2EZKIYwF7ibe0cVSYmPfPQ8g55xGYCeKVPZOBbhz9XRRenUqEKMcQCQL8r+OfVqu4k8D+XG6f61rbitTGKobR4IukQziOOaa7yBRcQ==.NTA3ODVhNmE2NzQ0MzA1NTVhNGI2NDQ2NDczNzZhMzU1ODYzNTM3NTczNmIzOTY2NTA1NzMwNGIzNTRkNTU0ZDMwNDg3MDMwNTM0MjZiNTc=';
+$token = 'FcOXI3a2YG7mmPYAedvGojY+481gQ1jw3vi7tAt1jcUXcPZ1nEVZcwJ6bAT8oGRWvgLZ4tBWZWQOGzfIxWOSSwoE6yLPN0xIElR2OTujJc8Wgw+URjgoyvR+edTt5aFc+nbFoBi2bv1xCBKjtBrt8yz4WV5jSio9nlDZZkj+vsRqyQ==.NTE2NzU5NmE3NTM1NTU2ZTRiNzI2NDQ4NzY3NjM3NDY3MDRjNzc0NjQ4NGY2MTU5NDU2MTZlNGM3MTM1NjczMjYyNjk0YjU4NTAzNDUwNDI=';
 
 $Auth;
-try{
-    $autorizacao = new Autorizacao($token);
-    $Auth = $autorizacao;
-}catch(Exception $e){
+try {
+    $Auth = new Autorizacao($token);
+} catch (Exception $e) {
     echo $e->getMessage();
     return;
 }
-#var_dump($Auth->eEmpresa());
-#return;
+//var_dump($Auth->getId());
+//return;
+/* 
+Transacao avancada
+$body = (array) json_decode('{
+	"valor":208,
+	"para": 921797626,
+	"descricao": "uma descricao",
+	"tipo": "parcelado",
+	"onde": "app",
+    "opcoes": "{\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"100\"}"
+}');
+
+$t = new Enviar(Funcoes::conexao(), new Funcoes());
+
+try {
+    //code...
+    $t->nova($Auth->getId(), $body["para"], $body["tipo"], $body["onde"], $body["valor"], $body["descricao"], (array)json_decode($body["opcoes"]));
+    $envia = $t->commit();
+    echo ($envia);
+} catch (\Exception $e) {
+    
+    echo $e->getMessage();
+} */
+
+
+/* 
+#transacao normal
+$body = (array) json_decode('{
+	"valor":1000,
+	"para": 921797626,
+	"descricao": "uma descricao",
+	"tipo": "normal",
+	"onde": "app"
+}');
+try {
+    //code...
+    $t->nova($Auth->getId(), $body["para"], $body["tipo"], $body["onde"], $body["valor"], $body["descricao"]);
+    $envia = $t->commit();
+    echo ($envia);
+} catch (\Exception $e) {
+    
+    echo $e->getMessage();
+} */
+
+
+
+return;
 
 $t = new Transacao(Funcoes::conexao(), new Funcoes());
 #$res = $t->verTodosInit("947436662");
 #$res = $t->verTodos("921797626","10","2024");
 #$res = $t->verDetalhes("1");
-$res = $t->verificaSaldo(1,"671039056e3cc","30");
-echo json_encode($res);
+#echo json_encode($res);
 
 
 $e = new Estatistica(Funcoes::conexao(), new Funcoes());

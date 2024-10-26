@@ -3,8 +3,6 @@ namespace Ferramentas;
 
 use Exception;
 use Ferramentas\Funcoes;
-use Ferramentas\Criptografia;
-use FG\ASN1\Universal\Boolean;
 
 class Autorizacao extends Funcoes{
     private $acesso;

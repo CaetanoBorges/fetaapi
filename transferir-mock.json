@@ -13,7 +13,9 @@
 	"para": 921797626,
 	"descricao": "uma descricao",
 	"tipo": "recorrente",
-	"periodicidade":"mensal"
+	"opcoes": {
+		"periodicidade":"mensal"
+	}
 }
 ,
 
@@ -22,7 +24,9 @@
 	"para": 921797626,
 	"descricao": "uma descricao",
 	"tipo": "parcelado",
-	"periodicidade":"mensal",
-	"valor_parcelas": 500,
-	"parcelas": 5
+	"opcoes": {
+		"periodicidade":"mensal",
+		"valor_parcelas": 500,
+		"parcelas": 5
+	}
 }]

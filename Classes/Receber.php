@@ -2,7 +2,7 @@
 
 namespace Classes;
 use Exception;
-class Enviar
+class Receber
 {
     protected $funcoes;
     protected $conexao;
