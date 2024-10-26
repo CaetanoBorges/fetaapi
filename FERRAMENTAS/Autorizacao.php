@@ -18,6 +18,7 @@ class Autorizacao extends Funcoes{
 
             $diff = $agora-$quando;
             $tempo = floor($diff/60);
+            var_dump($tempo);
             if($tempo >= 5){
                 //throw new Exception(json_encode(["ok"=>false, "erro"=>["sms"=>"Tempo expirou","nivel"=>0], "sms"=>"Token invalido"]));
             }
@@ -37,7 +38,8 @@ class Autorizacao extends Funcoes{
         return (bool) $this->acesso["empresa"];
     }
 
-    public function enviaCodigo($telefone, $acao, $codigo){
+    public function enviaCodigo($telefone, $acao){
+        $codigo = self::seisDigitos();
         self::setRemetente('FETA-FACIL');
         $mensagem = "$codigo, é o número para confirmar a sua operação. \n $acao";
         self::enviaSMS($telefone, $mensagem);
@@ -60,10 +62,10 @@ class Autorizacao extends Funcoes{
      * @param string $codigo
      * @return array
      */
-    public function verificaCodigo($dados){
+    public function verificaCodigo($id, $codigo){
         $query=$this->conn->prepare("SELECT * FROM confirmar WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo AND confirmou = :confirmou");
-        $query->bindValue(':cliente', $dados['id']);
-        $query->bindValue(':codigo', $dados['codigo']);
+        $query->bindValue(':cliente', $id);
+        $query->bindValue(':codigo', $codigo);
         $query->bindValue(':confirmou', '0');
         $query->execute();
         if($query->rowCount() > 0){
@@ -72,20 +74,21 @@ class Autorizacao extends Funcoes{
            
             $agora = time();
             $quando =  $res["quando"];
-            $diff = $agora - $quando;
+
+
+            $diff = $agora-$quando;
             $tempo = floor($diff/60);
-            var_dump($tempo);
             if($tempo >= 5){
-                $query=$this->conn->conexao->prepare("DELETE confirmar WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo");
-                $query->bindValue(':cliente', $dados['id']);
-                $query->bindValue(':codigo', $dados['codigo']);
+                $query=$this->conn->prepare("DELETE FROM confirmar WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo");
+                $query->bindValue(':cliente', $id);
+                $query->bindValue(':codigo', $codigo);
                 $query->execute();
                 return ["message"=>"Nao verificado","ok"=>false];
             }
 
-            $query=$this->conn->conexao->prepare("UPDATE confirmar SET confirmou = :confirmou WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo");
-            $query->bindValue(':cliente', $dados['id']);
-            $query->bindValue(':codigo', $dados['codigo']);
+            $query=$this->conn->prepare("UPDATE confirmar SET confirmou = :confirmou WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo");
+            $query->bindValue(':cliente', $id);
+            $query->bindValue(':codigo', $codigo);
             $query->bindValue(':confirmou', 1);
             $query->execute();
             return ["message"=>"Verificacao completa","ok"=>true];
@@ -93,5 +96,15 @@ class Autorizacao extends Funcoes{
         }else{
             return ["message"=>"Nao verificado","ok"=>false];
         }
+    }
+    public function verificaPin($pin, $identificador_cliente){
+        $query=$this->conn->prepare("SELECT * FROM configuracao WHERE pin = :pin AND cliente_identificador = :identificador");
+        $query->bindValue(':pin', self::fazHash($pin));
+        $query->bindValue(':identificador', $identificador_cliente);
+        $query->execute();
+        if($query->rowCount() > 0){
+            return true;
+        }
+        return false;
     }
 }

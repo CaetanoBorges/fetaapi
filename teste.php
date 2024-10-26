@@ -32,8 +32,9 @@ try {
 //var_dump($Auth->getId());
 //return;
 
-$ver = $Auth->verificaCodigo(["id"=>"921797626","codigo"=>"269723"]);
-#$ver = $Auth->enviaCodigo("921797626","codigo","269723");
+//$ver = $Auth->verificaCodigo("921797626","465168");
+//$ver = $Auth->enviaCodigo("921797626","codigo");
+//$ver = $Auth->verificaPin("12356",$Auth->getCliente());
 var_dump($ver);
 return;
 
