@@ -6,7 +6,9 @@ use Ferramentas\Funcoes;
 
 class Autorizacao extends Funcoes{
     private $acesso;
-    function __construct($token){
+    public $conn;
+    function __construct($token,$conec){
+        $this->conn = $conec;
         $tk=self::substituiEspacoPorMais($token);
         $eToken = self::Tokeniza($tk);
         if($eToken){
@@ -33,5 +35,63 @@ class Autorizacao extends Funcoes{
     }
     public function eEmpresa(){
         return (bool) $this->acesso["empresa"];
+    }
+
+    public function enviaCodigo($telefone, $acao, $codigo){
+        self::setRemetente('FETA-FACIL');
+        $mensagem = "$codigo, é o número para confirmar a sua operação. \n $acao";
+        self::enviaSMS($telefone, $mensagem);
+
+        $query=$this->conn->prepare("INSERT INTO confirmar (cliente_identificador, acao, codigo_enviado, quando, confirmou) VALUES (:cliente, :acao, :codigo, :quando, :confirmou)");
+        $query->bindValue(':cliente', $telefone);
+        $query->bindValue(':acao', $acao);
+        $query->bindValue(':codigo', $codigo);
+        $query->bindValue(':quando', time());
+        $query->bindValue(':confirmou', 0);
+        $query->execute();
+
+        return true;
+    }
+
+    /**
+     * Verifica se o código de confirmação recebido é o mesmo que
+     * foi enviado para um determinado telefone
+     * @param string $telefone
+     * @param string $codigo
+     * @return array
+     */
+    public function verificaCodigo($dados){
+        $query=$this->conn->prepare("SELECT * FROM confirmar WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo AND confirmou = :confirmou");
+        $query->bindValue(':cliente', $dados['id']);
+        $query->bindValue(':codigo', $dados['codigo']);
+        $query->bindValue(':confirmou', '0');
+        $query->execute();
+        if($query->rowCount() > 0){
+
+            $res=$query->fetch(\PDO::FETCH_ASSOC);
+           
+            $agora = time();
+            $quando =  $res["quando"];
+            $diff = $agora - $quando;
+            $tempo = floor($diff/60);
+            var_dump($tempo);
+            if($tempo >= 5){
+                $query=$this->conn->conexao->prepare("DELETE confirmar WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo");
+                $query->bindValue(':cliente', $dados['id']);
+                $query->bindValue(':codigo', $dados['codigo']);
+                $query->execute();
+                return ["message"=>"Nao verificado","ok"=>false];
+            }
+
+            $query=$this->conn->conexao->prepare("UPDATE confirmar SET confirmou = :confirmou WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo");
+            $query->bindValue(':cliente', $dados['id']);
+            $query->bindValue(':codigo', $dados['codigo']);
+            $query->bindValue(':confirmou', 1);
+            $query->execute();
+            return ["message"=>"Verificacao completa","ok"=>true];
+
+        }else{
+            return ["message"=>"Nao verificado","ok"=>false];
+        }
     }
 }

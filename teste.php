@@ -24,7 +24,7 @@ $token = 'FcOXI3a2YG7mmPYAedvGojY+481gQ1jw3vi7tAt1jcUXcPZ1nEVZcwJ6bAT8oGRWvgLZ4t
 
 $Auth;
 try {
-    $Auth = new Autorizacao($token);
+    $Auth = new Autorizacao($token,Funcoes::conexao());
 } catch (Exception $e) {
     echo $e->getMessage();
     return;
@@ -32,7 +32,10 @@ try {
 //var_dump($Auth->getId());
 //return;
 
-
+$ver = $Auth->verificaCodigo(["id"=>"921797626","codigo"=>"269723"]);
+#$ver = $Auth->enviaCodigo("921797626","codigo","269723");
+var_dump($ver);
+return;
 
 $body = (array) json_decode('{
 	"valor":300000,

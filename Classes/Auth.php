@@ -131,7 +131,7 @@ class Auth
             return ["message"=>$e->getMessage(),"ok"=>false];
         }
         $this->funcoes::setRemetente('FETA-FACIL');
-        $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n É FETA É FACIL.";
+        $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n \n \n \n É FETA, É FACIL.";
         $this->funcoes::enviaSMS($dados["id"], $mensagem);
         return ["message"=>"Conta criada com sucesso","ok"=>true];
     }
@@ -186,7 +186,7 @@ class Auth
             return ["message"=>$e->getMessage(),"ok"=>false];
 
         }
-        $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n É FETA É FACIL.";
+        $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n \n \n \n É FETA, É FACIL.";
         $this->funcoes::enviaSMS($dados["id"], $mensagem);
         return ["message"=>"Conta criada com sucesso","ok"=>true];
         
@@ -308,7 +308,7 @@ class Auth
             $query->bindValue(':cliente', $dados["id"]);
             $query->bindValue(':acao', "Recuperacao de pin");
             $query->bindValue(':codigo', $codigo);
-            $query->bindValue(':quando', $this->funcoes::quando(time()));
+            $query->bindValue(':quando', time());
             $query->bindValue(':confirmou', "0");
             $query->execute();
             return ["message"=>"Numero de verificacao enviado","ok"=>true];
@@ -353,6 +353,8 @@ class Auth
             $query->bindValue(':confirmou', "1");
             $query->execute();
 
+            $mensagem = "ALERTA: O seu pin foi atualizado! \n  \n  \n  \n É FETA, É FACIL.";
+            $this->funcoes::enviaSMS($dados["id"], $mensagem);
             return ["message"=>"Pin atualizado","ok"=>true];
         }
 
