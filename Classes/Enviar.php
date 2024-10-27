@@ -80,7 +80,7 @@ class Enviar
         }
     }
 
-    public function nova($de, $para, $tipo, $onde, $valor, $descricao, $opcoes = [], $executado = false)
+    public function nova($de, $para, $tipo, $onde, $valor, $descricao, $opcoes = [], $executado = true)
     {
 
         $pid = $this->funcoes::chaveDB();
@@ -103,8 +103,7 @@ class Enviar
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
             $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
             $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
-
-            return $pid;
+            return (["ok" => true]);
         }
 
         if ($tipo == "recorrente") {
@@ -116,7 +115,7 @@ class Enviar
             $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
             $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
 
-            return $pid;
+            return (["ok" => true]);
         }
 
         if ($tipo == "parcelado") {
@@ -128,7 +127,7 @@ class Enviar
             $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
             $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
 
-            return $pid;
+            return (["ok" => true]);
         }
     }
     public function transacao($contaEmissor, $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado = true)
@@ -304,25 +303,38 @@ class Enviar
         
     }
     
-    public function autoPayParcelado($pid){
+    public function autoPayParcelado(){
         
         $query=$this->conexao->prepare("SELECT * FROM parcelado WHERE ativo = :ativo");
         $query->bindValue(':ativo', '1');
         $query->execute();
         $todos = $query->fetchAll(\PDO::FETCH_ASSOC);
+        
         foreach($todos as $k => $v){
             $query=$this->conexao->prepare("SELECT * FROM parcelado WHERE identificador = :pid");
             $query->bindValue(':pid', $v["identificador"]);
             $query->execute();  
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $parcelas_pagas=(array) json_decode($res["transacao_pid"]);
-            if($parcelas_pagas >= $res["parcelas"]){
+            if(count($parcelas_pagas) >= $res["parcelas"]){
                 continue;
             }
+            
             if(count($parcelas_pagas) < $res["parcelas"]){
-                $this->nova($res["de"], $res["para"], "normal", "system", $res["valor_parcela"], "Pagamento automatico de parcela");
+                $executar = $this->nova($res["de"], $res["para"], "normal", "system", $res["valor_parcela"], "Pagamento automatico de parcela");
+                if($executar["ok"]){
+                    $commit = $this->commit();
+                    if($commit["ok"]){
+                        array_push($parcelas_pagas,$commit["pid"]);
+                        $query=$this->conexao->prepare("UPDATE parcelado SET transacao_pid = :transacao_pid WHERE identificador = :pid");
+                        $query->bindValue(":transacao_pid",json_encode($parcelas_pagas));
+                        $query->bindValue(':pid', $res["identificador"]);
+                        $query->execute();
+                    }
+                }
             }
-            if(($parcelas_pagas+1) == $res["parcelas"]){
+            var_dump($k);
+            if((count($parcelas_pagas)+1) >= $res["parcelas"]){
                 $query=$this->conexao->prepare("UPDATE parcelado SET ativo = :ativo WHERE identificador = :pid");
                 $query->bindValue(':pid', $res["identificador"]);
                 $query->bindValue(':ativo', '0');

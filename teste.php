@@ -27,8 +27,10 @@ try {
     echo $e->getMessage();
     return;
 }
+$t = new Enviar(Funcoes::conexao(), new Funcoes());
+$t->autoPayParcelado();
 //var_dump($Auth->getId());
-//return;
+return;
 
 //$ver = $Auth->verificaCodigo("921797626","465168");
 //$ver = $Auth->enviaCodigo("921797626","codigo");
@@ -58,10 +60,10 @@ $t = new Receber(Funcoes::conexao(), new Funcoes());
     echo $e->getMessage();
 } */  
 
-
+/* 
 
 $body = (array) json_decode('{
-	"valor":300,
+	"valor":30,
 	"para": 921797626,
 	"descricao": "uma descricao",
 	"tipo": "normal",
@@ -74,7 +76,7 @@ $t = new Enviar(Funcoes::conexao(), new Funcoes());
 try {
     //code...
     $envio = $t->nova($Auth->getId(), $body["para"], $body["tipo"], $body["onde"], $body["valor"], $body["descricao"], (array)json_decode($body["opcoes"]));
-    
+    var_dump($envio);
     if($envio["ok"]){
         $envia = $t->commit();
         var_dump($envia);
@@ -85,7 +87,7 @@ try {
 } catch (\Exception $e) {
     
     echo $e->getMessage();
-}
+} */
 
 /* $t = new Enviar(Funcoes::conexao(), new Funcoes());
 try {
