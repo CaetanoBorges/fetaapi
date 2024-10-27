@@ -9,6 +9,7 @@ class Enviar
     protected $funcoes;
     protected $conexao;
     protected $commits = [];
+    protected $pid = null;
 
     public function __construct($conexao, $funcoes)
     {
@@ -83,14 +84,13 @@ class Enviar
     {
 
         $pid = $this->funcoes::chaveDB();
+        $this->pid = $pid;
         $quando = date("d-m-Y h:i:s");
 
         $emissor = $this->contaBalancoTipo($de);
 
         if ($de == $para) {
-            throw new Exception(json_encode(["message" => "Nao pode transferir para a mesma conta", "ok" => false]));
-
-            return;
+            return (["message" => "Nao pode transferir para a mesma conta", "ok" => false]);
         }
 
         $receptor = $this->contaBalancoTipo($para);
@@ -98,40 +98,37 @@ class Enviar
 
         if ($tipo == "normal") {
             if ($emissor["saldo"] < $valor) {
-                throw new Exception(json_encode(["message" => "Saldo insuficiente", "ok" => false]));
-                return;
+                return (["message" => "Saldo insuficiente", "ok" => false]);
             }
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
             $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
             $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
 
-            return;
+            return $pid;
         }
 
         if ($tipo == "recorrente") {
             if ($emissor["saldo"] < $valor) {
-                throw new Exception(json_encode(["message" => "Saldo insuficiente", "ok" => false]));
-                return;
+                return (["message" => "Saldo insuficiente", "ok" => false]);
             }
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando);
             $this->recorrente($pid, $de, $para, $valor, $opcoes["periodicidade"], $quando);
             $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
             $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
 
-            return;
+            return $pid;
         }
 
         if ($tipo == "parcelado") {
             if ($emissor["saldo"] < $opcoes["valor_parcelas"]) {
-                throw new Exception(json_encode(["message" => "Saldo insuficiente", "ok" => false]));
-                return;
+                return (["message" => "Saldo insuficiente", "ok" => false]);
             }
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $opcoes["valor_parcelas"], $descricao, $quando);
             $this->parcelado($pid, $de, $para, $opcoes["parcelas"], $opcoes["valor_parcelas"], $valor, $opcoes["periodicidade"], $quando);
             $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
             $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
 
-            return;
+            return $pid;
         }
     }
     public function transacao($contaEmissor, $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado = true)
@@ -241,18 +238,19 @@ class Enviar
     function commit()
     {
         try {
-
+            $pid = $this->pid;
+            $this->pid = null;
             $this->conexao->beginTransaction();
             foreach ($this->commits as $query) {
                 $query->execute();
             }
             $this->conexao->commit();
             $this->commits = [];
-            return json_encode(["message" => "Transacao concluida", "ok" => true]);
+            return (["message" => "Transacao concluida", "ok" => true, "pid"=>$pid]);
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return json_encode(["message" => $e->getMessage(), "ok" => false]);
+            return (["message" => $e->getMessage(), "ok" => false]);
         }
     }
 
@@ -306,4 +304,31 @@ class Enviar
         
     }
     
+    public function autoPayParcelado($pid){
+        
+        $query=$this->conexao->prepare("SELECT * FROM parcelado WHERE ativo = :ativo");
+        $query->bindValue(':ativo', '1');
+        $query->execute();
+        $todos = $query->fetchAll(\PDO::FETCH_ASSOC);
+        foreach($todos as $k => $v){
+            $query=$this->conexao->prepare("SELECT * FROM parcelado WHERE identificador = :pid");
+            $query->bindValue(':pid', $v["identificador"]);
+            $query->execute();  
+            $res = $query->fetch(\PDO::FETCH_ASSOC);
+            $parcelas_pagas=(array) json_decode($res["transacao_pid"]);
+            if($parcelas_pagas >= $res["parcelas"]){
+                continue;
+            }
+            if(count($parcelas_pagas) < $res["parcelas"]){
+                $this->nova($res["de"], $res["para"], "normal", "system", $res["valor_parcela"], "Pagamento automatico de parcela");
+            }
+            if(($parcelas_pagas+1) == $res["parcelas"]){
+                $query=$this->conexao->prepare("UPDATE parcelado SET ativo = :ativo WHERE identificador = :pid");
+                $query->bindValue(':pid', $res["identificador"]);
+                $query->bindValue(':ativo', '0');
+                $query->execute();
+            }
+        }
+        
+    }
 }

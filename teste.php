@@ -1,6 +1,4 @@
 <?php
-
-
 header("Access-Control-Allow-Origin: *");
 
 ini_set('display_errors', 1);
@@ -35,8 +33,8 @@ try {
 //$ver = $Auth->verificaCodigo("921797626","465168");
 //$ver = $Auth->enviaCodigo("921797626","codigo");
 //$ver = $Auth->verificaPin("12356",$Auth->getCliente());
-var_dump($ver);
-return;
+//var_dump($ver);
+//return;
 
 $body = (array) json_decode('{
 	"valor":300000,
@@ -60,13 +58,13 @@ $t = new Receber(Funcoes::conexao(), new Funcoes());
     echo $e->getMessage();
 } */  
 
-/* 
-Enviar Transacao avancada
+
+
 $body = (array) json_decode('{
-	"valor":300000,
+	"valor":300,
 	"para": 921797626,
 	"descricao": "uma descricao",
-	"tipo": "parcelado",
+	"tipo": "normal",
 	"onde": "app",
     "opcoes": "{\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"150000\"}"
 }');
@@ -75,13 +73,19 @@ $t = new Enviar(Funcoes::conexao(), new Funcoes());
 
 try {
     //code...
-    $t->nova($Auth->getId(), $body["para"], $body["tipo"], $body["onde"], $body["valor"], $body["descricao"], (array)json_decode($body["opcoes"]));
-    $envia = $t->commit();
-    echo ($envia);
+    $envio = $t->nova($Auth->getId(), $body["para"], $body["tipo"], $body["onde"], $body["valor"], $body["descricao"], (array)json_decode($body["opcoes"]));
+    
+    if($envio["ok"]){
+        $envia = $t->commit();
+        var_dump($envia);
+    }else{
+        var_dump($envio);
+    }
+        
 } catch (\Exception $e) {
     
     echo $e->getMessage();
-} */
+}
 
 /* $t = new Enviar(Funcoes::conexao(), new Funcoes());
 try {
@@ -114,14 +118,11 @@ try {
 } */
 
 
-
-
 $t = new Transacao(Funcoes::conexao(), new Funcoes());
 #$res = $t->verTodosInit("947436662");
 #$res = $t->verTodos("921797626","10","2024");
 #$res = $t->verDetalhes("1");
 #echo json_encode($res);
-
 
 $e = new Estatistica(Funcoes::conexao(), new Funcoes());
 #$res = $e->verTodosInit("6710363e3da27");
@@ -141,7 +142,6 @@ $r = new Recorrente(Funcoes::conexao(), new Funcoes());
 $c = new Configuracao(Funcoes::conexao(), new Funcoes());
 //$res = $c->verPin("671039056e390");
 //echo json_encode($res);
-
 
 $p = new Perfil(Funcoes::conexao(), new Funcoes());
 //$res = $p->verDetalhes("6710363e3da0a");
