@@ -28,7 +28,8 @@ try {
     return;
 }
 $t = new Enviar(Funcoes::conexao(), new Funcoes());
-$t->autoPayParcelado();
+#$t->autoPayParcelado();
+$t->autoPayRecorrente();
 //var_dump($Auth->getId());
 return;
 

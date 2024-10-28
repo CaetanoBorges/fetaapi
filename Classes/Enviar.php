@@ -321,7 +321,7 @@ class Enviar
             }
             
             if(count($parcelas_pagas) < $res["parcelas"]){
-                $executar = $this->nova($res["de"], $res["para"], "normal", "system", $res["valor_parcela"], "Pagamento automatico de parcela");
+                $executar = $this->nova($res["de"], $res["para"], "normal", "system", $res["valor_parcela"], "Pagamento automatico parcelado");
                 if($executar["ok"]){
                     $commit = $this->commit();
                     if($commit["ok"]){
@@ -333,13 +333,43 @@ class Enviar
                     }
                 }
             }
-            var_dump($k);
+            
             if((count($parcelas_pagas)+1) >= $res["parcelas"]){
                 $query=$this->conexao->prepare("UPDATE parcelado SET ativo = :ativo WHERE identificador = :pid");
                 $query->bindValue(':pid', $res["identificador"]);
                 $query->bindValue(':ativo', '0');
                 $query->execute();
             }
+        }
+        
+    }
+
+    public function autoPayRecorrente(){
+        
+        $query=$this->conexao->prepare("SELECT * FROM recorrente WHERE ativo = :ativo");
+        $query->bindValue(':ativo', '1');
+        $query->execute();
+        $todos = $query->fetchAll(\PDO::FETCH_ASSOC);
+        
+        foreach($todos as $k => $v){
+            $query=$this->conexao->prepare("SELECT * FROM recorrente WHERE identificador = :pid");
+            $query->bindValue(':pid', $v["identificador"]);
+            $query->execute();  
+            $res = $query->fetch(\PDO::FETCH_ASSOC);
+            $parcelas_pagas=(array) json_decode($res["transacao_pid"]);
+            var_dump($k);
+            $executar = $this->nova($res["de"], $res["para"], "normal", "system", $res["valor"], "Pagamento automatico recorrente");
+                if($executar["ok"]){
+                    $commit = $this->commit();
+                    if($commit["ok"]){
+                        array_push($parcelas_pagas, $commit["pid"]);
+                        $query=$this->conexao->prepare("UPDATE recorrente SET transacao_pid = :transacao_pid WHERE identificador = :pid");
+                        $query->bindValue(":transacao_pid",json_encode($parcelas_pagas));
+                        $query->bindValue(':pid', $res["identificador"]);
+                        $query->execute();
+                    }
+                }
+            
         }
         
     }
