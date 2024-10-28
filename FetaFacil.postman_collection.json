@@ -111,7 +111,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":\"921797626\",\r\n    \"pin\": 123456\r\n}",
+							"raw": "{\r\n    \"id\":\"947436662\",\r\n    \"pin\": 654321\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -233,6 +233,219 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Configuracao",
+			"item": [
+				{
+					"name": "setTimeOut",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token2}}",
+								"type": "default"
+							},
+							{
+								"key": "pin",
+								"value": "65432",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tempo_bloqueio\":120\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/config/settimeout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"config",
+								"settimeout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraPin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "codigo",
+								"value": "594345",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pin\":654321\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/config/alterarpin",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"config",
+								"alterarpin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTimeOut",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "outro",
+								"value": "1234",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"\":7784753\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/config/timeout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"config",
+								"timeout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pedeCodigo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token1}}",
+						"type": "default"
+					},
+					{
+						"key": "outro",
+						"value": "1234",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"acao\": \"Minha acao\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1/fetaapi/pedecodigo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"path": [
+						"fetaapi",
+						"pedecodigo"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token1",
+			"value": "FcOXI3a2YG7mmPYAedvGojY+481gQ1jw3vi7tAt1jcUXcPZ1nEVZcwJ6bAT8oGRWvgLZ4tBWZWQOGzfIxWOSSwoE6yLPN0xIElR2OTujJc8Wgw+URjgoyvR+edTt5aFc+nbFoBi2bv1xCBKjtBrt8yz4WV5jSio9nlDZZkj+vsRqyQ==.NTE2NzU5NmE3NTM1NTU2ZTRiNzI2NDQ4NzY3NjM3NDY3MDRjNzc0NjQ4NGY2MTU5NDU2MTZlNGM3MTM1NjczMjYyNjk0YjU4NTAzNDUwNDI=",
+			"type": "default"
+		},
+		{
+			"key": "token2",
+			"value": "NIK7E04CkTTcHjTepkKr7iY6PgC0pEqvrw6t+ijMMdCQ7uaIxTrEZ3flIAvAeHs9jtGHgSffTCNop8KvNy4KXyNRbwUpYqqLaw9yjx94UMIrq9cvEHu54L33wnyoqk1AWAelX87OXR4///utlS83TjsGZDjeai8XJKerfSCzt++p4A==.NTY1MDM4NDMzOTU1MzQzMzQyNzM1NTQ4NTQ0NzU1NGE3OTRhNTM2YTU2NzE1MTU4NTg1MzU1Njg1ODc5MzE0OTcwNTU2YjRiNjk0Nzc5NjM=",
+			"type": "default"
 		}
 	]
 }
