@@ -90,7 +90,7 @@ class Enviar
         $emissor = $this->contaBalancoTipo($de);
 
         if ($de == $para) {
-            return (["message" => "Nao pode transferir para a mesma conta", "ok" => false]);
+            return (["payload" => "Nao pode transferir para a mesma conta", "ok" => false]);
         }
 
         $receptor = $this->contaBalancoTipo($para);
@@ -98,7 +98,7 @@ class Enviar
 
         if ($tipo == "normal") {
             if ($emissor["saldo"] < $valor) {
-                return (["message" => "Saldo insuficiente", "ok" => false]);
+                return (["payload" => "Saldo insuficiente", "ok" => false]);
             }
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
             $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $valor, $emissor["saldo"], $quando);
@@ -108,7 +108,7 @@ class Enviar
 
         if ($tipo == "recorrente") {
             if ($emissor["saldo"] < $valor) {
-                return (["message" => "Saldo insuficiente", "ok" => false]);
+                return (["payload" => "Saldo insuficiente", "ok" => false]);
             }
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando);
             $this->recorrente($pid, $de, $para, $valor, $opcoes["periodicidade"], $quando);
@@ -120,7 +120,7 @@ class Enviar
 
         if ($tipo == "parcelado") {
             if ($emissor["saldo"] < $opcoes["valor_parcelas"]) {
-                return (["message" => "Saldo insuficiente", "ok" => false]);
+                return (["payload" => "Saldo insuficiente", "ok" => false]);
             }
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $opcoes["valor_parcelas"], $descricao, $quando);
             $this->parcelado($pid, $de, $para, $opcoes["parcelas"], $opcoes["valor_parcelas"], $valor, $opcoes["periodicidade"], $quando);
@@ -245,11 +245,11 @@ class Enviar
             }
             $this->conexao->commit();
             $this->commits = [];
-            return (["message" => "Transacao concluida", "ok" => true, "pid"=>$pid]);
+            return (["payload" => "Transacao concluida", "ok" => true, "pid"=>$pid]);
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return (["message" => $e->getMessage(), "ok" => false]);
+            return (["payload" => $e->getMessage(), "ok" => false]);
         }
     }
 
@@ -263,8 +263,7 @@ class Enviar
 
         if ($transacao["tipo"] == "normal") {
             if ($emissor["saldo"] < $transacao["valor"]) {
-                throw new Exception(json_encode(["message" => "Saldo insuficiente", "ok" => false]));
-                return;
+                return ["payload" => "Saldo insuficiente", "ok" => false];
             }
             $queryNormal = $this->conexao->prepare("UPDATE transacao SET executado = 1 WHERE pid = :pid");
             $queryNormal->bindValue(':pid', $pid);
@@ -274,8 +273,7 @@ class Enviar
 
         if ($transacao["tipo"] == "recorrente") {
             if ($emissor["saldo"] < $transacao["valor"]) {
-                throw new Exception(json_encode(["message" => "Saldo insuficiente", "ok" => false]));
-                return;
+                return ["payload" => "Saldo insuficiente", "ok" => false];
             }
             $queryNormal = $this->conexao->prepare("UPDATE transacao SET executado = 1 WHERE pid = :pid");
             $queryNormal->bindValue(':pid', $pid);
@@ -287,8 +285,7 @@ class Enviar
         }
         if ($transacao["tipo"] == "parcelado") {
             if ($emissor["saldo"] < $transacao["valor_parcela"]) {
-                throw new Exception(json_encode(["message" => "Saldo insuficiente", "ok" => false]));
-                return;
+                return ["payload" => "Saldo insuficiente", "ok" => false];
             }
             $queryNormal = $this->conexao->prepare("UPDATE transacao SET executado = 1 WHERE pid = :pid");
             $queryNormal->bindValue(':pid', $pid);

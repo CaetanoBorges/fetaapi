@@ -7,6 +7,7 @@ use Ferramentas\Funcoes;
 class Autorizacao extends Funcoes{
     private $acesso;
     public $conn;
+    public $expirou = false;
     function __construct($token,$conec){
         $this->conn = $conec;
         $tk=self::substituiEspacoPorMais($token);
@@ -18,9 +19,9 @@ class Autorizacao extends Funcoes{
 
             $diff = $agora-$quando;
             $tempo = floor($diff/60);
-            var_dump($tempo);
             if($tempo >= 5){
-                //throw new Exception(json_encode(["ok"=>false, "erro"=>["sms"=>"Tempo expirou","nivel"=>0], "sms"=>"Token invalido"]));
+                //$this->expirou = true;
+                //return ;
             }
             $this->acesso = self::valid($token);
         }
@@ -41,7 +42,7 @@ class Autorizacao extends Funcoes{
     public function enviaCodigo($telefone, $acao){
         $codigo = self::seisDigitos();
         self::setRemetente('FETA-FACIL');
-        $mensagem = "$codigo, é o número para confirmar a sua operação. \n $acao";
+        $mensagem = "$codigo, é o número para confirmar a sua operação. \n $acao \n Expira em 5 minutos.";
         self::enviaSMS($telefone, $mensagem);
 
         $query=$this->conn->prepare("INSERT INTO confirmar (cliente_identificador, acao, codigo_enviado, quando, confirmou) VALUES (:cliente, :acao, :codigo, :quando, :confirmou)");
@@ -52,7 +53,7 @@ class Autorizacao extends Funcoes{
         $query->bindValue(':confirmou', 0);
         $query->execute();
 
-        return true;
+        return ["ok"=>true, "payload"=>""];
     }
 
     /**
@@ -83,7 +84,7 @@ class Autorizacao extends Funcoes{
                 $query->bindValue(':cliente', $id);
                 $query->bindValue(':codigo', $codigo);
                 $query->execute();
-                return ["message"=>"Nao verificado","ok"=>false];
+                return ["payload"=>"Nao verificado","ok"=>false];
             }
 
             $query=$this->conn->prepare("UPDATE confirmar SET confirmou = :confirmou WHERE cliente_identificador = :cliente AND codigo_enviado = :codigo");
@@ -91,10 +92,10 @@ class Autorizacao extends Funcoes{
             $query->bindValue(':codigo', $codigo);
             $query->bindValue(':confirmou', 1);
             $query->execute();
-            return ["message"=>"Verificacao completa","ok"=>true];
+            return ["payload"=>"Verificacao completa","ok"=>true];
 
         }else{
-            return ["message"=>"Nao verificado","ok"=>false];
+            return ["payload"=>"Nao verificado","ok"=>false];
         }
     }
     public function verificaPin($pin, $identificador_cliente){
@@ -103,8 +104,8 @@ class Autorizacao extends Funcoes{
         $query->bindValue(':identificador', $identificador_cliente);
         $query->execute();
         if($query->rowCount() > 0){
-            return true;
+            return ["ok"=>true, "payload"=>''];
         }
-        return false;
+        return ["ok"=>false, "payload"=>''];
     }
 }

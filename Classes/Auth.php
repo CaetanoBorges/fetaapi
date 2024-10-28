@@ -128,12 +128,12 @@ class Auth
         } catch (\PDOException $e) {
             
             $this->conexao->rollBack();
-            return ["message"=>$e->getMessage(),"ok"=>false];
+            return ["payload"=>$e->getMessage(),"ok"=>false];
         }
         $this->funcoes::setRemetente('FETA-FACIL');
         $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n \n \n \n É FETA, É FACIL.";
         $this->funcoes::enviaSMS($dados["id"], $mensagem);
-        return ["message"=>"Conta criada com sucesso","ok"=>true];
+        return ["payload"=>"Conta criada com sucesso","ok"=>true];
     }
     public function cadastrarEmpresa($dados)
     {
@@ -183,32 +183,32 @@ class Auth
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return ["message"=>$e->getMessage(),"ok"=>false];
+            return ["payload"=>$e->getMessage(),"ok"=>false];
 
         }
         $mensagem = "BEM-VINDO A FETA FACIL, agora pode: Receber pagamentos, fazer combranças, desfrutar de pagamentos online e muito mais. O MELHOR SISTEMA DE PAGAMENTOS DE ANGOLA! \n \n \n \n É FETA, É FACIL.";
         $this->funcoes::enviaSMS($dados["id"], $mensagem);
-        return ["message"=>"Conta criada com sucesso","ok"=>true];
+        return ["payload"=>"Conta criada com sucesso","ok"=>true];
         
     }
 
     public function verificaExistencia($dados)
     {
         if($this->existeTelefone($dados['id'])){
-            return ["message"=>"Este telefone ja existe numa conta","ok"=>true];
+            return ["payload"=>"Este telefone ja existe numa conta","ok"=>true];
         }
 
         if($dados['comercial']){
             if($this->existeNif($dados['nif'])){
-                return ["message"=>"Este nif ja existe numa conta","ok"=>true];
+                return ["payload"=>"Este nif ja existe numa conta","ok"=>true];
             }
         }
         if(!$dados['comercial']){
             if($this->existeBi($dados['bi'])){
-                return ["message"=>"Este BI ja existe numa conta","ok"=>true];
+                return ["payload"=>"Este BI ja existe numa conta","ok"=>true];
             }
         }
-        return ["message"=>"Nao existe nenhuma conta com esses dados","ok"=>false];
+        return ["payload"=>"Nao existe nenhuma conta com esses dados","ok"=>false];
     }
 
         /**
@@ -233,10 +233,10 @@ class Auth
             $query->bindValue(':codigo', $dados['codigo']);
             $query->bindValue(':confirmou', 1);
             $query->execute();
-            return ["message"=>"Verificacao completa","ok"=>true];
+            return ["payload"=>"Verificacao completa","ok"=>true];
 
         }else{
-            return ["message"=>"Nao verificado","ok"=>false];
+            return ["payload"=>"Nao verificado","ok"=>false];
         }
     }
 
@@ -280,13 +280,13 @@ class Auth
             $res = array_merge($res[0], $tipo, ['telefone' => $dados['id'], "quando"=>time()]);
             //var_dump($res);
             if($query->rowCount() > 0){
-                return ["message"=>"Logado com sucesso","ok"=>true, "dados"=>$res];
+                return ["payload"=>"Logado com sucesso","ok"=>true, "dados"=>$res];
             }else{
-                return ["message"=>"Credenciais erradas","ok"=>false];
+                return ["payload"=>"Credenciais erradas","ok"=>false];
             }
 
         }else{
-            return ["message"=>"Nao verificado","ok"=>false];
+            return ["payload"=>"Nao verificado","ok"=>false];
         }
     }
 
@@ -311,9 +311,9 @@ class Auth
             $query->bindValue(':quando', time());
             $query->bindValue(':confirmou', "0");
             $query->execute();
-            return ["message"=>"Numero de verificacao enviado","ok"=>true];
+            return ["payload"=>"Numero de verificacao enviado","ok"=>true];
         }else{
-            return ["message"=>"Este numero nao se encontra na nossa base de dados","ok"=>false];
+            return ["payload"=>"Este numero nao se encontra na nossa base de dados","ok"=>false];
         }
     }
 
@@ -355,10 +355,10 @@ class Auth
 
             $mensagem = "ALERTA: O seu pin foi atualizado! \n  \n  \n  \n É FETA, É FACIL.";
             $this->funcoes::enviaSMS($dados["id"], $mensagem);
-            return ["message"=>"Pin atualizado","ok"=>true];
+            return ["payload"=>"Pin atualizado","ok"=>true];
         }
 
-        return ["message"=>"Erro inexperado, tente mais tarde","ok"=>false];
+        return ["payload"=>"Erro inexperado, tente mais tarde","ok"=>false];
 
     }
 }

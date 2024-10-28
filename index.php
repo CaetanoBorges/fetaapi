@@ -11,6 +11,7 @@ use Slim\Factory\AppFactory;
 use Ferramentas\Funcoes;
 use Controladores\AuthControl;
 use Controladores\AutorizacaoControl;
+use Controladores\ConfiguracaoControl;
 
 require 'vendor/autoload.php';
 
@@ -51,15 +52,6 @@ $app->get('/{id}', function (Request $request, Response $response, $args) {
 
     return $response->withHeader('content-type',"application/json");
 });
-$app->get('/usuario/{id}', function (Request $request, Response $response, $args) {
-    
-    $body = $request->getParsedBody();
-
-    $response->getBody()->write(json_encode($body));
-
-    return $response->withHeader('content-type',"application/json")->withStatus(201);
-});
-
 
 $app->group('/auth', function (RouteCollectorProxy $group) {
     $group->post('/verificaexistencia', AuthControl::class.":verificaExistencia");
@@ -70,12 +62,12 @@ $app->group('/auth', function (RouteCollectorProxy $group) {
     $group->post('/confirmarcodigo', AuthControl::class.":confirmarCodigo");
     $group->post('/novopin', AuthControl::class.":novoPin");
 });
-
+$app->post('/pedecodigo', ConfiguracaoControl::class.":pedecodigo");
 
 $app->group('/config', function (RouteCollectorProxy $group) {
-    $group->get('/timeout', AuthControl::class.":verificaExistencia");
-    $group->post('/settimeout', AuthControl::class.":verificaTelefone");
-    $group->post('/alterarpin', AuthControl::class.":cadastrar");
+    $group->get('/timeout', ConfiguracaoControl::class.":timeout");
+    $group->post('/settimeout', ConfiguracaoControl::class.":setTimeout");
+    $group->post('/alterarpin', ConfiguracaoControl::class.":setPin");
 });
 
 // Run app

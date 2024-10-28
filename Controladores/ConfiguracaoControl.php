@@ -1,58 +1,85 @@
 <?php
+
 namespace Controladores;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ferramentas\Funcoes;
 use Ferramentas\Autorizacao;
+use Controladores\CheckIn;
 use Classes\Configuracao;
 
-class ConfiguracaoControl
+use Exception;
+
+class ConfiguracaoControl extends CheckIn
 {
-    protected $funcoes;
-    protected $conexao;
-    protected $autorizacao;
     protected $configuracao;
 
-    public function __construct($token){
-
-        $this->funcoes = new Funcoes();
-        $this->conexao = Funcoes::conexao();
-
-        try {
-
-            $this->autorizacao = new Autorizacao($token,Funcoes::conexao());
-            $this->configuracao = new Configuracao($this->conexao, $this->funcoes);
-
-        } catch (Exception $e) {
-
-            echo $e->getMessage();
-            return;
-
-        }
-
-    }
-    public function timeout(Request $request, Response $response, $args) 
+    public function __construct()
     {
-        $body = $request->getParsedBody();
+        parent::__construct();
+        $this->configuracao = new Configuracao($this->conexao, $this->funcoes);
+    }
+
+    public function timeout(Request $request, Response $response, $args)
+    {
+
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
+        }
+        //------FIM--CHECK-IN-------//
+
         $res = $this->configuracao->verTempoBloqueio($this->autorizacao->getCliente());
-        if(!$res['ok']){
-           $this->auth->enviaCodigo($body['id']);
-        }
-        $response->getBody()->write(json_encode($res));
-        return $response;
+
+        return $this->_($response, $res);
     }
-    public function verificaTelefone(Request $request, Response $response, $args) 
+
+    public function setTimeout(Request $request, Response $response, $args)
     {
-        $body = $request->getParsedBody();
-        $res = $this->auth->verificaCodigo($body);
-        if($res['ok']){
-           $response->getBody()->write(json_encode($res));
-        }else{
-            $response->getBody()->write(json_encode($res));
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
         }
-        return $response;
+        if (!$this->autorizado) {
+            return $this->_($response, ['ok' => false, "nivel" => 0, 'payload' => 'Autorizacao errada']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        $res = $this->configuracao->setTimeOut($this->autorizacao->getCliente(), $this->body['tempo_bloqueio']);
+        return $this->_($response, $res);
+    }
+
+    public function setPin(Request $request, Response $response, $args)
+    {
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
+        }
+        if (!$this->autorizado) {
+            return $this->_($response, ['ok' => false, "nivel" => 0, 'payload' => 'Autorizacao errada']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        $res = $this->configuracao->alteraPin($this->autorizacao->getCliente(), $this->body['pin'], $this->autorizacao->getId());
+        return $this->_($response, $res);
     }
 
 
+    public function pedeCodigo(Request $request, Response $response, $args)
+    {
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        
+        $res = $this->enviaCodigo($this->body['acao']);
+        return $this->_($response, $res);
+    }
 }
