@@ -10,6 +10,7 @@ use Slim\Factory\AppFactory;
 
 use Ferramentas\Funcoes;
 use Controladores\AuthControl;
+use Controladores\AutorizacaoControl;
 
 require 'vendor/autoload.php';
 
@@ -68,6 +69,13 @@ $app->group('/auth', function (RouteCollectorProxy $group) {
     $group->post('/recuperarconta', AuthControl::class.":recuperarConta");
     $group->post('/confirmarcodigo', AuthControl::class.":confirmarCodigo");
     $group->post('/novopin', AuthControl::class.":novoPin");
+});
+
+
+$app->group('/config', function (RouteCollectorProxy $group) {
+    $group->get('/timeout', AuthControl::class.":verificaExistencia");
+    $group->post('/settimeout', AuthControl::class.":verificaTelefone");
+    $group->post('/alterarpin', AuthControl::class.":cadastrar");
 });
 
 // Run app

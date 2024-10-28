@@ -24,7 +24,7 @@ class Configuracao {
         $query->bindValue(':pin', $pin);
         $query->bindValue(':cliente_identificador', $id_cliente);
         $query->execute();
-        return true;
+        return true; 
     }
     public function verPin($id_cliente){
         $query=$this->conexao->prepare("SELECT pin FROM configuracao WHERE cliente_identificador = :cliente_identificador");

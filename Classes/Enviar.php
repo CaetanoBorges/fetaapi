@@ -357,7 +357,7 @@ class Enviar
             $query->execute();  
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $parcelas_pagas=(array) json_decode($res["transacao_pid"]);
-            var_dump($k);
+            //var_dump($k);
             $executar = $this->nova($res["de"], $res["para"], "normal", "system", $res["valor"], "Pagamento automatico recorrente");
                 if($executar["ok"]){
                     $commit = $this->commit();
