@@ -12,6 +12,7 @@ use Ferramentas\Funcoes;
 use Controladores\AuthControl;
 use Controladores\AutorizacaoControl;
 use Controladores\ConfiguracaoControl;
+use Controladores\EstatisticaControl;
 
 require 'vendor/autoload.php';
 
@@ -68,6 +69,12 @@ $app->group('/config', function (RouteCollectorProxy $group) {
     $group->get('/timeout', ConfiguracaoControl::class.":timeout");
     $group->post('/settimeout', ConfiguracaoControl::class.":setTimeout");
     $group->post('/alterarpin', ConfiguracaoControl::class.":setPin");
+});
+
+
+$app->group('/estatistica', function (RouteCollectorProxy $group) {
+    $group->get('/init', EstatisticaControl::class.":init");
+    $group->get('/ver', EstatisticaControl::class.":ver");
 });
 
 // Run app

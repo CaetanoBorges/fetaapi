@@ -66,7 +66,7 @@ class Estatistica {
         
         $res["dados"] = $dados;
         
-        return $res;
+        return ["ok"=>true, "payload"=>$res];
     }
     public function verTodosInit($conta){
         $ano = date("Y");
@@ -147,7 +147,7 @@ class Estatistica {
         $r["atual"]["mes"] = $mes;
         $r["atual"]["ano"] = $ano;
 
-        return $r;
+        return ["ok"=>true, "payload"=>$r];
     }
     
 }
