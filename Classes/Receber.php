@@ -52,9 +52,7 @@ class Receber
         $receptor = $this->contaBalancoTipo($de);
        
         if ($de == $para) {
-            throw new Exception(json_encode(["message" => "Nao pode cobrar para a mesma conta", "ok" => false]));
-
-            return;
+            return (["payload" => "Nao pode cobrar para a mesma conta", "ok" => false]);
         }
 
         $emissor = $this->contaBalancoTipo($para);
@@ -62,21 +60,19 @@ class Receber
         
         if ($tipo == "normal") {
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
-            
-            return;
+            return (["payload" => "", "ok" => true]);
         }
 
         if ($tipo == "recorrente") {
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando);
             $this->recorrente($pid, $de, $para, $valor, $opcoes["periodicidade"], $quando);
-            return;
+            return (["payload" => "", "ok" => true]);
         }
 
         if ($tipo == "parcelado") {
             $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $opcoes["valor_parcelas"], $descricao, $quando);
             $this->parcelado($pid, $de, $para, $opcoes["parcelas"], $opcoes["valor_parcelas"], $valor, $opcoes["periodicidade"], $quando);
-            
-            return;
+            return (["payload" => "", "ok" => true]);
         }
     }
     public function transacao($contaEmissor, $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado = false, $pedido = true)
@@ -156,11 +152,11 @@ class Receber
             }
             $this->conexao->commit();
             $this->commits = [];
-            return json_encode(["message" => "Transacao concluida", "ok" => true]);
+            return (["payload" => "Operacao concluida", "ok" => true]);
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return json_encode(["message" => $e->getMessage(), "ok" => false]);
+            return (["payload" => $e->getMessage(), "ok" => false]);
 
         }
 

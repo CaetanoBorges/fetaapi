@@ -28,8 +28,18 @@ class Transacao {
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $transacoes = count(json_decode($res["transacao_pid"]));
-            $r = array_merge($resPrincipal,$res, ["pagamentos"=>$transacoes]);
-            return $r;
+            
+            $trans = [];
+            foreach(json_decode($res["transacao_pid"]) as $k => $v){
+                $query=$this->conexao->prepare("SELECT * FROM transacao WHERE pid = :pid ");
+                $query->bindValue(':pid', $pid);
+                $query->execute();
+                $tr = $query->fetch(\PDO::FETCH_ASSOC);
+                array_push($trans, $tr);
+            }
+
+            $r = array_merge($resPrincipal,$res, ["pagamentos"=>$transacoes, "transacoes"=> $trans] );
+            return ["ok"=>true, "payload"=> $r];
 
         }
         if($resPrincipal["tipo"] == "parcelado"){
@@ -39,11 +49,21 @@ class Transacao {
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $transacoes = count(json_decode($res["transacao_pid"]));
-            $r = array_merge($resPrincipal,$res, ["pagamentos"=>$transacoes]);
-            return $r;
+
+            $trans = [];
+            foreach(json_decode($res["transacao_pid"]) as $k => $v){
+                $query=$this->conexao->prepare("SELECT * FROM transacao WHERE pid = :pid ");
+                $query->bindValue(':pid', $pid);
+                $query->execute();
+                $tr = $query->fetch(\PDO::FETCH_ASSOC);
+                array_push($trans, $tr);
+            }
+
+            $r = array_merge($resPrincipal,$res, ["pagamentos"=>$transacoes, "transacoes"=> $trans] );
+            return ["ok"=>true, "payload"=> $r];
         }
 
-        return $resPrincipal;
+        return ["ok"=>true, "payload"=> $resPrincipal];
     }
     public function verTodos($conta,$mes, $ano){
         $query=$this->conexao->prepare("SELECT *, pid AS identificador FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND para = :para");
@@ -70,7 +90,7 @@ class Transacao {
                 $res[$k]["enviar"] = 0;
             }
         }
-        return $res;
+        return ["ok"=>true, "payload"=> $res];
     }
     public function verTodosInit($conta){
         $ano = date("Y");
@@ -134,6 +154,6 @@ class Transacao {
         $r["atual"]["mes"] = $mes;
         $r["atual"]["ano"] = $ano;
 
-        return $r;
+        return ["ok"=>true, "payload"=> $r];
     }    
 }

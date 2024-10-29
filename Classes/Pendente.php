@@ -28,9 +28,9 @@ class Pendente {
             //$query->bindValue(':pid', $pid);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
-            $transacoes = count(json_decode($res["transacao_pid"]));
-            $r = array_merge($resPrincipal,$res, ["pagamentos"=>$transacoes]);
-            return $r;
+            #$transacoes = count(json_decode($res["transacao_pid"]));
+            $r = array_merge($resPrincipal,$res/*, ["pagamentos"=>$transacoes]*/);
+            return ["ok"=>true, "payload"=> $r];
 
         }
         if($resPrincipal["tipo"] == "parcelado"){
@@ -39,12 +39,11 @@ class Pendente {
             //$query->bindValue(':pid', $pid);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
-            $transacoes = count(json_decode($res["transacao_pid"]));
-            $r = array_merge($resPrincipal,$res, ["pagamentos"=>$transacoes]);
-            return $r;
+            #$transacoes = count(json_decode($res["transacao_pid"]));
+            $r = array_merge($resPrincipal,$res /*, ["pagamentos"=>$transacoes]*/);
+            return ["ok"=>true, "payload"=> $r];
         }
-
-        return $resPrincipal;
+        return ["ok"=>true, "payload"=> $resPrincipal];
     }
     public function verTodos($conta){
                 
@@ -62,13 +61,19 @@ class Pendente {
         $query->execute();
         $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
         $res = array_merge($resUm,$resDois);
-        return $res;
+
+        return ["ok"=>true, "payload"=> $res];
     }
 
     public function cancelarPendente($pid){
-        $commits = [];
-        $transacao = $this->verDetalhes($pid);
+        #ini_set('display_errors', 1);
+        #ini_set('display_startup_errors', 1);
+        #error_reporting(E_ALL);
 
+        $commits = [];
+        $transacao = $this->verDetalhes($pid)["payload"];
+        
+        
         $queryDe=$this->conexao->prepare("INSERT INTO anulado (conta, operacao, dados) VALUES (:id, :pid, :dados)");
         $queryDe->bindValue(':id', $transacao["de"]);
         $queryDe->bindValue(':pid', $pid);
@@ -103,10 +108,10 @@ class Pendente {
             }
             $this->conexao->commit();
             $commits = [];
-            return json_encode(["message" => "Cancelou", "ok" => true]);
+            return ["ok"=>true, "payload"=> "Cancelou"];
         } catch (\PDOException $e) {
             $this->conexao->rollBack();
-            return json_encode(["message" => $e->getMessage(), "ok" => false]);
+            return ["ok"=>false, "payload"=> $e->getMessage()];
         }
     }
 

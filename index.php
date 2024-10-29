@@ -13,6 +13,11 @@ use Controladores\AuthControl;
 use Controladores\AutorizacaoControl;
 use Controladores\ConfiguracaoControl;
 use Controladores\EstatisticaControl;
+use Controladores\TransacaoControl;
+use Controladores\RecorrenteControl;
+use Controladores\PerfilControl;
+use Controladores\PendenteControl;
+use Controladores\ReceberControl;
 
 require 'vendor/autoload.php';
 
@@ -76,6 +81,33 @@ $app->group('/estatistica', function (RouteCollectorProxy $group) {
     $group->get('/init', EstatisticaControl::class.":init");
     $group->get('/ver', EstatisticaControl::class.":ver");
 });
+
+
+$app->group('/transacao', function (RouteCollectorProxy $group) {
+    $group->get('/init', TransacaoControl::class.":init");
+    $group->get('/ver', TransacaoControl::class.":ver");
+    $group->get('/detalhes', TransacaoControl::class.":detalhe");
+    $group->post('/receber', ReceberControl::class.":novo");
+});
+
+
+$app->group('/recorrente', function (RouteCollectorProxy $group) {
+    $group->get('/init', RecorrenteControl::class.":init");
+    $group->get('/detalhes', RecorrenteControl::class.":detalhe");
+});
+
+$app->group('/perfil', function (RouteCollectorProxy $group) {
+    $group->get('/init', PerfilControl::class.":init");
+    $group->get('/detalhes', PerfilControl::class.":detalhe");
+});
+
+$app->group('/pendente', function (RouteCollectorProxy $group) {
+    $group->get('/init', PendenteControl::class.":init");
+    $group->get('/detalhes', PendenteControl::class.":detalhe");
+    $group->get('/cancelar', PendenteControl::class.":cancelar");
+});
+
+
 
 // Run app
 $app->run();

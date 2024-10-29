@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5b96e561-9fe4-42dc-8e1d-8a3142f5fd85",
+		"_postman_id": "847203b2-a68b-4c0d-a761-8c3d4121af0d",
 		"name": "FetaFacil",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -365,6 +365,638 @@
 								"fetaapi",
 								"config",
 								"timeout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estatistica",
+			"item": [
+				{
+					"name": "verTodos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "codigo",
+								"value": "594345",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mes\": \"09\",\r\n    \"ano\":\"2024\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/estatistica/ver",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"estatistica",
+								"ver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "init",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "outro",
+								"value": "1234",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"\":7784753\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/estatistica/init",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"estatistica",
+								"init"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transacao",
+			"item": [
+				{
+					"name": "verTodos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "codigo",
+								"value": "594345",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mes\": \"09\",\r\n    \"ano\":\"2024\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/transacao/ver",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"transacao",
+								"ver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "receber(pedir)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "outro",
+								"value": "1234",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"valor\":300000,\r\n\t\"de\": 921797626,\r\n\t\"descricao\": \"uma descricao\",\r\n\t\"tipo\": \"parcelado\",\r\n\t\"onde\": \"app\",\r\n    \"opcoes\": {\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelar\": \"150000\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/transacao/receber",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"transacao",
+								"receber"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detalhes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "codigo",
+								"value": "594345",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pid\": \"6720fc9c18fab\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/transacao/detalhes",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"transacao",
+								"detalhes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "init",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "outro",
+								"value": "1234",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"\":7784753\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/transacao/init",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"transacao",
+								"init"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pendente",
+			"item": [
+				{
+					"name": "Cancelar",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "pin",
+								"value": "123456",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pid\": \"671cc129df3f1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/pendente/cancelar",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"pendente",
+								"cancelar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detalhes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "codigo",
+								"value": "594345",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pid\": \"671c453b2950b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/pendente/detalhes",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"pendente",
+								"detalhes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "init",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "outro",
+								"value": "1234",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"\":7784753\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/pendente/init",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"pendente",
+								"init"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recorrente",
+			"item": [
+				{
+					"name": "detalhes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "codigo",
+								"value": "594345",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pid\": \"671cc18a9860f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/recorrente/detalhes",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"recorrente",
+								"detalhes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "init",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "outro",
+								"value": "1234",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"\":7784753\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/recorrente/init",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"recorrente",
+								"init"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Perfil",
+			"item": [
+				{
+					"name": "detalhes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "codigo",
+								"value": "594345",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pid\": \"671cc18a9860f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/perfil/detalhes",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"perfil",
+								"detalhes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "init",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "outro",
+								"value": "1234",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"\":7784753\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/perfil/init",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"perfil",
+								"init"
 							]
 						}
 					},

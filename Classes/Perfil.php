@@ -31,7 +31,7 @@ class Perfil
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $res["transacoes"] = $this->initTransacoes($telefone);
-            return $res;
+            return ["ok"=>true, "payload"=> $res];
         }
 
         if (!$empresa) {
@@ -41,7 +41,7 @@ class Perfil
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $res["transacoes"] = $this->initTransacoes($telefone);
 
-            return $res;
+            return ["ok"=>true, "payload"=> $res];
         }
     }
 
@@ -67,7 +67,7 @@ class Perfil
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $res["empresa"] = $empresa;
             $res["telefone"] = $telefone;
-            return $res;
+            return ["ok"=>true, "payload"=> $res];
         }
 
         if (!$empresa) {
@@ -77,7 +77,7 @@ class Perfil
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $res["empresa"] = $empresa;
             $res["telefone"] = $telefone;
-            return $res;
+            return ["ok"=>true, "payload"=> $res];
         }
     }
 
@@ -103,6 +103,6 @@ class Perfil
                 $res[$k]["enviar"] = 0;
             }
         }
-        return $res;
+        return ["ok"=>true, "payload"=> $res];
     }
 }

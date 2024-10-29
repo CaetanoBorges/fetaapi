@@ -27,7 +27,8 @@ class Recorrente {
                 array_push($r, $res);
             }
             $parcelado["transacoes"] = $r;
-            return $parcelado;
+            $parcelado["pagamentos"] = count(json_decode($parcelado["transacao_pid"]));
+            return ["ok"=>true, "payload"=> $parcelado];
         }
 
         $query=$this->conexao->prepare("SELECT * FROM recorrente WHERE identificador = :pid");
@@ -45,10 +46,11 @@ class Recorrente {
             }
 
             $recorrente["transacoes"] = $r;
-            return $recorrente;
+            $recorrente["pagamentos"] = count(json_decode($recorrente["transacao_pid"]));
+            return ["ok"=>true, "payload"=> $recorrente];
         }
 
-        return [];
+        return ["ok"=>true, "payload"=> []];
     }
     public function verTodos($conta){
         $query=$this->conexao->prepare("SELECT * FROM parcelado WHERE ativo = :ativo AND para = :para");
@@ -94,7 +96,7 @@ class Recorrente {
                 $res[$k]["enviar"] = 0;
             }
         }
-        return $res;
+        return ["ok"=>true, "payload"=> $res];
     }
     
  
