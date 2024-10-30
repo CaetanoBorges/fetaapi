@@ -4,6 +4,9 @@ header("Access-Control-Allow-Origin: *");
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Factory\AppFactory;
 
@@ -40,6 +43,28 @@ $afterMiddleware = function (Request $request, RequestHandler $handler) {
     
     return $response;
 };
+
+$app->add(function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($app): ResponseInterface {
+    if ($request->getMethod() === 'OPTIONS') {
+        $response = $app->getResponseFactory()->createResponse();
+    } else {
+        $response = $handler->handle($request);
+    }
+
+    $response = $response
+        ->withHeader('Access-Control-Allow-Credentials', 'true')
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', '*')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+        ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        ->withHeader('Pragma', 'no-cache');
+
+    if (ob_get_contents()) {
+        ob_clean();
+    }
+
+    return $response;
+});
 $app->add($afterMiddleware);
 $app->setBasePath("/fetaapi");
 $app->get('/', function (Request $request, Response $response, $args) {
@@ -109,8 +134,6 @@ $app->group('/pendente', function (RouteCollectorProxy $group) {
     $group->get('/detalhes', PendenteControl::class.":detalhe");
     $group->get('/cancelar', PendenteControl::class.":cancelar");
 });
-
-
 
 // Run app
 $app->run();

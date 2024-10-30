@@ -23,6 +23,7 @@ class TransacaoControl extends CheckIn
 
     public function init(Request $request, Response $response, $args)
     {
+        
         //------INICIO--CHECK-IN-------//
         $this->fazCheckIn($request);
         if ($this->expirou) {
