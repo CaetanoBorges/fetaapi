@@ -532,15 +532,14 @@
 								"type": "default"
 							},
 							{
-								"key": "outro",
-								"value": "1234",
-								"type": "default",
-								"disabled": true
+								"key": "pin",
+								"value": "123456",
+								"type": "default"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"valor\":300000,\r\n\t\"de\": 921797626,\r\n\t\"descricao\": \"uma descricao\",\r\n\t\"tipo\": \"parcelado\",\r\n\t\"onde\": \"app\",\r\n    \"opcoes\": {\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelar\": \"150000\"}\r\n}",
+							"raw": "{\r\n\t\"valor\":300000,\r\n\t\"de\": 921797626,\r\n\t\"descricao\": \"uma descricao\",\r\n\t\"tipo\": \"parcelado\",\r\n\t\"onde\": \"app\",\r\n    \"opcoes\": {\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"150000\"}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -560,6 +559,92 @@
 								"fetaapi",
 								"transacao",
 								"receber"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enviar(transferir)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "pin",
+								"value": "123456",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"valor\":10,\r\n\t\"para\": 921797626,\r\n\t\"descricao\": \"uma descricao\",\r\n\t\"tipo\": \"parcelado\",\r\n\t\"onde\": \"app\",\r\n    \"opcoes\": {\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"5\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/transacao/enviar",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"transacao",
+								"enviar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aceitarPendente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "default"
+							},
+							{
+								"key": "pin",
+								"value": "123456",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pid\": \"10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/transacao/aceitarpendente",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"transacao",
+								"aceitarpendente"
 							]
 						}
 					},
@@ -685,7 +770,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pid\": \"671cc129df3f1\"\r\n}",
+							"raw": "{\r\n    \"pid\": \"671c44ee10587\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

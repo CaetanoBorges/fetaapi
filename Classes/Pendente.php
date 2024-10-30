@@ -72,19 +72,21 @@ class Pendente {
 
         $commits = [];
         $transacao = $this->verDetalhes($pid)["payload"];
+        $quando = date("d-m-Y h:i:s");
         
-        
-        $queryDe=$this->conexao->prepare("INSERT INTO anulado (conta, operacao, dados) VALUES (:id, :pid, :dados)");
+        $queryDe=$this->conexao->prepare("INSERT INTO anulado (conta, operacao, dados, quando) VALUES (:id, :pid, :dados, :quando)");
         $queryDe->bindValue(':id', $transacao["de"]);
         $queryDe->bindValue(':pid', $pid);
         $queryDe->bindValue(':dados', json_encode($transacao));
+        $queryDe->bindValue(':quando', $quando);
         array_push($commits, $queryDe);
 
         
-        $queryPara=$this->conexao->prepare("INSERT INTO anulado (conta, operacao, dados) VALUES (:id, :pid, :dados)");
+        $queryPara=$this->conexao->prepare("INSERT INTO anulado (conta, operacao, dados, quando) VALUES (:id, :pid, :dados, :quando)");
         $queryPara->bindValue(':id', $transacao["para"]);
         $queryPara->bindValue(':pid', $pid);
         $queryPara->bindValue(':dados', json_encode($transacao));
+        $queryPara->bindValue(':quando', $quando);
         array_push($commits, $queryPara);
 
         $queryT=$this->conexao->prepare("DELETE FROM transacao WHERE pid = :pid");

@@ -46,36 +46,5 @@ class ReceberControl extends CheckIn
         return $this->_($response, $envia);
     }
 
-    public function detalhe(Request $request, Response $response, $args)
-    {
-        //------INICIO--CHECK-IN-------//
-        $this->fazCheckIn($request);
-        if ($this->expirou) {
-            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
-        }
-        //------FIM--CHECK-IN-------//
-
-        $res = $this->receber->verDetalhes($this->body["pid"]);
-
-        return $this->_($response, $res);
-    }
-    
-    public function cancelar(Request $request, Response $response, $args)
-    {
-        //------INICIO--CHECK-IN-------//
-        $this->fazCheckIn($request);
-        if ($this->expirou) {
-            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
-        }
-        if (!$this->autorizado) {
-            return $this->_($response, ['ok' => false, "nivel" => 0, 'payload' => 'Autorizacao errada']);
-        }
-        //------FIM--CHECK-IN-------//
-
-        $res = $this->receber->cancelarPendente($this->body["pid"]);
-
-        return $this->_($response, $res);
-    }
-
     
 }

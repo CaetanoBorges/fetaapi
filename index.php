@@ -1,5 +1,5 @@
 <?php
-
+header("Access-Control-Allow-Origin: *");
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,6 +18,7 @@ use Controladores\RecorrenteControl;
 use Controladores\PerfilControl;
 use Controladores\PendenteControl;
 use Controladores\ReceberControl;
+use Controladores\EnviarControl;
 
 require 'vendor/autoload.php';
 
@@ -87,7 +88,9 @@ $app->group('/transacao', function (RouteCollectorProxy $group) {
     $group->get('/init', TransacaoControl::class.":init");
     $group->get('/ver', TransacaoControl::class.":ver");
     $group->get('/detalhes', TransacaoControl::class.":detalhe");
-    $group->post('/receber', ReceberControl::class.":novo");
+    $group->post('/receber', ReceberControl::class.":novo"); // Da class Receber
+    $group->post('/enviar', EnviarControl::class.":novo"); // Da class Enviar
+    $group->post('/aceitarpendente', EnviarControl::class.":aceitarPendente"); // Da class Enviar
 });
 
 

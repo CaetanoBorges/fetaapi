@@ -257,9 +257,12 @@ class Enviar
     {
 
         $transacao = $this->verDetalhes($pid);
-
         $emissor = $this->contaBalancoTipo($transacao["de"]);
         $receptor = $this->contaBalancoTipo($transacao["para"]);
+
+        if ($transacao["executado"]) {
+             return ["payload" => "Esta transacao nao esta pendente", "ok" => false];
+        }
 
         if ($transacao["tipo"] == "normal") {
             if ($emissor["saldo"] < $transacao["valor"]) {
@@ -269,6 +272,7 @@ class Enviar
             $queryNormal->bindValue(':pid', $pid);
 
             array_push($this->commits, $queryNormal);
+            
         }
 
         if ($transacao["tipo"] == "recorrente") {
@@ -298,6 +302,7 @@ class Enviar
         $this->poeExtrato($emissor["empresa"], $emissor["identificador_conta"], $pid, 0, $transacao["valor"], $emissor["saldo"], $transacao["quando"]);
         $this->poeExtrato($receptor["empresa"], $receptor["identificador_conta"], $pid, 1, $transacao["valor"], $receptor["saldo"], $transacao["quando"], false);
         
+        return ["ok" => true];
     }
     
     public function autoPayParcelado(){
