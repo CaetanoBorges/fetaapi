@@ -103,7 +103,6 @@ class Transacao {
         $query->execute();
         $anos = $query->fetchAll(\PDO::FETCH_COLUMN);
         //return $anos;
-
         foreach($anos as $k => $v){
             //echo $k;
             $query=$this->conexao->prepare("SELECT mes FROM transacao WHERE executado = :executado AND ano = :ano AND de = :de GROUP BY mes");
@@ -121,8 +120,9 @@ class Transacao {
             $mesDois = $query->fetchAll(\PDO::FETCH_COLUMN);
 
             $meses = array_merge($mesUm,$mesDois);
+            array_unique($meses);
             $r["datas"][$k]["ano"] = $v;
-            $r["datas"][$k][$v] = $meses;
+            $r["datas"][$k][$v] =  array_unique($meses);//$meses;
             //var_dump($r);
         }
 
