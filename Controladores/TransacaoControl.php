@@ -43,7 +43,7 @@ class TransacaoControl extends CheckIn
             return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
         }
         //------FIM--CHECK-IN-------//
-
+        
         $res = $this->transacao->verTodos($this->autorizacao->getId(),$this->body["mes"],$this->body["ano"]);
 
         return $this->_($response, $res);

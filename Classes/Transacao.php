@@ -66,6 +66,7 @@ class Transacao {
         return ["ok"=>true, "payload"=> $resPrincipal];
     }
     public function verTodos($conta,$mes, $ano){
+        
         $query=$this->conexao->prepare("SELECT *, pid AS identificador FROM transacao WHERE executado = :executado AND mes = :mes AND ano = :ano AND para = :para");
         $query->bindValue(':executado', '1');
         $query->bindValue(':mes', $mes);

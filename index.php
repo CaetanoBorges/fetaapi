@@ -105,14 +105,14 @@ $app->group('/config', function (RouteCollectorProxy $group) {
 
 $app->group('/estatistica', function (RouteCollectorProxy $group) {
     $group->get('/init', EstatisticaControl::class.":init");
-    $group->get('/ver', EstatisticaControl::class.":ver");
+    $group->post('/ver', EstatisticaControl::class.":ver");
 });
 
 
 $app->group('/transacao', function (RouteCollectorProxy $group) {
     $group->get('/init', TransacaoControl::class.":init");
-    $group->get('/ver', TransacaoControl::class.":ver");
-    $group->get('/detalhes', TransacaoControl::class.":detalhe");
+    $group->post('/ver', TransacaoControl::class.":ver");
+    $group->post('/detalhes', TransacaoControl::class.":detalhe");
     $group->post('/receber', ReceberControl::class.":novo"); // Da class Receber
     $group->post('/enviar', EnviarControl::class.":novo"); // Da class Enviar
     $group->post('/aceitarpendente', EnviarControl::class.":aceitarPendente"); // Da class Enviar
@@ -121,7 +121,7 @@ $app->group('/transacao', function (RouteCollectorProxy $group) {
 
 $app->group('/recorrente', function (RouteCollectorProxy $group) {
     $group->get('/init', RecorrenteControl::class.":init");
-    $group->get('/detalhes', RecorrenteControl::class.":detalhe");
+    $group->post('/detalhes', RecorrenteControl::class.":detalhe");
 });
 
 $app->group('/perfil', function (RouteCollectorProxy $group) {
@@ -131,8 +131,8 @@ $app->group('/perfil', function (RouteCollectorProxy $group) {
 
 $app->group('/pendente', function (RouteCollectorProxy $group) {
     $group->get('/init', PendenteControl::class.":init");
-    $group->get('/detalhes', PendenteControl::class.":detalhe");
-    $group->get('/cancelar', PendenteControl::class.":cancelar");
+    $group->post('/detalhes', PendenteControl::class.":detalhe");
+    $group->post('/cancelar', PendenteControl::class.":cancelar");
 });
 
 // Run app
