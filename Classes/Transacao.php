@@ -150,10 +150,16 @@ class Transacao {
                 $res[$k]["enviar"] = 0;
             }
         }
+        
+        array_multisort(array_map(function($element) {
+            return $element['quando'];
+        }, $res), SORT_ASC, $res);
+
         $r["atual"]["res"] = $res;
         $r["atual"]["mes"] = $mes;
         $r["atual"]["ano"] = $ano;
 
         return ["ok"=>true, "payload"=> $r];
     }    
+    
 }
