@@ -60,7 +60,7 @@ class Estatistica {
             $query->execute();
             $sai = $query->fetch(\PDO::FETCH_ASSOC);
 
-            array_push($dados,[(int) $ent["entrada"], (int) $sai["saida"]]);
+            array_push($dados,[(int) $ent["entrada"], (int) $sai["saida"], (int) $y]);
         }
 
         
@@ -138,7 +138,7 @@ class Estatistica {
             $query->execute();
             $sai = $query->fetch(\PDO::FETCH_ASSOC);
 
-            array_push($dados,[(int) $ent["entrada"],(int) $sai["saida"],]);
+            array_push($dados,[(int) $ent["entrada"],(int) $sai["saida"], (int) $v]);
         }
 
         

@@ -115,7 +115,7 @@ class Auth
         $queryParticular->bindValue(':genero', $dados['genero']);
         $queryParticular->bindValue(':nascimento', $dados['nascimento']);
         $queryParticular->bindValue(':balanco', "0.00");
-        $queryParticular->bindValue(':img', "default.png");
+        $queryParticular->bindValue(':img', "user.svg");
 
         try {
             $this->conexao->beginTransaction();
@@ -168,7 +168,7 @@ class Auth
         $query->bindValue(':nome', $dados['nome']);
         $query->bindValue(':area', $dados['area']);
         $query->bindValue(':balanco', "0.00");
-        $query->bindValue(':img', "default.png");
+        $query->bindValue(':img', "user.svg");
 
         try {
 

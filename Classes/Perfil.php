@@ -30,6 +30,7 @@ class Perfil
             $query->bindValue(':cliente', $id_cliente);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
+            $res["telefone"] = ($telefone);
             $res["transacoes"] = $this->initTransacoes($telefone);
             return ["ok"=>true, "payload"=> $res];
         }
@@ -39,6 +40,7 @@ class Perfil
             $query->bindValue(':cliente', $id_cliente);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
+            $res["telefone"] = ($telefone);
             $res["transacoes"] = $this->initTransacoes($telefone);
 
             return ["ok"=>true, "payload"=> $res];
@@ -103,6 +105,9 @@ class Perfil
                 $res[$k]["enviar"] = 0;
             }
         }
+        array_multisort(array_map(function($element) {
+            return $element['quando'];
+        }, $res), SORT_DESC, $res);
         return ["ok"=>true, "payload"=> $res];
     }
 }
