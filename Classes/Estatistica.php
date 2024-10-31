@@ -88,7 +88,7 @@ class Estatistica {
             $meses = $query->fetchAll(\PDO::FETCH_COLUMN);
 
             $r["datas"][$k]["ano"] = $v;
-            $r["datas"][$k][$v] = $meses;
+            $r["datas"][$k][$v] = array_unique($meses);
             //var_dump($r);
         }
 

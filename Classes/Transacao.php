@@ -90,6 +90,9 @@ class Transacao {
                 $res[$k]["enviar"] = 0;
             }
         }
+        array_multisort(array_map(function($element) {
+            return $element['quando'];
+        }, $res), SORT_ASC, $res);
         return ["ok"=>true, "payload"=> $res];
     }
     public function verTodosInit($conta){
@@ -120,7 +123,6 @@ class Transacao {
             $mesDois = $query->fetchAll(\PDO::FETCH_COLUMN);
 
             $meses = array_merge($mesUm,$mesDois);
-            array_unique($meses);
             $r["datas"][$k]["ano"] = $v;
             $r["datas"][$k][$v] =  array_unique($meses);//$meses;
             //var_dump($r);

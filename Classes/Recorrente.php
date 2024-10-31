@@ -96,6 +96,9 @@ class Recorrente {
                 $res[$k]["enviar"] = 0;
             }
         }
+        array_multisort(array_map(function($element) {
+            return $element['quando'];
+        }, $res), SORT_ASC, $res);
         return ["ok"=>true, "payload"=> $res];
     }
     
