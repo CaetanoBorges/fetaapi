@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "847203b2-a68b-4c0d-a761-8c3d4121af0d",
+		"_postman_id": "1476e093-9c15-42d9-a31b-c7f22bab6b76",
 		"name": "FetaFacil",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -377,11 +377,8 @@
 			"item": [
 				{
 					"name": "verTodos",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "token",
@@ -476,11 +473,8 @@
 			"item": [
 				{
 					"name": "verTodos",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "token",
@@ -652,11 +646,8 @@
 				},
 				{
 					"name": "detalhes",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "token",
@@ -719,7 +710,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"\":7784753\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -751,11 +742,8 @@
 			"item": [
 				{
 					"name": "Cancelar",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "token",
@@ -797,11 +785,8 @@
 				},
 				{
 					"name": "detalhes",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "token",
@@ -864,7 +849,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"\":7784753\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -896,11 +881,8 @@
 			"item": [
 				{
 					"name": "detalhes",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "token",
@@ -963,7 +945,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"\":7784753\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -995,11 +977,8 @@
 			"item": [
 				{
 					"name": "detalhes",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "token",
