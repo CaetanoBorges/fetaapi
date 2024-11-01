@@ -62,9 +62,27 @@ class Pendente {
         $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
         $res = array_merge($resUm,$resDois);
 
+
+        foreach($res as $k => $v){
+            $pid = $v["pid"];
+            if($v["tipo"]=="parcelado"){
+                $query=$this->conexao->prepare("SELECT periodicidade, parcelas, valor_parcela, valor_total FROM parcelado WHERE transacao_pid LIKE '%$pid%'");
+                $query->execute();
+                $resParcelado = $query->fetch(\PDO::FETCH_ASSOC);
+                $res[$k]["tipo"] = "Parcelado, ".$resParcelado["periodicidade"]." | ".$resParcelado["valor_total"].", em ".$resParcelado["parcelas"]."x de ".$resParcelado["valor_parcela"];
+            }
+            if($v["tipo"]=="recorrente"){
+
+                $query=$this->conexao->prepare("SELECT periodicidade, valor FROM recorrente WHERE transacao_pid LIKE '%$pid%'");
+                $query->execute();
+                $resRecorrente = $query->fetch(\PDO::FETCH_ASSOC);
+                $res[$k]["tipo"] = "Recorrente, ".$resRecorrente["periodicidade"]." | de ".$resRecorrente["valor"];
+            }
+        }
+
         array_multisort(array_map(function($element) {
             return $element['quando'];
-        }, $res), SORT_ASC, $res);
+        }, $res), SORT_DESC, $res);
         
         return ["ok"=>true, "payload"=> $res];
     }

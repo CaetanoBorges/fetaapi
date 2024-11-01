@@ -33,7 +33,7 @@ class Recorrente {
 
         $query=$this->conexao->prepare("SELECT * FROM recorrente WHERE identificador = :pid");
         $query->bindValue(':pid', $pid);
-        $query->execute();
+        $query->execute(); 
         $recorrente = $query->fetch(\PDO::FETCH_ASSOC);
         if($recorrente){
             $r = [];
@@ -66,6 +66,7 @@ class Recorrente {
         $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         $parcelado = array_merge($resUm, $resDois);
+        $parceladoT=[];
         foreach($parcelado as $k => $v){
             $parcelado[$k]["tipo"] = "parcelado";
         }
@@ -90,6 +91,18 @@ class Recorrente {
         $res = array_merge($parcelado, $recorrente);
 
         foreach($res as $k => $v){
+            $res[$k]["transacoes"] = [];
+            foreach(json_decode($v["transacao_pid"]) as $key => $val){
+                $query=$this->conexao->prepare("SELECT *, descricao as tipo FROM transacao WHERE pid = :pid");
+                $query->bindValue(':pid', $val);
+                $query->execute();
+                $tr = $query->fetch(\PDO::FETCH_ASSOC);
+                array_push($res[$k]["transacoes"], $tr);
+                if($key==0){    
+                    $res[$k]["onde"] = $tr["onde"];
+                    $res[$k]["descricao"] = $tr["descricao"];
+                }
+            }
             if($v["de"]==$conta){
                 $res[$k]["enviar"] = 1;
             }else{
