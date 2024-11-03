@@ -85,7 +85,7 @@ class Enviar
 
         $pid = $this->funcoes::chaveDB();
         $this->pid = $pid;
-        $quando = date("d-m-Y h:i:s");
+        $quando = date("d-m-Y h:i:s A");
 
         $emissor = $this->contaBalancoTipo($de);
 
@@ -245,11 +245,11 @@ class Enviar
             }
             $this->conexao->commit();
             $this->commits = [];
-            return (["payload" => "Transacao concluida", "ok" => true, "pid"=>$pid]);
+            return (["payload" => "Transacao concluida com sucesso", "ok" => true, "pid"=>$pid]);
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return (["payload" => $e->getMessage(), "ok" => false]);
+            return (["payload" => "Erro inexperado, verifique os dados da operacao", "ok" => false]);
         }
     }
 

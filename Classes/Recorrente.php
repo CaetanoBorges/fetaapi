@@ -110,8 +110,8 @@ class Recorrente {
             }
         }
         array_multisort(array_map(function($element) {
-            return $element['quando'];
-        }, $res), SORT_ASC, $res);
+            return $element['identificador'];
+        }, $res), SORT_DESC, $res);
         return ["ok"=>true, "payload"=> $res];
     }
     

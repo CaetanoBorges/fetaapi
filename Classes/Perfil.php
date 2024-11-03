@@ -14,7 +14,11 @@ class Perfil
     }
 
     public function init($id_cliente)
-    {
+    {   
+        
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
         $query = $this->conexao->prepare("SELECT telefone FROM contacto WHERE cliente_identificador = :cliente");
         $query->bindValue(':cliente', $id_cliente);
         $query->execute();
@@ -26,23 +30,22 @@ class Perfil
         $empresa = $query->fetch(\PDO::FETCH_COLUMN);
 
         if ($empresa) {
-            $query = $this->conexao->prepare("SELECT nome, balanco FROM empresa WHERE cliente_identificador = :cliente");
+            $query = $this->conexao->prepare("SELECT identificador, nome, balanco FROM empresa WHERE cliente_identificador = :cliente");
             $query->bindValue(':cliente', $id_cliente);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $res["telefone"] = ($telefone);
-            $res["transacoes"] = $this->initTransacoes($telefone);
+            $res["transacoes"] = $this->initTransacoes($res["identificador"],$telefone);
             return ["ok"=>true, "payload"=> $res];
         }
 
         if (!$empresa) {
-            $query = $this->conexao->prepare("SELECT nome, balanco FROM particular WHERE cliente_identificador = :cliente");
+            $query = $this->conexao->prepare("SELECT identificador, nome, balanco FROM particular WHERE cliente_identificador = :cliente");
             $query->bindValue(':cliente', $id_cliente);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
             $res["telefone"] = ($telefone);
-            $res["transacoes"] = $this->initTransacoes($telefone);
-
+            $res["transacoes"] = $this->initTransacoes($res["identificador"],$telefone);
             return ["ok"=>true, "payload"=> $res];
         }
     }
@@ -83,31 +86,17 @@ class Perfil
         }
     }
 
-    function initTransacoes($conta)
+    function initTransacoes($identificador_conta,$conta)
     {
-        $query = $this->conexao->prepare("SELECT quando, descricao, valor, de FROM transacao WHERE executado = :executado AND para = :para LIMIT 3");
-        $query->bindValue(':executado', '1');
-        $query->bindValue(':para', $conta);
+        $query = $this->conexao->prepare("SELECT identificador, quando, movimento as valor, entrada FROM extrato WHERE identificador_conta = :id ORDER BY identificador DESC LIMIT 6");
+        $query->bindValue(':id', $identificador_conta);
         $query->execute();
-        $resUm = $query->fetchAll(\PDO::FETCH_ASSOC);
+        $res = $query->fetchAll(\PDO::FETCH_ASSOC);
 
-        $query = $this->conexao->prepare("SELECT quando, descricao, valor, de FROM transacao WHERE executado = :executado AND de = :de LIMIT 3");
-        $query->bindValue(':executado', '1');
-        $query->bindValue(':de', $conta);
-        $query->execute();
-        $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
-
-        $res = array_merge($resUm, $resDois);
-        foreach ($res as $k => $v) {
-            if ($v["de"] == $conta) {
-                $res[$k]["enviar"] = 1;
-            } else {
-                $res[$k]["enviar"] = 0;
-            }
-        }
         array_multisort(array_map(function($element) {
-            return $element['quando'];
+            return $element['identificador'];
         }, $res), SORT_DESC, $res);
+        
         return ["ok"=>true, "payload"=> $res];
     }
 }

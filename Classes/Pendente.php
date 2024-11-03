@@ -81,7 +81,7 @@ class Pendente {
         }
 
         array_multisort(array_map(function($element) {
-            return $element['quando'];
+            return $element['pid'];
         }, $res), SORT_DESC, $res);
         
         return ["ok"=>true, "payload"=> $res];
@@ -135,7 +135,7 @@ class Pendente {
             return ["ok"=>true, "payload"=> "Cancelou"];
         } catch (\PDOException $e) {
             $this->conexao->rollBack();
-            return ["ok"=>false, "payload"=> $e->getMessage()];
+            return ["ok"=>false, "payload"=> "Erro inexperado, verifique os dados da operacao"];
         }
     }
 

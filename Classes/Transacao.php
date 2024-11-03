@@ -92,7 +92,7 @@ class Transacao {
             }
         }
         array_multisort(array_map(function($element) {
-            return $element['quando'];
+            return $element['pid'];
         }, $res), SORT_DESC, $res);
         return ["ok"=>true, "payload"=> $res];
     }
@@ -155,7 +155,7 @@ class Transacao {
         }
         
         array_multisort(array_map(function($element) {
-            return $element['quando'];
+            return $element['pid'];
         }, $res), SORT_DESC, $res);
 
         $r["atual"]["res"] = $res;
