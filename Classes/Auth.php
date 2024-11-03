@@ -100,10 +100,9 @@ class Auth
         $queryContacto->bindValue(':telefone', $dados['id']);
         $queryContacto->bindValue(':atual', "1");
         
-        $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, auto_pagamento_recebimento, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :auto_pagamento_recebimento, :pin)");
+        $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :pin)");
         $queryConfiguracao->bindValue(':cliente_identificador', $identificador);
-        $queryConfiguracao->bindValue(':tempo_bloqueio', "30");
-        $queryConfiguracao->bindValue(':auto_pagamento_recebimento', "0");
+        $queryConfiguracao->bindValue(':tempo_bloqueio', "mins1");
         $queryConfiguracao->bindValue(':pin', $pin);
 
         $identificador_conta = $this->funcoes::chaveDB();
@@ -154,10 +153,9 @@ class Auth
         $queryContacto->bindValue(':telefone', $dados['id']);
         $queryContacto->bindValue(':atual', "1");
         
-        $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, auto_pagamento_recebimento, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :auto_pagamento_recebimento, :pin)");
+        $queryConfiguracao=$this->conexao->prepare("INSERT INTO configuracao (cliente_identificador, tempo_bloqueio, pin) VALUES (:cliente_identificador, :tempo_bloqueio, :pin)");
         $queryConfiguracao->bindValue(':cliente_identificador', $identificador);
-        $queryConfiguracao->bindValue(':tempo_bloqueio', "30");
-        $queryConfiguracao->bindValue(':auto_pagamento_recebimento', "0");
+        $queryConfiguracao->bindValue(':tempo_bloqueio', "mins1");
         $queryConfiguracao->bindValue(':pin', $pin);
 
         $identificador_conta = $this->funcoes::chaveDB();
@@ -195,20 +193,21 @@ class Auth
     public function verificaExistencia($dados)
     {
         if($this->existeTelefone($dados['id'])){
-            return ["payload"=>"Este telefone ja existe numa conta","ok"=>true];
+            return ["payload"=>"Este telefone já está associado a uma conta","ok"=>true];
         }
 
         if($dados['comercial']){
             if($this->existeNif($dados['nif'])){
-                return ["payload"=>"Este nif ja existe numa conta","ok"=>true];
+                return ["payload"=>"Este nif já está associado a uma conta","ok"=>true];
             }
         }
         if(!$dados['comercial']){
             if($this->existeBi($dados['bi'])){
-                return ["payload"=>"Este BI ja existe numa conta","ok"=>true];
+                return ["payload"=>"Este BI já está associado a uma conta","ok"=>true];
             }
         }
-        return ["payload"=>"Nao existe nenhuma conta com esses dados","ok"=>false];
+        
+        return ["payload"=>"Não existe nenhuma conta com esses dados","ok"=>false];
     }
 
         /**
@@ -286,7 +285,7 @@ class Auth
             }
 
         }else{
-            return ["payload"=>"Nao verificado","ok"=>false];
+            return ["payload"=>"Não verificado","ok"=>false];
         }
     }
 
