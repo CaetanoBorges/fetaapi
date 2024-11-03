@@ -48,6 +48,20 @@ class RecorrenteControl extends CheckIn
 
         return $this->_($response, $res);
     }
+    
+    public function cancelar(Request $request, Response $response, $args)
+    {
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        $res = $this->recorrente->cancelarRecorrente($this->body["pid"]);
+
+        return $this->_($response, $res);
+    }
 
     
 }

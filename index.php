@@ -122,6 +122,7 @@ $app->group('/transacao', function (RouteCollectorProxy $group) {
 $app->group('/recorrente', function (RouteCollectorProxy $group) {
     $group->get('/init', RecorrenteControl::class.":init");
     $group->post('/detalhes', RecorrenteControl::class.":detalhe");
+    $group->post('/cancelar', RecorrenteControl::class.":cancelar");
 });
 
 $app->group('/perfil', function (RouteCollectorProxy $group) {

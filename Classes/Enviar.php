@@ -288,7 +288,7 @@ class Enviar
             array_push($this->commits, $queryNormal, $queryRecorrente);
         }
         if ($transacao["tipo"] == "parcelado") {
-            if ($emissor["saldo"] < $transacao["valor_parcela"]) {
+            if ($emissor["saldo"] < $transacao["valor_parcelas"]) {
                 return ["payload" => "Saldo insuficiente", "ok" => false];
             }
             $queryNormal = $this->conexao->prepare("UPDATE transacao SET executado = 1 WHERE pid = :pid");
