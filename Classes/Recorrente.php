@@ -129,6 +129,6 @@ class Recorrente
         $queryDe = $this->conexao->prepare("UPDATE recorrente SET ativo='0' WHERE identificador = :pid");
         $queryDe->bindValue(':pid', $pid);
         $queryDe->execute();
-        return ["ok" => true, "payload" => "Cancelou a operacao recorrente"];
+        return ["ok" => true, "payload" => "Cancelou a operação recorrente"];
     }
 }

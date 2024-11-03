@@ -132,10 +132,10 @@ class Pendente {
             }
             $this->conexao->commit();
             $commits = [];
-            return ["ok"=>true, "payload"=> "Cancelou"];
+            return ["ok"=>true, "payload"=> "Cancelou a pendencia"];
         } catch (\PDOException $e) {
             $this->conexao->rollBack();
-            return ["ok"=>false, "payload"=> "Erro inexperado, verifique os dados da operacao"];
+            return ["ok"=>false, "payload"=> "Erro inexperado, verifique os dados da operação"];
         }
     }
 

@@ -233,10 +233,10 @@ class Auth
             $query->bindValue(':codigo', $dados['codigo']);
             $query->bindValue(':confirmou', 1);
             $query->execute();
-            return ["payload"=>"Verificacao completa","ok"=>true];
+            return ["payload"=>"Verificação completa","ok"=>true];
 
         }else{
-            return ["payload"=>"Nao verificado","ok"=>false];
+            return ["payload"=>"Não foi verificado","ok"=>false];
         }
     }
 
@@ -301,7 +301,7 @@ class Auth
             $cliente = $query->fetch(\PDO::FETCH_ASSOC);
             $this->funcoes::setRemetente('FETA-FACIL');
             $codigo = $this->funcoes::seisDigitos();
-            $mensagem = "Estimado cidadão, o seu código para recuperacao de conta é: $codigo";
+            $mensagem = "Estimado cidadão, o seu código para recuperação de conta é: $codigo";
             $this->funcoes::enviaSMS($dados['id'], $mensagem);
 
             $query=$this->conexao->prepare("INSERT INTO confirmar (cliente_identificador, acao, codigo_enviado, quando, confirmou) VALUES (:cliente, :acao, :codigo, :quando, :confirmou)");
@@ -311,9 +311,9 @@ class Auth
             $query->bindValue(':quando', time());
             $query->bindValue(':confirmou', "0");
             $query->execute();
-            return ["payload"=>"Numero de verificacao enviado","ok"=>true];
+            return ["payload"=>"Número de verificação enviado","ok"=>true];
         }else{
-            return ["payload"=>"Este numero nao se encontra na nossa base de dados","ok"=>false];
+            return ["payload"=>"Este número não se encontra na nossa base de dados","ok"=>false];
         }
     }
 

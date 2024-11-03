@@ -26,7 +26,7 @@ class RecorrenteControl extends CheckIn
         //------INICIO--CHECK-IN-------//
         $this->fazCheckIn($request);
         if ($this->expirou) {
-            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
         }
         //------FIM--CHECK-IN-------//
 
@@ -40,7 +40,7 @@ class RecorrenteControl extends CheckIn
         //------INICIO--CHECK-IN-------//
         $this->fazCheckIn($request);
         if ($this->expirou) {
-            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
         }
         //------FIM--CHECK-IN-------//
 
@@ -54,7 +54,7 @@ class RecorrenteControl extends CheckIn
         //------INICIO--CHECK-IN-------//
         $this->fazCheckIn($request);
         if ($this->expirou) {
-            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Token invalido']);
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
         }
         //------FIM--CHECK-IN-------//
 

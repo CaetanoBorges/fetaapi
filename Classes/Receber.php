@@ -52,7 +52,7 @@ class Receber
         $receptor = $this->contaBalancoTipo($de);
        
         if ($de == $para) {
-            return (["payload" => "Nao pode cobrar para a mesma conta", "ok" => false]);
+            return (["payload" => "Não pode cobrar para a mesma conta", "ok" => false]);
         }
 
         $emissor = $this->contaBalancoTipo($para);
@@ -152,11 +152,11 @@ class Receber
             }
             $this->conexao->commit();
             $this->commits = [];
-            return (["payload" => "Operacao concluida", "ok" => true]);
+            return (["payload" => "Operação concluida", "ok" => true]);
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return (["payload" => $e->getMessage(), "ok" => false]);
+            return (["payload" => "Algo inexperado aconteceu, verifique os dados da operação", "ok" => false]);
 
         }
 

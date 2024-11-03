@@ -90,7 +90,7 @@ class Enviar
         $emissor = $this->contaBalancoTipo($de);
 
         if ($de == $para) {
-            return (["payload" => "Nao pode transferir para a mesma conta", "ok" => false]);
+            return (["payload" => "Não pode transferir para a mesma conta", "ok" => false]);
         }
 
         $receptor = $this->contaBalancoTipo($para);
@@ -245,11 +245,11 @@ class Enviar
             }
             $this->conexao->commit();
             $this->commits = [];
-            return (["payload" => "Transacao concluida com sucesso", "ok" => true, "pid"=>$pid]);
+            return (["payload" => "Transação concluida com sucesso", "ok" => true, "pid"=>$pid]);
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return (["payload" => "Erro inexperado, verifique os dados da operacao", "ok" => false]);
+            return (["payload" => "Erro inexperado, verifique os dados da operação", "ok" => false]);
         }
     }
 
@@ -261,7 +261,7 @@ class Enviar
         $receptor = $this->contaBalancoTipo($transacao["para"]);
 
         if ($transacao["executado"]) {
-             return ["payload" => "Esta transacao nao esta pendente", "ok" => false];
+             return ["payload" => "Esta transação nao está pendente", "ok" => false];
         }
 
         if ($transacao["tipo"] == "normal") {
