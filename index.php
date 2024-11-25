@@ -1,6 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 
+use Treinetic\ImageArtist\lib\Image;
 use DI\ContainerBuilder;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -48,10 +49,10 @@ $errorHandler->forceContentType("application/json");
 $afterMiddleware = function (Request $request, RequestHandler $handler) {
     // Proceed with the next middleware
     $response = $handler->handle($request);
-    
+
     // Modify the response after the application has processed the request
-    $response = $response->withHeader('content-type',"application/json");
-    
+    $response = $response->withHeader('content-type', "application/json");
+
     return $response;
 };
 
@@ -87,82 +88,124 @@ $app->get('/{id}', function (Request $request, Response $response, $args) {
 
     $conexao = Funcoes::conexao();
     $query = $conexao->prepare("select * from cliente where identificador=?");
-    $query->bindValue(1,$args["id"]);
+    $query->bindValue(1, $args["id"]);
     $query->execute();
     $result = $query->fetch(PDO::FETCH_ASSOC);
 
     $response->getBody()->write(json_encode($result));
 
-    return $response->withHeader('content-type',"application/json");
+    return $response->withHeader('content-type', "application/json");
 });
 
 $app->group('/auth', function (RouteCollectorProxy $group) {
-    $group->post('/verificaexistencia', AuthControl::class.":verificaExistencia");
-    $group->post('/verificatelefone', AuthControl::class.":verificaTelefone");
-    $group->post('/cadastrar', AuthControl::class.":cadastrar");
-    $group->post('/entrar', AuthControl::class.":entrar");
-    $group->post('/recuperarconta', AuthControl::class.":recuperarConta");
-    $group->post('/confirmarcodigo', AuthControl::class.":confirmarCodigo");
-    $group->post('/novopin', AuthControl::class.":novoPin");
+    $group->post('/verificaexistencia', AuthControl::class . ":verificaExistencia");
+    $group->post('/verificatelefone', AuthControl::class . ":verificaTelefone");
+    $group->post('/cadastrar', AuthControl::class . ":cadastrar");
+    $group->post('/entrar', AuthControl::class . ":entrar");
+    $group->post('/recuperarconta', AuthControl::class . ":recuperarConta");
+    $group->post('/confirmarcodigo', AuthControl::class . ":confirmarCodigo");
+    $group->post('/novopin', AuthControl::class . ":novoPin");
 });
-$app->post('/pedecodigo', ConfiguracaoControl::class.":pedecodigo");
+$app->post('/pedecodigo', ConfiguracaoControl::class . ":pedecodigo");
 
 $app->group('/config', function (RouteCollectorProxy $group) {
-    $group->get('/timeout', ConfiguracaoControl::class.":timeout");
-    $group->post('/settimeout', ConfiguracaoControl::class.":setTimeout");
-    $group->post('/alterarpin', ConfiguracaoControl::class.":setPin");
+    $group->get('/timeout', ConfiguracaoControl::class . ":timeout");
+    $group->post('/settimeout', ConfiguracaoControl::class . ":setTimeout");
+    $group->post('/alterarpin', ConfiguracaoControl::class . ":setPin");
 });
 
 
 $app->group('/estatistica', function (RouteCollectorProxy $group) {
-    $group->get('/init', EstatisticaControl::class.":init");
-    $group->post('/ver', EstatisticaControl::class.":ver");
+    $group->get('/init', EstatisticaControl::class . ":init");
+    $group->post('/ver', EstatisticaControl::class . ":ver");
 });
 
 
 $app->group('/transacao', function (RouteCollectorProxy $group) {
-    $group->get('/init', TransacaoControl::class.":init");
-    $group->post('/ver', TransacaoControl::class.":ver");
-    $group->post('/detalhes', TransacaoControl::class.":detalhe");
-    $group->post('/receber', ReceberControl::class.":novo"); // Da class Receber
-    $group->post('/enviar', EnviarControl::class.":novo"); // Da class Enviar
-    $group->post('/aceitarpendente', EnviarControl::class.":aceitarPendente"); // Da class Enviar
+    $group->get('/init', TransacaoControl::class . ":init");
+    $group->post('/ver', TransacaoControl::class . ":ver");
+    $group->post('/detalhes', TransacaoControl::class . ":detalhe");
+    $group->post('/receber', ReceberControl::class . ":novo"); // Da class Receber
+    $group->post('/enviar', EnviarControl::class . ":novo"); // Da class Enviar
+    $group->post('/aceitarpendente', EnviarControl::class . ":aceitarPendente"); // Da class Enviar
 });
 
 
 $app->group('/recorrente', function (RouteCollectorProxy $group) {
-    $group->get('/init', RecorrenteControl::class.":init");
-    $group->post('/detalhes', RecorrenteControl::class.":detalhe");
-    $group->post('/cancelar', RecorrenteControl::class.":cancelar");
+    $group->get('/init', RecorrenteControl::class . ":init");
+    $group->post('/detalhes', RecorrenteControl::class . ":detalhe");
+    $group->post('/cancelar', RecorrenteControl::class . ":cancelar");
 });
 
 $app->group('/perfil', function (RouteCollectorProxy $group) {
-    $group->get('/init', PerfilControl::class.":init");
-    $group->get('/detalhes', PerfilControl::class.":detalhe");
+    $group->get('/init', PerfilControl::class . ":init");
+    $group->get('/detalhes', PerfilControl::class . ":detalhe");
 });
 
 $app->group('/pendente', function (RouteCollectorProxy $group) {
-    $group->get('/init', PendenteControl::class.":init");
-    $group->post('/detalhes', PendenteControl::class.":detalhe");
-    $group->post('/cancelar', PendenteControl::class.":cancelar");
+    $group->get('/init', PendenteControl::class . ":init");
+    $group->post('/detalhes', PendenteControl::class . ":detalhe");
+    $group->post('/cancelar', PendenteControl::class . ":cancelar");
 });
 
 $app->post('/scan', function (ServerRequestInterface $request, ResponseInterface $response) {
     $directory = $this->get('upload_directory');
     $uploadedFiles = $request->getUploadedFiles();
-
+    $tras = "";
+    $frente = "";
     // handle single input with single file upload
     $uploadedFile = $uploadedFiles['bifrente'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-        $filename = moveUploadedFile($directory, $uploadedFile);
-        $response->getBody()->write('Uploaded: ' . $filename . '<br/>');
+        $frente = moveUploadedFile($directory, $uploadedFile);
+        $response->getBody()->write('Uploaded: ' . $frente . '<br/>');
     }
     // handle single input with single file upload
     $uploadedFile = $uploadedFiles['bitras'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-        $filename = moveUploadedFile($directory, $uploadedFile);
-        $response->getBody()->write('Uploaded: ' . $filename . '<br/>');
+        $tras = moveUploadedFile($directory, $uploadedFile);
+        $response->getBody()->write('Uploaded: ' . $tras . '<br/>');
     }
+
+    $bg = new Image("bg.png");
+    $bg->scaleToHeight(1024); //scales the bg keeping height 1024
+    $bg->scaleToWidth(1024); //scales the bg keeping width 1024
+    $bg->resize(512, 1024); //resizes the bg to a given size 
+
+    $img1 = new Image($frente);
+
+    $img1->scaleToHeight(512); //scales the img1 keeping height 512
+    $img1->scaleToWidth(512); //scales the img1 keeping width 512
+    $img1->resize(512, 512); //resizes the img1 to a given size 
+
+    $img2 = new Image($tras);
+
+    $img2->scaleToHeight(512); //scales the img2 keeping height 512
+    $img2->scaleToWidth(512); //scales the img2 keeping width 512
+    $img2->resize(512, 512); //resizes the img2 to a given size 
+
+    $bg->merge($img1, 0, 0);
+    $bg->merge($img2, 0, 512);
+    $bg->save("mergedbg.jpg");
+
+/* 
+    unlink("mergedbg.jpg");
+    $fileData = fopen("BI.jpg", 'r');
+    $client = new \GuzzleHttp\Client();
+    try {
+        $r = $client->request('POST', 'https://api.ocr.space/parse/image', [
+            'headers' => ['apiKey' => 'K83766600088957'],
+            'multipart' => [
+                [
+                    'name' => 'file',
+                    'contents' => $fileData
+                ]
+            ]
+        ], ['file' => $fileData]);
+        $response =  json_decode($r->getBody(), true);
+    } catch (GuzzleHttp\Exception\ClientException $e) {
+        echo $e->getResponse()->getBody();
+    }
+ */
 
     return $response;
 });
@@ -186,6 +229,42 @@ function moveUploadedFile(string $directory, $uploadedFile)
     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
     return $filename;
+}
+function arrayDados($response)
+{
+    $result = [];
+    $response = (string) $response;
+    $NOMEPOS = strpos($response, "Nome Completo: ");
+    //echo $NOMEPOS;
+    $result["nome"] = substr($response, ($NOMEPOS + 82), 25);
+
+    $NASCIMENTOPOS = strpos($response, "Altura(m)");
+    $result["nascimento"] = substr($response, ($NASCIMENTOPOS - 12), 12);
+
+    $ESTADOCIVILPOS = strpos($response, "Estado Civil: ");
+    $result["esta_civil"] = substr($response, ($ESTADOCIVILPOS + 14), 7);
+
+    $SEXOPOS = strpos($response, "Sexo: ");
+    $result["sexo"] = substr($response, ($SEXOPOS + 6), 9);
+
+    $ALTURAPOS = strpos($response, "Altura(m)");
+    $result["altura"] = substr($response, ($ALTURAPOS + 13), 4);
+
+    $PROVINCIAPOS = strpos($response, "Provincia de: ");
+    $result["provincia"] = substr($response, ($PROVINCIAPOS + 14), 15);
+
+    $RESIDENCIAPOS = strpos($response, "Residéncia: ");
+    $result["morada"] = substr($response, ($RESIDENCIAPOS + 12), 33);
+
+    $BIPOS = strpos($response, "Bilhete de Identidade NO:");
+    $result["bi"] = substr($response, ($BIPOS + 26), 13);
+
+    $NATURALPOS = strpos($response, "Natural de: ");
+    $result["natural"] = substr($response, ($NATURALPOS + 12), 13);
+
+    $FILIACAOPOSPOS = strpos($response, "Filiaqäo:");
+    $result["filiacao"] = substr($response, ($FILIACAOPOSPOS + 10), 35);
+    return $result;
 }
 
 // Run app
