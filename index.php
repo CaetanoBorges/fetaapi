@@ -157,39 +157,38 @@ $app->post('/scan', function (ServerRequestInterface $request, ResponseInterface
     $uploadedFile = $uploadedFiles['bifrente'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
         $frente = moveUploadedFile($directory, $uploadedFile);
-        $response->getBody()->write('Uploaded: ' . $frente . '<br/>');
     }
     // handle single input with single file upload
     $uploadedFile = $uploadedFiles['bitras'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
         $tras = moveUploadedFile($directory, $uploadedFile);
-        $response->getBody()->write('Uploaded: ' . $tras . '<br/>');
     }
 
     $bg = new Image("bg.png");
-    $bg->scaleToHeight(1024); //scales the bg keeping height 1024
-    $bg->scaleToWidth(1024); //scales the bg keeping width 1024
-    $bg->resize(512, 1024); //resizes the bg to a given size 
+    $bg->scaleToHeight(4096); //scales the bg keeping height 4096
+    $bg->scaleToWidth(4096); //scales the bg keeping width 4096
+    $bg->resize(2048,4096); //resizes the bg to a given size 
 
     $img1 = new Image($frente);
 
-    $img1->scaleToHeight(512); //scales the img1 keeping height 512
-    $img1->scaleToWidth(512); //scales the img1 keeping width 512
-    $img1->resize(512, 512); //resizes the img1 to a given size 
+    $img1->scaleToHeight(2048); //scales the img1 keeping height 2048
+    $img1->scaleToWidth(2048); //scales the img1 keeping width 2048
+    $img1->resize(2048, 2048); //resizes the img1 to a given size 
 
     $img2 = new Image($tras);
 
-    $img2->scaleToHeight(512); //scales the img2 keeping height 512
-    $img2->scaleToWidth(512); //scales the img2 keeping width 512
-    $img2->resize(512, 512); //resizes the img2 to a given size 
+    $img2->scaleToHeight(2048); //scales the img2 keeping height 2048
+    $img2->scaleToWidth(2048); //scales the img2 keeping width 2048
+    $img2->resize(2048,2048); //resizes the img2 to a given size 
 
     $bg->merge($img1, 0, 0);
-    $bg->merge($img2, 0, 512);
-    $bg->save("mergedbg.jpg");
+    $bg->merge($img2, 0, 2048);
+    $merged = time() . ".jpg";
+    $bg->save($merged);
+    unlink($tras);
+    unlink($frente);
 
-/* 
-    unlink("mergedbg.jpg");
-    $fileData = fopen("BI.jpg", 'r');
+    $fileData = fopen($merged, 'r');
     $client = new \GuzzleHttp\Client();
     try {
         $r = $client->request('POST', 'https://api.ocr.space/parse/image', [
@@ -201,12 +200,16 @@ $app->post('/scan', function (ServerRequestInterface $request, ResponseInterface
                 ]
             ]
         ], ['file' => $fileData]);
-        $response =  json_decode($r->getBody(), true);
+        $res =  json_decode($r->getBody(), true);
+        $dadosBI = arrayDados($res["ParsedResults"][0]["ParsedText"]);
+        $response->getBody()->write(json_encode($dadosBI));
     } catch (GuzzleHttp\Exception\ClientException $e) {
         echo $e->getResponse()->getBody();
     }
- */
 
+    //unlink($merged);
+
+    
     return $response;
 });
 /**
@@ -232,14 +235,16 @@ function moveUploadedFile(string $directory, $uploadedFile)
 }
 function arrayDados($response)
 {
+    $response = str_replace("\r", "", $response);
+    $response = str_replace("\n", " ", $response);
     $result = [];
     $response = (string) $response;
     $NOMEPOS = strpos($response, "Nome Completo: ");
     //echo $NOMEPOS;
-    $result["nome"] = substr($response, ($NOMEPOS + 82), 25);
+    $result["nome"] = substr($response, ($NOMEPOS + 15), 25);
 
-    $NASCIMENTOPOS = strpos($response, "Altura(m)");
-    $result["nascimento"] = substr($response, ($NASCIMENTOPOS - 12), 12);
+    $NASCIMENTOPOS = strpos($response, " Altura(m)");
+    $result["nascimento"] = substr($response, ($NASCIMENTOPOS - 10), 10);
 
     $ESTADOCIVILPOS = strpos($response, "Estado Civil: ");
     $result["esta_civil"] = substr($response, ($ESTADOCIVILPOS + 14), 7);
@@ -247,8 +252,8 @@ function arrayDados($response)
     $SEXOPOS = strpos($response, "Sexo: ");
     $result["sexo"] = substr($response, ($SEXOPOS + 6), 9);
 
-    $ALTURAPOS = strpos($response, "Altura(m)");
-    $result["altura"] = substr($response, ($ALTURAPOS + 13), 4);
+    $ALTURAPOS = strpos($response, "Altura(m) : ");
+    $result["altura"] = substr($response, ($ALTURAPOS + 3), 4);
 
     $PROVINCIAPOS = strpos($response, "Provincia de: ");
     $result["provincia"] = substr($response, ($PROVINCIAPOS + 14), 15);

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1476e093-9c15-42d9-a31b-c7f22bab6b76",
+		"_postman_id": "e93fb948-d257-446b-85a5-a9809cc34c8e",
 		"name": "FetaFacil",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -569,14 +569,14 @@
 								"type": "default"
 							},
 							{
-								"key": "pin",
-								"value": "123456",
+								"key": "codigo",
+								"value": "145637",
 								"type": "default"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"valor\":10,\r\n\t\"para\": 921797626,\r\n\t\"descricao\": \"uma descricao\",\r\n\t\"tipo\": \"parcelado\",\r\n\t\"onde\": \"app\",\r\n    \"opcoes\": {\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"5\"}\r\n}",
+							"raw": "{\r\n\t\"valor\":10,\r\n\t\"para\": 947436662,\r\n\t\"descricao\": \"\",\r\n\t\"tipo\": \"parcelado\",\r\n\t\"onde\": \"app\",\r\n    \"opcoes\": {\"periodicidade\": \"diario\",\"parcelas\": \"2\",\"valor_parcelas\": \"5\"}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1110,6 +1110,60 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "scan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token1}}",
+						"type": "default"
+					},
+					{
+						"key": "outro",
+						"value": "1234",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "bifrente",
+							"type": "file",
+							"src": "/C:/Users/HP/Downloads/ilovepdf_pages-to-jpg/BI.-Ismael-Augusto/BI. Ismael Augusto_page-0001.jpg"
+						},
+						{
+							"key": "bitras",
+							"type": "file",
+							"src": "/C:/Users/HP/Downloads/ilovepdf_pages-to-jpg/BI.-Ismael-Augusto/BI. Ismael Augusto_page-0002.jpg"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1/fetaapi/scan",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"path": [
+						"fetaapi",
+						"scan"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -1135,7 +1189,7 @@
 	"variable": [
 		{
 			"key": "token1",
-			"value": "FcOXI3a2YG7mmPYAedvGojY+481gQ1jw3vi7tAt1jcUXcPZ1nEVZcwJ6bAT8oGRWvgLZ4tBWZWQOGzfIxWOSSwoE6yLPN0xIElR2OTujJc8Wgw+URjgoyvR+edTt5aFc+nbFoBi2bv1xCBKjtBrt8yz4WV5jSio9nlDZZkj+vsRqyQ==.NTE2NzU5NmE3NTM1NTU2ZTRiNzI2NDQ4NzY3NjM3NDY3MDRjNzc0NjQ4NGY2MTU5NDU2MTZlNGM3MTM1NjczMjYyNjk0YjU4NTAzNDUwNDI=",
+			"value": "pIhqt0MgtmMOvkhbyNpKQuddJQOSqxzq9P1Z5fYT0C8A+wMd2mPVpll7DFQkvrL6J7Ie9bhQ3nLJFC16VbMVOePiMd+dDH2h9zf1XIZEjOvz5W03X+RvACzdUQ4j8kKLNVrBEvtkAcYuAv3zMWn2lVNJbS8n9jWORz1CPJrXRTQ=.Nzc3YTQxNGE3MzcxNDE2NTc4NzU3NTQyMzQ3NTQ4NDQ1MDU0NmU0NzY4NjczMzcwNjY1NzM1NzE0ZjQ5NzQzNjY1NDkzODU1Mzk3NDQyNmM=",
 			"type": "default"
 		},
 		{
