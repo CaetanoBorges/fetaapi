@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Factory\AppFactory;
+use Slim\Http\UploadedFile;
 
 
 use Ferramentas\Funcoes;
@@ -27,6 +28,7 @@ require 'vendor/autoload.php';
 
 $funcoes = new Funcoes;
 $app = AppFactory::create();
+$app->setBasePath("/fetaapi");
 
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
@@ -66,7 +68,7 @@ $app->add(function (ServerRequestInterface $request, RequestHandlerInterface $ha
     return $response;
 });
 $app->add($afterMiddleware);
-$app->setBasePath("/fetaapi");
+
 $app->get('/', function (Request $request, Response $response, $args) {
 
     $response->getBody()->write("Hello World!");
