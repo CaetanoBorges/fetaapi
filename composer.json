@@ -17,6 +17,9 @@
     "require": {
         "mpdf/mpdf": "*",
         "slim/slim": "4.*",
-        "slim/psr7": "^1.6"
+        "slim/psr7": "^1.6",
+        "php-di/php-di": "^7.0",
+        "treinetic/imageartist": "^1.0",
+        "guzzlehttp/guzzle": "^7.9"
     }
 }

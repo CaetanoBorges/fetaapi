@@ -1,6 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 
+use DI\ContainerBuilder;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -27,6 +28,14 @@ use Controladores\EnviarControl;
 require 'vendor/autoload.php';
 
 $funcoes = new Funcoes;
+
+$containerBuilder = new ContainerBuilder();
+$container = $containerBuilder->build();
+
+$container->set('upload_directory', __DIR__ . '/');
+
+AppFactory::setContainer($container);
+
 $app = AppFactory::create();
 $app->setBasePath("/fetaapi");
 
@@ -137,6 +146,47 @@ $app->group('/pendente', function (RouteCollectorProxy $group) {
     $group->post('/detalhes', PendenteControl::class.":detalhe");
     $group->post('/cancelar', PendenteControl::class.":cancelar");
 });
+
+$app->post('/scan', function (ServerRequestInterface $request, ResponseInterface $response) {
+    $directory = $this->get('upload_directory');
+    $uploadedFiles = $request->getUploadedFiles();
+
+    // handle single input with single file upload
+    $uploadedFile = $uploadedFiles['bifrente'];
+    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+        $filename = moveUploadedFile($directory, $uploadedFile);
+        $response->getBody()->write('Uploaded: ' . $filename . '<br/>');
+    }
+    // handle single input with single file upload
+    $uploadedFile = $uploadedFiles['bitras'];
+    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+        $filename = moveUploadedFile($directory, $uploadedFile);
+        $response->getBody()->write('Uploaded: ' . $filename . '<br/>');
+    }
+
+    return $response;
+});
+/**
+ * Moves the uploaded file to the upload directory and assigns it a unique name
+ * to avoid overwriting an existing uploaded file.
+ *
+ * @param string $directory The directory to which the file is moved
+ * @param UploadedFileInterface $uploadedFile The file uploaded file to move
+ *
+ * @return string The filename of moved file
+ */
+function moveUploadedFile(string $directory, $uploadedFile)
+{
+    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+
+    // see http://php.net/manual/en/function.random-bytes.php
+    $basename = bin2hex(random_bytes(8));
+    $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+    return $filename;
+}
 
 // Run app
 $app->run();
