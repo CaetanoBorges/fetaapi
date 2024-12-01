@@ -42,28 +42,7 @@ class AuthControl
     public function cadastrar(Request $request, Response $response, $args) 
     {
         $body = $request->getParsedBody();
-        if($body['comercial']){
-            $res = $this->auth->cadastrarEmpresa($body);
-            if($res['ok']){
-
-                $res = $this->auth->entrar($body);
-                $credencial = json_encode($res['dados']);
-                $cript = new Criptografia();
-                $chave_sms_real = $cript->fazChave();
-                $chave_sms = $cript->criptChave($chave_sms_real);
-
-                $sms = $cript->encrypt($credencial,$chave_sms_real);
-
-                $return['token'] = $sms.'.'.$chave_sms;
-                $return['sms'] = "Cadastro de conta comercial concluido";
-                $return['ok'] = true;
-                $response->getBody()->write(json_encode($return));
-            }else{
-                $response->getBody()->write(json_encode($res));
-            }
-        }else{
-            $res = $this->auth->cadastrarParticular($body);
-            
+        $res = $this->auth->cadastrarParticular($body);
             if($res['ok']){
                 $res = $this->auth->entrar($body);
                 $credencial = json_encode($res['dados']);
@@ -74,14 +53,12 @@ class AuthControl
                 $sms = $cript->encrypt($credencial,$chave_sms_real);
 
                 $return['token'] = $sms.'.'.$chave_sms;
-                $return['sms'] = "Cadastro de conta particular concluido";
+                $return['sms'] = "Cadastro de conta concluido";
                 $return['ok'] = true;
                 $response->getBody()->write(json_encode($return));
             }else{
                 $response->getBody()->write(json_encode($res));
             }
-            
-        }
         return $response;
     }
 

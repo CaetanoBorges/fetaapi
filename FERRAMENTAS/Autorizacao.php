@@ -30,14 +30,12 @@ class Autorizacao extends Funcoes{
         return $this->acesso["conta"];
     }
     public function getCliente(){
-        return $this->acesso["identificador"];
+        return $this->acesso["identificador"]; 
     }
     public function getId(){
         return $this->acesso["telefone"];
     }
-    public function eEmpresa(){
-        return (bool) $this->acesso["empresa"];
-    }
+   
 
     public function enviaCodigo($telefone, $acao){
         $codigo = self::seisDigitos();

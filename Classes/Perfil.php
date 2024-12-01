@@ -29,13 +29,7 @@ class Perfil
         $query->execute();
         $tempo_bloqueio = $query->fetch(\PDO::FETCH_COLUMN);
 
-        $query = $this->conexao->prepare("SELECT empresa FROM cliente WHERE identificador = :cliente");
-        $query->bindValue(':cliente', $id_cliente);
-        $query->execute();
-        $empresa = $query->fetch(\PDO::FETCH_COLUMN);
-
-        if ($empresa) {
-            $query = $this->conexao->prepare("SELECT identificador, nome, balanco FROM empresa WHERE cliente_identificador = :cliente");
+        $query = $this->conexao->prepare("SELECT identificador, nome, balanco FROM cliente WHERE identificador = :cliente");
             $query->bindValue(':cliente', $id_cliente);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
@@ -43,18 +37,6 @@ class Perfil
             $res["bloqueio"] = ($tempo_bloqueio);
             $res["transacoes"] = $this->initTransacoes($res["identificador"],$telefone);
             return ["ok"=>true, "payload"=> $res];
-        }
-
-        if (!$empresa) {
-            $query = $this->conexao->prepare("SELECT identificador, nome, balanco FROM particular WHERE cliente_identificador = :cliente");
-            $query->bindValue(':cliente', $id_cliente);
-            $query->execute();
-            $res = $query->fetch(\PDO::FETCH_ASSOC);
-            $res["telefone"] = ($telefone);
-            $res["bloqueio"] = ($tempo_bloqueio);
-            $res["transacoes"] = $this->initTransacoes($res["identificador"],$telefone);
-            return ["ok"=>true, "payload"=> $res];
-        }
     }
 
 
@@ -67,35 +49,18 @@ class Perfil
         $telefone = $query->fetch(\PDO::FETCH_COLUMN);
 
 
-        $query = $this->conexao->prepare("SELECT empresa FROM cliente WHERE identificador = :cliente");
-        $query->bindValue(':cliente', $id_cliente);
-        $query->execute();
-        $empresa = $query->fetch(\PDO::FETCH_COLUMN);
-
-        if ($empresa) {
-            $query = $this->conexao->prepare("SELECT *, nif AS id_doc, area_atuacao AS area FROM empresa WHERE cliente_identificador = :cliente");
+        $query = $this->conexao->prepare("SELECT *, bi AS id_doc FROM cliente WHERE identificador = :cliente");
             $query->bindValue(':cliente', $id_cliente);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
-            $res["empresa"] = $empresa;
+            $res["empresa"] = 0;
             $res["telefone"] = $telefone;
             return ["ok"=>true, "payload"=> $res];
-        }
-
-        if (!$empresa) {
-            $query = $this->conexao->prepare("SELECT *, bi AS id_doc FROM particular WHERE cliente_identificador = :cliente");
-            $query->bindValue(':cliente', $id_cliente);
-            $query->execute();
-            $res = $query->fetch(\PDO::FETCH_ASSOC);
-            $res["empresa"] = $empresa;
-            $res["telefone"] = $telefone;
-            return ["ok"=>true, "payload"=> $res];
-        }
     }
 
     function initTransacoes($identificador_conta,$conta)
     {
-        $query = $this->conexao->prepare("SELECT identificador, quando, movimento as valor, entrada FROM extrato WHERE identificador_conta = :id ORDER BY identificador DESC LIMIT 6");
+        $query = $this->conexao->prepare("SELECT identificador, quando, movimento as valor, entrada FROM extrato WHERE cliente_identificador = :id ORDER BY identificador DESC LIMIT 6");
         $query->bindValue(':id', $identificador_conta);
         $query->execute();
         $res = $query->fetchAll(\PDO::FETCH_ASSOC);

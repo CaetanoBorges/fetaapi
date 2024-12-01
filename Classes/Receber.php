@@ -22,25 +22,11 @@ class Receber
         $query->execute();
         $cliente_identificador = $query->fetch(\PDO::FETCH_COLUMN);
 
-        $query = $this->conexao->prepare("SELECT empresa FROM cliente WHERE identificador = :id");
-        $query->bindValue(':id', $cliente_identificador);
-        $query->execute();
-        $empresa = $query->fetch(\PDO::FETCH_COLUMN);
-
-        if ($empresa) {
-            $query = $this->conexao->prepare("SELECT balanco, identificador FROM empresa WHERE cliente_identificador = :id");
+        $query = $this->conexao->prepare("SELECT balanco, identificador FROM cliente WHERE identificador = :id");
             $query->bindValue(':id', $cliente_identificador);
             $query->execute();
             $res = $query->fetch(\PDO::FETCH_ASSOC);
-            return ["empresa" => $empresa, "identificador_conta" => $res["identificador"], "saldo" => $res["balanco"]];
-        }
-        if (!$empresa) {
-            $query = $this->conexao->prepare("SELECT balanco, identificador FROM particular WHERE cliente_identificador = :id");
-            $query->bindValue(':id', $cliente_identificador);
-            $query->execute();
-            $res = $query->fetch(\PDO::FETCH_ASSOC);
-            return ["empresa" => $empresa, "identificador_conta" => $res["identificador"], "saldo" => $res["balanco"]];
-        }
+            return ["identificador_conta" => $res["identificador"], "saldo" => $res["balanco"]];
     }
 
     public function nova($de, $para, $tipo, $onde, $valor, $descricao, $opcoes = [], $executado = false)

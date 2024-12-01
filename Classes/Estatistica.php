@@ -14,14 +14,14 @@ class Estatistica {
     public function verTodos($conta,$mes, $ano){
        
         $dados = [];
-        $query=$this->conexao->prepare("SELECT dia FROM extrato WHERE identificador_conta = :conta AND mes = :mes AND ano = :ano GROUP BY dia");
+        $query=$this->conexao->prepare("SELECT dia FROM extrato WHERE cliente_identificador = :conta AND mes = :mes AND ano = :ano GROUP BY dia");
         $query->bindValue(':conta', $conta);
         $query->bindValue(':mes', $mes);
         $query->bindValue(':ano', $ano);
         $query->execute();
         $dias = $query->fetchAll(\PDO::FETCH_COLUMN);
         
-        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_entrada, COUNT(*) AS qtd_entrada FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
+        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_entrada, COUNT(*) AS qtd_entrada FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
         $query->bindValue(':conta', $conta);
         $query->bindValue(':entrada', '1');
         $query->bindValue(':mes', $mes);
@@ -29,7 +29,7 @@ class Estatistica {
         $query->execute();
         $entrada = $query->fetch(\PDO::FETCH_ASSOC);
         
-        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_saida, COUNT(*) AS qtd_saida FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
+        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_saida, COUNT(*) AS qtd_saida FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
         $query->bindValue(':conta', $conta);
         $query->bindValue(':entrada', '0');
         $query->bindValue(':mes', $mes);
@@ -42,7 +42,7 @@ class Estatistica {
        
 
         foreach($dias as $k => $v){
-            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS entrada FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
+            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS entrada FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
             $query->bindValue(':conta', $conta);
             $query->bindValue(':entrada', '1');
             $query->bindValue(':dia', $v);
@@ -51,7 +51,7 @@ class Estatistica {
             $query->execute();
             $ent = $query->fetch(\PDO::FETCH_ASSOC);
             
-            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS saida FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
+            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS saida FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
             $query->bindValue(':conta', $conta);
             $query->bindValue(':entrada', '0');
             $query->bindValue(':dia', $v);
@@ -73,7 +73,7 @@ class Estatistica {
         $mes = date("m");
         $dados = [];
         $r = [];
-        $query=$this->conexao->prepare("SELECT ano FROM extrato WHERE identificador_conta = :conta GROUP BY ano");
+        $query=$this->conexao->prepare("SELECT ano FROM extrato WHERE cliente_identificador = :conta GROUP BY ano");
         $query->bindValue(':conta', $conta);
         $query->execute();
         $anos = $query->fetchAll(\PDO::FETCH_COLUMN);
@@ -81,7 +81,7 @@ class Estatistica {
 
         foreach($anos as $k => $v){
             //echo $k;
-            $query=$this->conexao->prepare("SELECT mes FROM extrato WHERE identificador_conta = :conta AND ano = :ano GROUP BY mes");
+            $query=$this->conexao->prepare("SELECT mes FROM extrato WHERE cliente_identificador = :conta AND ano = :ano GROUP BY mes");
             $query->bindValue(':conta', $conta);
             $query->bindValue(':ano', $v);
             $query->execute();
@@ -92,14 +92,14 @@ class Estatistica {
             //var_dump($r);
         }
 
-        $query=$this->conexao->prepare("SELECT dia FROM extrato WHERE identificador_conta = :conta AND mes = :mes AND ano = :ano GROUP BY dia");
+        $query=$this->conexao->prepare("SELECT dia FROM extrato WHERE cliente_identificador = :conta AND mes = :mes AND ano = :ano GROUP BY dia");
         $query->bindValue(':conta', $conta);
         $query->bindValue(':mes', $mes);
         $query->bindValue(':ano', $ano);
         $query->execute();
         $dias = $query->fetchAll(\PDO::FETCH_COLUMN);
         
-        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_entrada, COUNT(*) AS qtd_entrada FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
+        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_entrada, COUNT(*) AS qtd_entrada FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
         $query->bindValue(':conta', $conta);
         $query->bindValue(':entrada', '1');
         $query->bindValue(':mes', $mes);
@@ -107,7 +107,7 @@ class Estatistica {
         $query->execute();
         $entrada = $query->fetch(\PDO::FETCH_ASSOC);
         
-        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_saida, COUNT(*) AS qtd_saida FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
+        $query=$this->conexao->prepare("SELECT SUM(movimento) AS total_saida, COUNT(*) AS qtd_saida FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND mes = :mes AND ano = :ano");
         $query->bindValue(':conta', $conta);
         $query->bindValue(':entrada', '0');
         $query->bindValue(':mes', $mes);
@@ -120,7 +120,7 @@ class Estatistica {
        
 
         foreach($dias as $k => $v){
-            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS entrada FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
+            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS entrada FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
             $query->bindValue(':conta', $conta);
             $query->bindValue(':entrada', '1');
             $query->bindValue(':dia', $v);
@@ -129,7 +129,7 @@ class Estatistica {
             $query->execute();
             $ent = $query->fetch(\PDO::FETCH_ASSOC);
             
-            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS saida FROM extrato WHERE identificador_conta = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
+            $query=$this->conexao->prepare("SELECT COUNT(movimento) AS saida FROM extrato WHERE cliente_identificador = :conta AND entrada = :entrada AND dia = :dia AND mes = :mes AND ano = :ano");
             $query->bindValue(':conta', $conta);
             $query->bindValue(':entrada', '0');
             $query->bindValue(':dia', $v);
