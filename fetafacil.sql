@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Out-2024 às 14:33
+-- Tempo de geração: 02-Dez-2024 às 12:17
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -51,7 +51,15 @@ INSERT INTO `anulado` (`identificador`, `conta`, `operacao`, `dados`, `quando`) 
 (9, '921797626', '671cc129df3f1', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"671cc129df3f1\",\"tipo\":\"parcelado\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"15000.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 12:15:05\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":0,\"pedido\":1,\"identificador\":\"671cc12adf664\",\"transacao_pid\":\"[\\\"671cc129df3f1\\\",\\\"671e9f4aabefb\\\",\\\"671f9c52b7661\\\",\\\"671f9cae2e111\\\"]\",\"parcelas\":\"5\",\"valor_parcela\":\"15000.00\",\"valor_total\":\"30000.00\",\"periodicidade\":\"diario\",\"ativo\":0}', ''),
 (10, '947436662', '671cc129df3f1', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"671cc129df3f1\",\"tipo\":\"parcelado\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"15000.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 12:15:05\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":0,\"pedido\":1,\"identificador\":\"671cc12adf664\",\"transacao_pid\":\"[\\\"671cc129df3f1\\\",\\\"671e9f4aabefb\\\",\\\"671f9c52b7661\\\",\\\"671f9cae2e111\\\"]\",\"parcelas\":\"5\",\"valor_parcela\":\"15000.00\",\"valor_total\":\"30000.00\",\"periodicidade\":\"diario\",\"ativo\":0}', ''),
 (11, '947436662', '671c44ee10587', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"671c44ee10587\",\"tipo\":\"normal\",\"de\":\"947436662\",\"para\":\"921797626\",\"onde\":\"app\",\"valor\":\"100.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 03:25:02\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":0,\"pedido\":0}', '30-10-2024 01:35:37'),
-(12, '921797626', '671c44ee10587', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"671c44ee10587\",\"tipo\":\"normal\",\"de\":\"947436662\",\"para\":\"921797626\",\"onde\":\"app\",\"valor\":\"100.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 03:25:02\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":0,\"pedido\":0}', '30-10-2024 01:35:37');
+(12, '921797626', '671c44ee10587', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"671c44ee10587\",\"tipo\":\"normal\",\"de\":\"947436662\",\"para\":\"921797626\",\"onde\":\"app\",\"valor\":\"100.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 03:25:02\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":0,\"pedido\":0}', '30-10-2024 01:35:37'),
+(13, '921797626', '671c3cbf59847', '{\"identificador_conta\":\"6710363e3da27\",\"pid\":\"671c3cbf59847\",\"tipo\":\"normal\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"500.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 02:50:07\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"0\"}', '03-11-2024 04:03:38'),
+(14, '947436662', '671c3cbf59847', '{\"identificador_conta\":\"6710363e3da27\",\"pid\":\"671c3cbf59847\",\"tipo\":\"normal\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"500.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 02:50:07\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"0\"}', '03-11-2024 04:03:38'),
+(15, '921797626', '671c3f1c122ce', '{\"identificador_conta\":\"6710363e3da27\",\"pid\":\"671c3f1c122ce\",\"tipo\":\"normal\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"500.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 03:00:12\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"0\"}', '03-11-2024 04:04:31'),
+(16, '947436662', '671c3f1c122ce', '{\"identificador_conta\":\"6710363e3da27\",\"pid\":\"671c3f1c122ce\",\"tipo\":\"normal\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"500.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 03:00:12\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"0\"}', '03-11-2024 04:04:31'),
+(17, '921797626', '671cb63b11a39', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"671cb63b11a39\",\"tipo\":\"parcelado\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"800.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 11:28:27\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"1\",\"identificador\":\"671cb63b12ed2\",\"transacao_pid\":\"[\\\"671cb63b11a39\\\",\\\"671e9f4a7801a\\\",\\\"671f9c52724a6\\\",\\\"671f9cac906a6\\\"]\",\"parcelas\":\"5\",\"valor_parcela\":\"800.00\",\"valor_total\":\"400.00\",\"periodicidade\":\"diario\",\"ativo\":\"0\"}', '03-11-2024 04:11:47'),
+(18, '947436662', '671cb63b11a39', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"671cb63b11a39\",\"tipo\":\"parcelado\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"800.00\",\"descricao\":\"uma descricao\",\"quando\":\"26-10-2024 11:28:27\",\"dia\":\"26\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"1\",\"identificador\":\"671cb63b12ed2\",\"transacao_pid\":\"[\\\"671cb63b11a39\\\",\\\"671e9f4a7801a\\\",\\\"671f9c52724a6\\\",\\\"671f9cac906a6\\\"]\",\"parcelas\":\"5\",\"valor_parcela\":\"800.00\",\"valor_total\":\"400.00\",\"periodicidade\":\"diario\",\"ativo\":\"0\"}', '03-11-2024 04:11:47'),
+(19, '921797626', '6720fc9c18fab', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"6720fc9c18fab\",\"tipo\":\"recorrente\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"300000.00\",\"descricao\":\"uma descricao\",\"quando\":\"29-10-2024 04:17:48\",\"dia\":\"29\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"1\",\"identificador\":\"6720fc9c19692\",\"transacao_pid\":\"[\\\"6720fc9c18fab\\\"]\",\"periodicidade\":\"diario\",\"ativo\":\"0\"}', '03-11-2024 04:39:10'),
+(20, '947436662', '6720fc9c18fab', '{\"identificador_conta\":\"671039056e3cc\",\"pid\":\"6720fc9c18fab\",\"tipo\":\"recorrente\",\"de\":\"921797626\",\"para\":\"947436662\",\"onde\":\"app\",\"valor\":\"300000.00\",\"descricao\":\"uma descricao\",\"quando\":\"29-10-2024 04:17:48\",\"dia\":\"29\",\"mes\":\"10\",\"ano\":\"2024\",\"executado\":\"0\",\"pedido\":\"1\",\"identificador\":\"6720fc9c19692\",\"transacao_pid\":\"[\\\"6720fc9c18fab\\\"]\",\"periodicidade\":\"diario\",\"ativo\":\"0\"}', '03-11-2024 04:39:10');
 
 -- --------------------------------------------------------
 
@@ -61,16 +69,31 @@ INSERT INTO `anulado` (`identificador`, `conta`, `operacao`, `dados`, `quando`) 
 
 CREATE TABLE `cliente` (
   `identificador` varchar(500) NOT NULL,
-  `empresa` tinyint(1) NOT NULL
+  `bi` text DEFAULT NULL,
+  `nome` text NOT NULL,
+  `genero` text DEFAULT NULL,
+  `nascimento` text DEFAULT NULL,
+  `altura` varchar(10) NOT NULL,
+  `estado_civil` varchar(255) NOT NULL,
+  `morada` varchar(255) NOT NULL,
+  `provincia` varchar(255) NOT NULL,
+  `natural_de` varchar(255) NOT NULL,
+  `filiacao` varchar(500) NOT NULL,
+  `ocupacao` varchar(500) NOT NULL,
+  `foto_bi` text NOT NULL,
+  `nif` varchar(500) DEFAULT NULL,
+  `balanco` decimal(16,2) NOT NULL,
+  `img` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Extraindo dados da tabela `cliente`
 --
 
-INSERT INTO `cliente` (`identificador`, `empresa`) VALUES
-('6710363e3da0a', 0),
-('671039056e390', 1);
+INSERT INTO `cliente` (`identificador`, `bi`, `nome`, `genero`, `nascimento`, `altura`, `estado_civil`, `morada`, `provincia`, `natural_de`, `filiacao`, `ocupacao`, `foto_bi`, `nif`, `balanco`, `img`) VALUES
+('6710363e3da27', 'AH09765345O45', 'nome da empresa', 'm', '15-08-1996', '', '', '', '', '', '', '', '', NULL, 43958.41, 'default.png'),
+('6727bbdf5a62a', '93475693485', 'CAETANO WAMBEMBE', 'Masculino', '2010-08-18', '', '', '', '', '', '', '', '', NULL, 0.00, 'user.svg'),
+('674d95bf0e4c2', '005987935HA04', 'CAETANO BORGES WAMBEMBE F', 'MASCULINO', '15/08/1996', '1.69', 'SOLTEIR', ' CASA SINO BARRO LOLA LUBANGO i: ', 'a: CASA SINO BA', 'LUBANGO LUBAN', 'PAULO WAMBEMBE REBECA DA CONCEIGÅO', 'Profissional_autonomo', '1733137664.jpg', NULL, 0.00, 'user.svg');
 
 -- --------------------------------------------------------
 
@@ -81,7 +104,7 @@ INSERT INTO `cliente` (`identificador`, `empresa`) VALUES
 CREATE TABLE `configuracao` (
   `identificador` int(11) NOT NULL,
   `cliente_identificador` text NOT NULL,
-  `tempo_bloqueio` int(11) NOT NULL,
+  `tempo_bloqueio` varchar(200) NOT NULL,
   `pin` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -90,8 +113,8 @@ CREATE TABLE `configuracao` (
 --
 
 INSERT INTO `configuracao` (`identificador`, `cliente_identificador`, `tempo_bloqueio`, `pin`) VALUES
-(2, '6710363e3da0a', 30, 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413'),
-(3, '671039056e390', 30, 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413');
+(2, '6710363e3da27', 'mins1', '690437692d902cfd23005bda16631d83644899e78dc0a489da6dca3cb9f9c0cdcd9dd533bc59102dc90155223df777672328c9149354de239f48c58f0a1d44a6'),
+(9, '674d95bf0e4c2', 'mins5', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413');
 
 -- --------------------------------------------------------
 
@@ -115,7 +138,53 @@ CREATE TABLE `confirmar` (
 INSERT INTO `confirmar` (`identificador`, `cliente_identificador`, `codigo_enviado`, `acao`, `quando`, `confirmou`) VALUES
 (2, '921797626', '269723', 'cadastro', '1713782106', 0),
 (3, '921797626', '231644', 'cadastro', '16-10-2024 22:53:09 PM', 1),
-(5, '921797626', '465168', 'codigo', '1729950443', 1);
+(5, '921797626', '465168', 'codigo', '1729950443', 1),
+(6, '921797626', '783712', 'Trasferência para 947436662 \nde 1 234.00.', '1730590506', 0),
+(7, '921797626', '873382', 'Trasferência para 947436662 \nde 1 234.00.', '1730590551', 0),
+(8, '921797626', '755758', 'Trasferência para 921797626 \nde 1 234.00.', '1730590659', 1),
+(9, '921797626', '765191', 'Trasferência para 947436662 \nde 1 234.00.', '1730590689', 0),
+(10, '921797626', '861081', 'Trasferência para 947436662 \nde 876.00.', '1730590809', 1),
+(11, '921797626', '449241', 'Trasferência para 947436662 \nde 9 090.00.', '1730592336', 1),
+(12, '921797626', '229634', 'Trasferência para 947436662 \nde 1 987.00.', '1730592407', 1),
+(13, '921797626', '927360', 'Trasferência para 947436662 \nde 900.00.', '1730592999', 1),
+(14, '921797626', '429727', 'Trasferência recorrente para 947436662 \nPago 8 000.00 de forma Mensal.', '1730593279', 1),
+(15, '921797626', '666332', 'Trasferência para 947436662 \nde 60.00.', '1730597037', 1),
+(16, '921797626', '542549', 'Trasferência para 947436662 \nde 12.00.', '1730603645', 1),
+(17, '921797626', '860535', 'Aceitar operação pendente a ENVIAR de 300000.00.\nENVIAR.', '1730605107', 1),
+(18, '921797626', '623618', 'Aceitar operação pendente a ENVIAR de 150000.00.', '1730605253', 1),
+(19, '921797626', '162122', 'Recuperacao de pin', '1730639251', 0),
+(20, '921797626', '265579', 'Recuperacao de pin', '1730639665', 0),
+(21, '921797626', '550919', 'Recuperacao de pin', '1730639714', 0),
+(22, '921797626', '967106', 'Recuperacao de pin', '1730640137', 1),
+(23, '947436662', '478598', 'Recuperacao de pin', '1730640780', 1),
+(24, '947436662', '------', 'Recuperacao de pin', '1730640961', 1),
+(25, NULL, '883125', 'cadastro', '1730652118', 0),
+(26, NULL, '130274', 'cadastro', '1730652239', 0),
+(27, NULL, '793805', 'cadastro', '1730652371', 0),
+(28, '932427619', '703783', 'cadastro', '1730652650', 0),
+(29, '932427619', '971691', 'cadastro', '1730652778', 0),
+(30, '932427619', '444910', 'cadastro', '1730652806', 0),
+(31, '932427619', '503438', 'cadastro', '1730652840', 0),
+(32, '932427619', '700652', 'cadastro', '1730653155', 0),
+(33, '932427619', '375695', 'cadastro', '1730653162', 0),
+(34, '932427619', '531056', 'cadastro', '1730653300', 0),
+(35, '932427619', '391782', 'cadastro', '1730653305', 1),
+(36, '932427619', '537636', 'cadastro', '1730654061', 0),
+(37, '932427619', '722296', 'cadastro', '1730654069', 0),
+(38, '932427619', '977490', 'cadastro', '1730654145', 0),
+(39, '932427619', '931454', 'cadastro', '1730654351', 1),
+(40, '932427619', '437661', 'cadastro', '1730654739', 1),
+(41, '925589311', '676900', 'cadastro', '1730655064', 1),
+(42, '925589311', '930496', 'cadastro', '1730655390', 1),
+(43, '925589311', '657221', 'cadastro', '1730656987', 1),
+(44, '925589311', '854696', 'cadastro', '1730657201', 1),
+(45, '932427619', '342521', 'cadastro', '1730658134', 1),
+(46, '932427619', '125629', 'cadastro', '1730658445', 0),
+(47, '932427619', '164584', 'cadastro', '1730658619', 1),
+(48, '921797626', '699360', 'Aceitar operação pendente a ENVIAR de 150000.00.', '1733057369', 1),
+(50, '921797626', '306827', 'Minha acao', '1733057917', 1),
+(51, '921797626', '762545', 'Aceitar operação pendente a ENVIAR de 150000.00.', '1733058059', 1),
+(52, '921797626', '741198', 'cadastro', '1733137743', 1);
 
 -- --------------------------------------------------------
 
@@ -136,8 +205,8 @@ CREATE TABLE `contacto` (
 --
 
 INSERT INTO `contacto` (`identificador`, `cliente_identificador`, `telefone`, `email`, `atual`) VALUES
-(1, '6710363e3da0a', '921797626', NULL, 1),
-(2, '671039056e390', '947436662', NULL, 1);
+(1, '6710363e3da27', '9217976267', NULL, 1),
+(9, '674d95bf0e4c2', '921797626', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -147,7 +216,7 @@ INSERT INTO `contacto` (`identificador`, `cliente_identificador`, `telefone`, `e
 
 CREATE TABLE `deposito` (
   `identificador` int(11) NOT NULL,
-  `identificador_conta` varchar(255) NOT NULL,
+  `cliente_identificador` varchar(255) NOT NULL,
   `transacao_pid` varchar(500) NOT NULL,
   `agente` text NOT NULL,
   `notas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`notas`)),
@@ -157,29 +226,6 @@ CREATE TABLE `deposito` (
   `mes` text NOT NULL,
   `ano` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `empresa`
---
-
-CREATE TABLE `empresa` (
-  `identificador` varchar(500) NOT NULL,
-  `cliente_identificador` varchar(500) NOT NULL,
-  `nif` text NOT NULL,
-  `nome` text NOT NULL,
-  `area_atuacao` text NOT NULL,
-  `balanco` decimal(16,2) DEFAULT NULL,
-  `img` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Extraindo dados da tabela `empresa`
---
-
-INSERT INTO `empresa` (`identificador`, `cliente_identificador`, `nif`, `nome`, `area_atuacao`, `balanco`, `img`) VALUES
-('671039056e3cc', '671039056e390', '921797626', 'nome da empresa', 'uite', 45313.09, 'default.png');
 
 -- --------------------------------------------------------
 
@@ -201,8 +247,8 @@ CREATE TABLE `endereco` (
 --
 
 INSERT INTO `endereco` (`identificador`, `cliente_identificador`, `provincia`, `cidade`, `bairro`, `atual`) VALUES
-(1, '6710363e3da0a', NULL, NULL, NULL, 1),
-(2, '671039056e390', NULL, NULL, NULL, 1);
+(1, '6710363e3da27', NULL, NULL, NULL, 1),
+(10, '674d95bf0e4c2', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -212,7 +258,7 @@ INSERT INTO `endereco` (`identificador`, `cliente_identificador`, `provincia`, `
 
 CREATE TABLE `extrato` (
   `identificador` int(11) NOT NULL,
-  `identificador_conta` text NOT NULL,
+  `cliente_identificador` text NOT NULL,
   `transacao_pid` text NOT NULL,
   `entrada` tinyint(1) NOT NULL,
   `movimento` decimal(16,2) NOT NULL,
@@ -227,23 +273,19 @@ CREATE TABLE `extrato` (
 -- Extraindo dados da tabela `extrato`
 --
 
-INSERT INTO `extrato` (`identificador`, `identificador_conta`, `transacao_pid`, `entrada`, `movimento`, `balanco`, `quando`, `dia`, `mes`, `ano`) VALUES
-(1, '6710363e3da27', '8', 0, 5625.00, 104375.00, '17-10-2024', '17', '10', '2024'),
+INSERT INTO `extrato` (`identificador`, `cliente_identificador`, `transacao_pid`, `entrada`, `movimento`, `balanco`, `quando`, `dia`, `mes`, `ano`) VALUES
+(1, '6710363e3da27', '8', 0, 5625.00, 104375.00, '17-11-2024', '17', '11', '2024'),
 (2, '6710363e3da27', '1', 0, 7000.09, 97374.91, '07-09-2024', '07', '09', '2024'),
 (3, '6710363e3da27', '7', 0, 70.00, 97304.91, '07-10-2024', '07', '10', '2024'),
 (4, '6710363e3da27', '6', 0, 900.00, 96404.91, '01-10-2024', '01', '10', '2024'),
-(5, '6710363e3da27', '5', 0, 1500.00, 94904.91, '01-10-2024', '01', '10', '2024'),
-(6, '6710363e3da27', '4', 0, 2000.00, 92904.91, '15-09-2024', '15', '09', '2024'),
 (7, '6710363e3da27', '2', 0, 17000.00, 75904.91, '08-09-2024', '08', '09', '2024'),
-(8, '6710363e3da27', '3', 0, 74000.00, 1904.91, '09-09-2024', '09', '09', '2024'),
-(9, '671039056e3cc', '8', 1, 5625.00, 5625.00, '17-10-2024', '17', '10', '2024'),
+(8, '6710363e3da27', '3', 0, 74000.00, 1904.91, '09-09-2024', '09', '09', '2023'),
+(9, '671039056e3cc', '8', 1, 5625.00, 5625.00, '17-11-2024', '17', '11', '2024'),
 (10, '671039056e3cc', '1', 1, 7000.09, 12625.09, '07-09-2024', '07', '09', '2024'),
 (11, '671039056e3cc', '7', 1, 70.00, 12695.09, '07-10-2024', '07', '10', '2024'),
 (12, '671039056e3cc', '6', 1, 900.00, 13595.09, '01-10-2024', '01', '10', '2024'),
-(13, '671039056e3cc', '5', 1, 1500.00, 15095.09, '01-10-2024', '01', '10', '2024'),
-(14, '671039056e3cc', '4', 1, 2000.00, 17095.09, '15-09-2024', '15', '09', '2024'),
 (15, '671039056e3cc', '2', 1, 17000.00, 34095.09, '08-09-2024', '08', '09', '2024'),
-(16, '671039056e3cc', '3', 1, 74000.00, 108095.09, '09-09-2024', '09', '09', '2024'),
+(16, '671039056e3cc', '3', 1, 74000.00, 108095.09, '09-09-2024', '09', '09', '2023'),
 (21, '6710363e3da27', '671c3cbf59847', 0, 500.00, 1404.91, '26-10-2024 02:50:07', '26', '10', '2024'),
 (22, '671039056e3cc', '671c3cbf59847', 1, 500.00, 107595.09, '26-10-2024 02:50:07', '26', '10', '2024'),
 (23, '6710363e3da27', '671c3f0ce9452', 0, 500.00, 904.91, '26-10-2024 02:59:56', '26', '10', '2024'),
@@ -353,7 +395,35 @@ INSERT INTO `extrato` (`identificador`, `identificador_conta`, `transacao_pid`, 
 (127, '671039056e3cc', '671fa25ee669c', 0, 208.00, 75313.09, '28-10-2024 03:40:30', '28', '10', '2024'),
 (128, '6710363e3da27', '671fa25ee669c', 1, 208.00, 31686.91, '28-10-2024 03:40:30', '28', '10', '2024'),
 (129, '671039056e3cc', '67222c4f0c16b', 0, 30000.00, 45313.09, '30-10-2024 01:53:35', '30', '10', '2024'),
-(130, '6710363e3da27', '67222c4f0c16b', 1, 30000.00, 61686.91, '30-10-2024 01:53:35', '30', '10', '2024');
+(130, '6710363e3da27', '67222c4f0c16b', 1, 30000.00, 61686.91, '30-10-2024 01:53:35', '30', '10', '2024'),
+(131, '6710363e3da27', '6726b8646829e', 0, 876.00, 60810.91, '03-11-2024 12:40:20', '03', '11', '2024'),
+(132, '671039056e3cc', '6726b8646829e', 1, 876.00, 46189.09, '03-11-2024 12:40:20', '03', '11', '2024'),
+(133, '6710363e3da27', '6726be5ca82ca', 0, 9090.00, 51720.91, '03-11-2024 01:05:48', '03', '11', '2024'),
+(134, '671039056e3cc', '6726be5ca82ca', 1, 9090.00, 55279.09, '03-11-2024 01:05:48', '03', '11', '2024'),
+(135, '6710363e3da27', '6726bea884712', 0, 1987.00, 49733.91, '03-11-2024 01:07:04', '03', '11', '2024'),
+(136, '671039056e3cc', '6726bea884712', 1, 1987.00, 57266.09, '03-11-2024 01:07:04', '03', '11', '2024'),
+(137, '6710363e3da27', '6726c0f63470d', 0, 900.00, 48833.91, '03-11-2024 01:16:54', '03', '11', '2024'),
+(138, '671039056e3cc', '6726c0f63470d', 1, 900.00, 58166.09, '03-11-2024 01:16:54', '03', '11', '2024'),
+(139, '6710363e3da27', '6726c210193ba', 0, 8000.00, 40833.91, '03-11-2024 01:21:36', '03', '11', '2024'),
+(140, '671039056e3cc', '6726c210193ba', 1, 8000.00, 66166.09, '03-11-2024 01:21:36', '03', '11', '2024'),
+(141, '6710363e3da27', '6726ceeec5224', 0, 8.00, 40825.91, '03-11-2024 02:16:30 AM', '03', '11', '2024'),
+(142, '671039056e3cc', '6726ceeec5224', 1, 8.00, 66174.09, '03-11-2024 02:16:30 AM', '03', '11', '2024'),
+(143, '6710363e3da27', '6726cf8f11a7e', 0, 8.00, 40817.91, '03-11-2024 02:19:11 AM', '03', '11', '2024'),
+(144, '671039056e3cc', '6726cf8f11a7e', 1, 8.00, 66182.09, '03-11-2024 02:19:11 AM', '03', '11', '2024'),
+(145, '6710363e3da27', '6726d07f1d02f', 0, 5.00, 40812.91, '03-11-2024 02:23:11 AM', '03', '11', '2024'),
+(146, '671039056e3cc', '6726d07f1d02f', 1, 5.00, 66187.09, '03-11-2024 02:23:11 AM', '03', '11', '2024'),
+(147, '6710363e3da27', '6726d0c126d9c', 0, 60.00, 40752.91, '03-11-2024 02:24:17 AM', '03', '11', '2024'),
+(148, '671039056e3cc', '6726d0c126d9c', 1, 60.00, 66247.09, '03-11-2024 02:24:17 AM', '03', '11', '2024'),
+(149, '671039056e3cc', '6726dafb23cd9', 0, 8.00, 66239.09, '03-11-2024 03:07:55', '03', '11', '2024'),
+(150, '6710363e3da27', '6726dafb23cd9', 1, 8.00, 40760.91, '03-11-2024 03:07:55', '03', '11', '2024'),
+(151, '6710363e3da27', '6726ea9e63c6a', 0, 12.00, 40748.91, '03-11-2024 04:14:38 AM', '03', '11', '2024'),
+(152, '671039056e3cc', '6726ea9e63c6a', 1, 12.00, 66251.09, '03-11-2024 04:14:38 AM', '03', '11', '2024'),
+(153, '671039056e3cc', '6726f4cb80f53', 0, 2469.00, 63782.09, '03-11-2024 04:58:03', '03', '11', '2024'),
+(154, '6710363e3da27', '6726f4cb80f53', 1, 2469.00, 43217.91, '03-11-2024 04:58:03', '03', '11', '2024'),
+(155, '671039056e3cc', '6726f80484f35', 0, 1727.50, 62054.59, '03-11-2024 05:11:48', '03', '11', '2024'),
+(156, '6710363e3da27', '6726f80484f35', 1, 1727.50, 44945.41, '03-11-2024 05:11:48', '03', '11', '2024'),
+(157, '6710363e3da27', '67295b9f81ade', 0, 987.00, 43958.41, '05-11-2024 12:41:19 AM', '05', '11', '2024'),
+(158, '671039056e3cc', '67295b9f81ade', 1, 987.00, 63041.59, '05-11-2024 12:41:19 AM', '05', '11', '2024');
 
 -- --------------------------------------------------------
 
@@ -363,7 +433,7 @@ INSERT INTO `extrato` (`identificador`, `identificador_conta`, `transacao_pid`, 
 
 CREATE TABLE `levantamento` (
   `identificador` int(11) NOT NULL,
-  `identificador_conta` varchar(255) NOT NULL,
+  `cliente_identificador` varchar(255) NOT NULL,
   `transacao_pid` varchar(500) NOT NULL,
   `agente` text NOT NULL,
   `notas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`notas`)),
@@ -403,34 +473,12 @@ CREATE TABLE `parcelado` (
 INSERT INTO `parcelado` (`identificador`, `transacao_pid`, `de`, `para`, `parcelas`, `valor_parcela`, `valor_total`, `periodicidade`, `quando`, `dia`, `mes`, `ano`, `ativo`) VALUES
 ('1099985634', '[6,\"671e9f4a4c1e6\",\"671f9c522635c\",\"671f9ca9d7b5d\"]', '921797626', '947436662', '5', 900.00, 4500.00, 'semanal', '01-10-2024', '01', '10', '2024', 0),
 ('671c4e6721635', '[\"671c4e6720c8e\",\"671e9f4a661ae\",\"671f9c5259e41\",\"671f9caae0777\"]', '947436662', '921797626', '5', 100.00, 200.00, 'diario', '26-10-2024 04:05:27', '26', '10', '2024', 0),
-('671cb63b12ed2', '[\"671cb63b11a39\",\"671e9f4a7801a\",\"671f9c52724a6\",\"671f9cac906a6\"]', '921797626', '947436662', '5', 800.00, 400.00, 'diario', '26-10-2024 11:28:27', '26', '10', '2024', 0),
 ('671cb77766e5e', '[\"671e9da560dc0\",\"671e9f4a8bedb\",\"671f9c52996f6\",\"671f9cad97fad\"]', '921797626', '947436662', '5', 400.00, 800.00, 'diario', '26-10-2024 11:33:43', '26', '10', '2024', 0),
 ('6720fc5b4efb9', '[\"6720fc5b4ec32\"]', '921797626', '947436662', '2', 150000.00, 300000.00, 'diario', '29-10-2024 04:16:43', '29', '10', '2024', 0),
-('67222c2f2610b', '[\"67222c2f25d16\"]', '921797626', '947436662', '2', 150000.00, 300000.00, 'diario', '30-10-2024 01:53:03', '30', '10', '2024', 0);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `particular`
---
-
-CREATE TABLE `particular` (
-  `identificador` varchar(500) NOT NULL,
-  `cliente_identificador` varchar(500) NOT NULL,
-  `bi` text DEFAULT NULL,
-  `nome` text NOT NULL,
-  `genero` text DEFAULT NULL,
-  `nascimento` text DEFAULT NULL,
-  `balanco` decimal(16,2) NOT NULL,
-  `img` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Extraindo dados da tabela `particular`
---
-
-INSERT INTO `particular` (`identificador`, `cliente_identificador`, `bi`, `nome`, `genero`, `nascimento`, `balanco`, `img`) VALUES
-('6710363e3da27', '6710363e3da0a', 'AH09765345O45', 'nome da empresa', 'm', '15-08-1996', 61686.91, 'default.png');
+('67222c2f2610b', '[\"67222c2f25d16\"]', '921797626', '947436662', '2', 150000.00, 300000.00, 'diario', '30-10-2024 01:53:03', '30', '10', '2024', 0),
+('6726f46487159', '[\"6726f464868a6\"]', '921797626', '947436662', '2', 150000.00, 300000.00, 'diario', '03-11-2024 04:56:20', '03', '11', '2024', 0),
+('6726f4cb82000', '[\"6726f4cb80f53\"]', '947436662', '921797626', '5', 2469.00, 12345.00, 'Mensal', '03-11-2024 04:58:03', '03', '11', '2024', 1),
+('6726f80485a29', '[\"6726f80484f35\"]', '947436662', '921797626', '2', 1727.50, 3455.00, 'Semanal', '03-11-2024 05:11:48', '03', '11', '2024', 0);
 
 -- --------------------------------------------------------
 
@@ -457,11 +505,11 @@ CREATE TABLE `recorrente` (
 --
 
 INSERT INTO `recorrente` (`identificador`, `transacao_pid`, `de`, `para`, `valor`, `periodicidade`, `quando`, `dia`, `mes`, `ano`, `ativo`) VALUES
-('1785469045', '[7,\"671fa23173235\",\"671fa25e027a5\"]', '921797626', '947436662', 70.00, 'mensal', '07-10-2024', '07', '10', '2024', 1),
+('1785469045', '[7,\"671fa23173235\",\"671fa25e027a5\"]', '921797626', '947436662', 70.00, 'mensal', '07-10-2024', '07', '10', '2024', 0),
 ('671039056e3cc', '[\"671c49364bb7a\",\"671fa2318fb86\",\"671fa25e43ad7\"]', '947436662', '921797626', 1000.00, 'diario', '26-10-2024 03:43:18', '26', '10', '2024', 1),
-('671c4abd437aa', '[\"671c4abd42b94\",\"671fa23216b58\",\"671fa25e6a56d\"]', '947436662', '921797626', 200.00, 'diario', '26-10-2024 03:49:49', '26', '10', '2024', 1),
+('671c4abd437aa', '[\"671c4abd42b94\",\"671fa23216b58\",\"671fa25e6a56d\"]', '947436662', '921797626', 200.00, 'diario', '26-10-2024 03:49:49', '26', '10', '2024', 0),
 ('671c4e3e7f6d3', '[\"671c4e3e7ecf7\",\"671fa2327f706\",\"671fa25ee669c\"]', '947436662', '921797626', 208.00, 'diario', '26-10-2024 04:04:46', '26', '10', '2024', 1),
-('6720fc9c19692', '[\"6720fc9c18fab\"]', '921797626', '947436662', 300000.00, 'diario', '29-10-2024 04:17:48', '29', '10', '2024', 0);
+('6726c21019e1a', '[\"6726c210193ba\"]', '921797626', '947436662', 8000.00, 'Mensal', '03-11-2024 01:21:36', '03', '11', '2024', 1);
 
 -- --------------------------------------------------------
 
@@ -491,15 +539,11 @@ CREATE TABLE `transacao` (
 --
 
 INSERT INTO `transacao` (`identificador_conta`, `pid`, `tipo`, `de`, `para`, `onde`, `valor`, `descricao`, `quando`, `dia`, `mes`, `ano`, `executado`, `pedido`) VALUES
-('6710363e3da27', '1', 'normal', '921797626', '947436662', 'app', 7000.09, 'urgente', '07-09-2024', '07', '09', '2024', 1, 0),
-('671039056e3cc', '10', 'normal', '947436662', '921797626', 'app', 500.00, 'urgente', '18-10-2024', '18', '10', '2024', 0, 0),
+('6710363e3da27', '1', 'normal', '921797626', '947436662', 'app', 7000.09, 'urgente', '07-09-2024', '07', '09', '2023', 1, 0),
+('671039056e3cc', '10', 'normal', '947436662', '921797626', 'app', 500.00, 'urgente', '18-10-2024', '18', '10', '2023', 0, 0),
 ('6710363e3da27', '2', 'normal', '921797626', '947436662', 'app', 17000.00, 'urgente', '08-09-2024', '08', '09', '2024', 1, 0),
-('6710363e3da27', '3', 'normal', '921797626', '947436662', 'app', 74000.00, 'urgente', '09-09-2024', '09', '09', '2024', 1, 0),
-('6710363e3da27', '4', 'normal', '921797626', '947436662', 'app', 2000.00, 'urgente', '15-09-2024', '15', '09', '2024', 1, 0),
-('6710363e3da27', '5', 'normal', '921797626', '947436662', 'app', 1500.00, 'urgente', '01-10-2024', '01', '10', '2024', 1, 0),
-('6710363e3da27', '6', 'parcelado', '921797626', '947436662', 'app', 900.00, 'urgente', '01-10-2024', '01', '10', '2024', 1, 0),
-('6710363e3da27', '671c3cbf59847', 'normal', '921797626', '947436662', 'app', 500.00, 'uma descricao', '26-10-2024 02:50:07', '26', '10', '2024', 0, 0),
-('6710363e3da27', '671c3f1c122ce', 'normal', '921797626', '947436662', 'app', 500.00, 'uma descricao', '26-10-2024 03:00:12', '26', '10', '2024', 0, 0),
+('6710363e3da27', '3', 'normal', '921797626', '947436662', 'app', 74000.00, 'urgente', '09-09-2024', '09', '09', '2023', 1, 0),
+('6710363e3da27', '4', 'normal', '921797626', '947436662', 'app', 2000.00, 'urgente', '15-08-2024', '15', '08', '2024', 1, 0),
 ('671039056e3cc', '671c4298464ed', 'normal', '947436662', '921797626', 'app', 100000.00, 'uma descricao', '26-10-2024 03:15:04', '26', '10', '2024', 0, 0),
 ('671039056e3cc', '671c4518677cd', 'normal', '947436662', '921797626', 'app', 100.00, 'uma descricao', '26-10-2024 03:25:44', '26', '10', '2024', 0, 0),
 ('671039056e3cc', '671c452be32f8', 'normal', '947436662', '921797626', 'app', 100.00, 'uma descricao', '26-10-2024 03:26:03', '26', '10', '2024', 0, 0),
@@ -508,7 +552,6 @@ INSERT INTO `transacao` (`identificador_conta`, `pid`, `tipo`, `de`, `para`, `on
 ('671039056e3cc', '671c4abd42b94', 'recorrente', '947436662', '921797626', 'app', 200.00, 'uma descricao', '26-10-2024 03:49:49', '26', '10', '2024', 1, 0),
 ('671039056e3cc', '671c4e3e7ecf7', 'recorrente', '947436662', '921797626', 'app', 208.00, 'uma descricao', '26-10-2024 04:04:46', '26', '10', '2024', 1, 0),
 ('671039056e3cc', '671c4e6720c8e', 'parcelado', '947436662', '921797626', 'app', 100.00, 'uma descricao', '26-10-2024 04:05:27', '26', '10', '2024', 1, 0),
-('671039056e3cc', '671cb63b11a39', 'parcelado', '921797626', '947436662', 'app', 800.00, 'uma descricao', '26-10-2024 11:28:27', '26', '10', '2024', 0, 1),
 ('671039056e3cc', '671cb777663de', 'parcelado', '921797626', '947436662', 'app', 400.00, 'uma descricao', '26-10-2024 11:33:43', '26', '10', '2024', 1, 1),
 ('671039056e3cc', '671e9a7ca8b32', 'normal', '947436662', '921797626', 'app', 30.00, 'uma descricao', '27-10-2024 08:54:36', '27', '10', '2024', 0, 0),
 ('671039056e3cc', '671e9ac713b7a', 'normal', '947436662', '921797626', 'app', 30.00, 'uma descricao', '27-10-2024 08:55:51', '27', '10', '2024', 0, 0),
@@ -550,12 +593,24 @@ INSERT INTO `transacao` (`identificador_conta`, `pid`, `tipo`, `de`, `para`, `on
 ('671039056e3cc', '671fa25e6a56d', 'normal', '947436662', '921797626', 'system', 200.00, 'Pagamento automatico recorrente', '28-10-2024 03:40:30', '28', '10', '2024', 1, 0),
 ('671039056e3cc', '671fa25ee669c', 'normal', '947436662', '921797626', 'system', 208.00, 'Pagamento automatico recorrente', '28-10-2024 03:40:30', '28', '10', '2024', 1, 0),
 ('671039056e3cc', '6720fc5b4ec32', 'parcelado', '921797626', '947436662', 'app', 150000.00, 'uma descricao', '29-10-2024 04:16:43', '29', '10', '2024', 0, 1),
-('671039056e3cc', '6720fc9c18fab', 'recorrente', '921797626', '947436662', 'app', 300000.00, 'uma descricao', '29-10-2024 04:17:48', '29', '10', '2024', 0, 1),
 ('671039056e3cc', '67222c2f25d16', 'parcelado', '921797626', '947436662', 'app', 150000.00, 'uma descricao', '30-10-2024 01:53:03', '30', '10', '2024', 0, 1),
 ('671039056e3cc', '67222c4f0c16b', 'normal', '947436662', '921797626', 'app', 30000.00, 'uma descricao', '30-10-2024 01:53:35', '30', '10', '2024', 1, 0),
-('6710363e3da27', '7', 'recorrente', '921797626', '947436662', 'app', 70.00, 'urgente', '07-10-2024', '07', '10', '2024', 1, 0),
-('6710363e3da27', '8', 'normal', '921797626', '947436662', 'app', 5625.00, 'urgente', '17-10-2024', '17', '10', '2024', 1, 0),
-('6710363e3da27', '9', 'normal', '921797626', '947436662', 'app', 500.00, 'urgente', '18-10-2024', '18', '10', '2024', 0, 0);
+('6710363e3da27', '6726b8646829e', 'normal', '921797626', '947436662', 'App', 876.00, '', '03-11-2024 12:40:20', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726be5ca82ca', 'normal', '921797626', '947436662', 'App', 9090.00, '943567', '03-11-2024 01:05:48', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726bea884712', 'normal', '921797626', '947436662', 'App', 1987.00, '', '03-11-2024 01:07:04', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726c0f63470d', 'normal', '921797626', '947436662', 'App', 900.00, '', '03-11-2024 01:16:54', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726c210193ba', 'recorrente', '921797626', '947436662', 'App', 8000.00, '', '03-11-2024 01:21:36', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726ceeec5224', 'normal', '921797626', '947436662', 'App', 8.00, '', '03-11-2024 02:16:30 AM', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726cf8f11a7e', 'normal', '921797626', '947436662', 'App', 8.00, '', '03-11-2024 02:19:11 AM', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726d07f1d02f', 'normal', '921797626', '947436662', 'App', 5.00, '', '03-11-2024 02:23:11 AM', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726d0c126d9c', 'normal', '921797626', '947436662', 'App', 60.00, '', '03-11-2024 02:24:17 AM', '03', '11', '2024', 1, 0),
+('6710363e3da27', '6726dafb23cd9', 'normal', '947436662', '921797626', 'App', 8.00, 'En  20943cao k', '03-11-2024 03:07:55', '03', '11', '2024', 1, 1),
+('6710363e3da27', '6726ea628bb8c', 'normal', '947436662', '921797626', 'App', 1345.00, '', '03-11-2024 04:13:38', '03', '11', '2024', 0, 1),
+('6710363e3da27', '6726ea9e63c6a', 'normal', '921797626', '947436662', 'App', 12.00, '', '03-11-2024 04:14:38 AM', '03', '11', '2024', 1, 0),
+('671039056e3cc', '6726f464868a6', 'parcelado', '921797626', '947436662', 'app', 150000.00, 'uma descricao', '03-11-2024 04:56:20', '03', '11', '2024', 0, 1),
+('6710363e3da27', '6726f4cb80f53', 'parcelado', '947436662', '921797626', 'App', 2469.00, '', '03-11-2024 04:58:03', '03', '11', '2024', 1, 1),
+('6710363e3da27', '6726f80484f35', 'parcelado', '947436662', '921797626', 'App', 1727.50, '', '03-11-2024 05:11:48', '03', '11', '2024', 1, 1),
+('6710363e3da27', '67295b9f81ade', 'normal', '921797626', '947436662', 'App', 987.00, '', '05-11-2024 12:41:19 AM', '05', '11', '2024', 1, 0);
 
 --
 -- Índices para tabelas despejadas
@@ -601,13 +656,6 @@ ALTER TABLE `deposito`
   ADD UNIQUE KEY `transacao_pid` (`transacao_pid`);
 
 --
--- Índices para tabela `empresa`
---
-ALTER TABLE `empresa`
-  ADD PRIMARY KEY (`identificador`),
-  ADD UNIQUE KEY `cliente_identificador` (`cliente_identificador`);
-
---
 -- Índices para tabela `endereco`
 --
 ALTER TABLE `endereco`
@@ -634,13 +682,6 @@ ALTER TABLE `parcelado`
   ADD PRIMARY KEY (`identificador`);
 
 --
--- Índices para tabela `particular`
---
-ALTER TABLE `particular`
-  ADD PRIMARY KEY (`identificador`),
-  ADD UNIQUE KEY `cliente_identificador` (`cliente_identificador`);
-
---
 -- Índices para tabela `recorrente`
 --
 ALTER TABLE `recorrente`
@@ -660,25 +701,25 @@ ALTER TABLE `transacao`
 -- AUTO_INCREMENT de tabela `anulado`
 --
 ALTER TABLE `anulado`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `configuracao`
 --
 ALTER TABLE `configuracao`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `confirmar`
 --
 ALTER TABLE `confirmar`
-  MODIFY `identificador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `identificador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de tabela `contacto`
 --
 ALTER TABLE `contacto`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `deposito`
@@ -690,13 +731,13 @@ ALTER TABLE `deposito`
 -- AUTO_INCREMENT de tabela `endereco`
 --
 ALTER TABLE `endereco`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `extrato`
 --
 ALTER TABLE `extrato`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT de tabela `levantamento`

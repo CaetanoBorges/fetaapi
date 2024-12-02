@@ -187,13 +187,13 @@ $app->post('/scan', function (ServerRequestInterface $request, ResponseInterface
     $bg->merge($img2, 0, $img2->getHeight());
     $bg->rotate(180);
     $merged = time() . ".jpg";
-    $bg->save($merged);
+    $bg->save("BILHETES/".$merged);
 
     unlink($tras);
     unlink($frente);
 
     
-    $fileData = fopen($merged, 'r');
+    $fileData = fopen("BILHETES/".$merged, 'r');
     $client = new \GuzzleHttp\Client();
     try {
         $r = $client->request('POST', 'https://api.ocr.space/parse/image', [
@@ -207,7 +207,9 @@ $app->post('/scan', function (ServerRequestInterface $request, ResponseInterface
         ], ['file' => $fileData]);
         $res =  json_decode($r->getBody(), true);
         $dadosBI = arrayDados($res["ParsedResults"][0]["ParsedText"]);
-        $response->getBody()->write(json_encode($dadosBI));
+        $dadosBI["foto_bi"] = $merged;
+        $retorno = ["ok"=>true,"payload"=>$dadosBI];
+        $response->getBody()->write(json_encode($retorno));
     } catch (GuzzleHttp\Exception\ClientException $e) {
         echo $e->getResponse()->getBody();
     } 
@@ -259,11 +261,11 @@ function arrayDados($response)
     $ALTURAPOS = strpos($response, "): ");
     $result["altura"] = substr($response, ($ALTURAPOS + 3), 4);
 
-    $PROVINCIAPOS = strpos($response, "Provincia de: ");
-    $result["provincia"] = substr($response, ($PROVINCIAPOS + 14), 15);
+    $PROVINCIAPOS = strpos($response, "ncia de: ");
+    $result["provincia"] = substr($response, ($PROVINCIAPOS + 9), 15);
 
-    $RESIDENCIAPOS = strpos($response, "Residéncia: ");
-    $result["morada"] = substr($response, ($RESIDENCIAPOS + 12), 33);
+    $RESIDENCIAPOS = strpos($response, "ncia: ");
+    $result["morada"] = substr($response, ($RESIDENCIAPOS + 5), 33);
 
     $BIPOS = strpos($response, "NO: ");
     $result["bi"] = substr($response, ($BIPOS + 4), 13);

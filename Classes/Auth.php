@@ -94,7 +94,7 @@ class Auth
         $queryConfiguracao->bindValue(':tempo_bloqueio', "mins1");
         $queryConfiguracao->bindValue(':pin', $pin);
 
-        $queryParticular = $this->conexao->prepare("INSERT INTO cliente (identificador, bi, nome, genero, nascimento, altura, estado_civil, morada, provincia, natural_de, filiacao, foto_bi, balanco, img) VALUES (:identificador, :bi, :nome, :genero, :nascimento, :altura, :estado_civil, :morada, :provincia, :natural_de, :filiacao, :foto_bi, :balanco, :img)");
+        $queryParticular = $this->conexao->prepare("INSERT INTO cliente (identificador, bi, nome, genero, nascimento, altura, estado_civil, morada, provincia, natural_de, filiacao, ocupacao, foto_bi, balanco, img) VALUES (:identificador, :bi, :nome, :genero, :nascimento, :altura, :estado_civil, :morada, :provincia, :natural_de, :filiacao, :ocupacao, :foto_bi, :balanco, :img)");
         $queryParticular->bindValue(':identificador', $identificador);
         $queryParticular->bindValue(':bi', $dados['bi']);
         $queryParticular->bindValue(':nome', $dados['nome']);
@@ -106,6 +106,7 @@ class Auth
         $queryParticular->bindValue(':provincia', $dados['provincia']);
         $queryParticular->bindValue(':natural_de', $dados['natural_de']);
         $queryParticular->bindValue(':filiacao', $dados['filiacao']);
+        $queryParticular->bindValue(':ocupacao', $dados['ocupacao']);
         $queryParticular->bindValue(':foto_bi', $dados['foto_bi']);
         $queryParticular->bindValue(':balanco', "0.00");
         $queryParticular->bindValue(':img', "user.svg");
