@@ -82,4 +82,32 @@ class ConfiguracaoControl extends CheckIn
         $res = $this->enviaCodigo($this->body['acao']);
         return $this->_($response, $res);
     }
+    
+  /*   public function verLimites(Request $request, Response $response, $args)
+    {
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        
+        $res = $this->limites();
+        return $this->_($response, $res);
+    } */
+
+    public function convidarAmigo(Request $request, Response $response, $args)
+    {
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        
+        $res = $this->convidar($this->body['telefone'],$this->autorizacao->getId());
+        return $this->_($response, $res);
+    }
 }

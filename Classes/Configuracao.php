@@ -42,4 +42,6 @@ class Configuracao {
         $res = $query->fetch(\PDO::FETCH_COLUMN);
         return ["ok"=>true, "payload"=>$res];
     }
+
+    
 }

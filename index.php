@@ -112,6 +112,7 @@ $app->group('/config', function (RouteCollectorProxy $group) {
     $group->get('/timeout', ConfiguracaoControl::class . ":timeout");
     $group->post('/settimeout', ConfiguracaoControl::class . ":setTimeout");
     $group->post('/alterarpin', ConfiguracaoControl::class . ":setPin");
+    $group->post('/convidaramigo', ConfiguracaoControl::class . ":convidarAmigo");
 });
 
 

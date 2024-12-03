@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02-Dez-2024 às 12:17
+-- Tempo de geração: 03-Dez-2024 às 16:00
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -207,6 +207,28 @@ CREATE TABLE `contacto` (
 INSERT INTO `contacto` (`identificador`, `cliente_identificador`, `telefone`, `email`, `atual`) VALUES
 (1, '6710363e3da27', '9217976267', NULL, 1),
 (9, '674d95bf0e4c2', '921797626', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `convite`
+--
+
+CREATE TABLE `convite` (
+  `id` int(11) NOT NULL,
+  `quem` varchar(500) NOT NULL,
+  `convidado` varchar(500) NOT NULL,
+  `identificador` varchar(500) NOT NULL,
+  `quando` varchar(500) NOT NULL,
+  `aderio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `convite`
+--
+
+INSERT INTO `convite` (`id`, `quem`, `convidado`, `identificador`, `quando`, `aderio`) VALUES
+(1, '921797626', '947436662', '674f1ce393962', '1733237992', 0);
 
 -- --------------------------------------------------------
 
@@ -649,6 +671,12 @@ ALTER TABLE `contacto`
   ADD UNIQUE KEY `cliente_identificador` (`cliente_identificador`) USING HASH;
 
 --
+-- Índices para tabela `convite`
+--
+ALTER TABLE `convite`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `deposito`
 --
 ALTER TABLE `deposito`
@@ -720,6 +748,12 @@ ALTER TABLE `confirmar`
 --
 ALTER TABLE `contacto`
   MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de tabela `convite`
+--
+ALTER TABLE `convite`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `deposito`
