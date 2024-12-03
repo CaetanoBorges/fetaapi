@@ -281,6 +281,49 @@
 					"response": []
 				},
 				{
+					"name": "convidaramigo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token2}}",
+								"type": "default"
+							},
+							{
+								"key": "pin",
+								"value": "65432",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tempo_bloqueio\":120\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/fetaapi/config/settimeout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"fetaapi",
+								"config",
+								"settimeout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "alteraPin",
 					"request": {
 						"method": "POST",
@@ -1134,12 +1177,12 @@
 						{
 							"key": "bifrente",
 							"type": "file",
-							"src": "/C:/Users/HP/Downloads/ilovepdf_pages-to-jpg/BI.-Ismael-Augusto/BI. Ismael Augusto_page-0001.jpg"
+							"src": "/C:/Users/HP/Downloads/ilovepdf_pages-to-jpg/BI-CaetanoBorges/2222.png"
 						},
 						{
 							"key": "bitras",
 							"type": "file",
-							"src": "/C:/Users/HP/Downloads/ilovepdf_pages-to-jpg/BI.-Ismael-Augusto/BI. Ismael Augusto_page-0002.jpg"
+							"src": "/C:/Users/HP/Downloads/ilovepdf_pages-to-jpg/BI-CaetanoBorges/111.png"
 						}
 					],
 					"options": {
