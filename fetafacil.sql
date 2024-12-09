@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Dez-2024 às 16:00
+-- Tempo de geração: 09-Dez-2024 às 11:24
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -91,9 +91,9 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`identificador`, `bi`, `nome`, `genero`, `nascimento`, `altura`, `estado_civil`, `morada`, `provincia`, `natural_de`, `filiacao`, `ocupacao`, `foto_bi`, `nif`, `balanco`, `img`) VALUES
-('6710363e3da27', 'AH09765345O45', 'nome da empresa', 'm', '15-08-1996', '', '', '', '', '', '', '', '', NULL, 43958.41, 'default.png'),
+('6710363e3da27', 'AH09765345O45', 'nome da empresa', 'm', '15-08-1996', '', '', '', '', '', '', '', '', NULL, 543958.41, 'default.png'),
 ('6727bbdf5a62a', '93475693485', 'CAETANO WAMBEMBE', 'Masculino', '2010-08-18', '', '', '', '', '', '', '', '', NULL, 0.00, 'user.svg'),
-('674d95bf0e4c2', '005987935HA04', 'CAETANO BORGES WAMBEMBE F', 'MASCULINO', '15/08/1996', '1.69', 'SOLTEIR', ' CASA SINO BARRO LOLA LUBANGO i: ', 'a: CASA SINO BA', 'LUBANGO LUBAN', 'PAULO WAMBEMBE REBECA DA CONCEIGÅO', 'Profissional_autonomo', '1733137664.jpg', NULL, 0.00, 'user.svg');
+('674d95bf0e4c2', '005987935HA04', 'CAETANO BORGES WAMBEMBE F', 'MASCULINO', '15/08/1996', '1.69', 'SOLTEIR', ' CASA SINO BARRO LOLA LUBANGO i: ', 'a: CASA SINO BA', 'LUBANGO LUBAN', 'PAULO WAMBEMBE REBECA DA CONCEIGÅO', 'Profissional_autonomo', '1733137664.jpg', NULL, 500000.00, 'user.svg');
 
 -- --------------------------------------------------------
 
@@ -184,7 +184,10 @@ INSERT INTO `confirmar` (`identificador`, `cliente_identificador`, `codigo_envia
 (48, '921797626', '699360', 'Aceitar operação pendente a ENVIAR de 150000.00.', '1733057369', 1),
 (50, '921797626', '306827', 'Minha acao', '1733057917', 1),
 (51, '921797626', '762545', 'Aceitar operação pendente a ENVIAR de 150000.00.', '1733058059', 1),
-(52, '921797626', '741198', 'cadastro', '1733137743', 1);
+(52, '921797626', '741198', 'cadastro', '1733137743', 1),
+(53, '921797626', '168598', 'Trasferência para 921797627 \nde 500 000.00.', '1733738555', 1),
+(54, '921797626', '434251', 'Trasferência para 921797627 \nde 500 000.00.', '1733739457', 1),
+(55, '921797626', '923743', 'Trasferência para 921797627 \nde 500 000.00.', '1733739540', 1);
 
 -- --------------------------------------------------------
 
@@ -205,7 +208,7 @@ CREATE TABLE `contacto` (
 --
 
 INSERT INTO `contacto` (`identificador`, `cliente_identificador`, `telefone`, `email`, `atual`) VALUES
-(1, '6710363e3da27', '9217976267', NULL, 1),
+(1, '6710363e3da27', '921797627', NULL, 1),
 (9, '674d95bf0e4c2', '921797626', NULL, 1);
 
 -- --------------------------------------------------------
@@ -445,7 +448,10 @@ INSERT INTO `extrato` (`identificador`, `cliente_identificador`, `transacao_pid`
 (155, '671039056e3cc', '6726f80484f35', 0, 1727.50, 62054.59, '03-11-2024 05:11:48', '03', '11', '2024'),
 (156, '6710363e3da27', '6726f80484f35', 1, 1727.50, 44945.41, '03-11-2024 05:11:48', '03', '11', '2024'),
 (157, '6710363e3da27', '67295b9f81ade', 0, 987.00, 43958.41, '05-11-2024 12:41:19 AM', '05', '11', '2024'),
-(158, '671039056e3cc', '67295b9f81ade', 1, 987.00, 63041.59, '05-11-2024 12:41:19 AM', '05', '11', '2024');
+(158, '671039056e3cc', '67295b9f81ade', 1, 987.00, 63041.59, '05-11-2024 12:41:19 AM', '05', '11', '2024'),
+(161, '674d95bf0e4c2', '123', 1, 1000000.00, 6295.09, '26-10-2024 03:26:03', '26', '10', '2024'),
+(162, '674d95bf0e4c2', '6756c42314f5f', 0, 500000.00, 500000.00, '09-12-2024 11:19:15 AM', '09', '12', '2024'),
+(163, '6710363e3da27', '6756c42314f5f', 1, 500000.00, 543958.41, '09-12-2024 11:19:15 AM', '09', '12', '2024');
 
 -- --------------------------------------------------------
 
@@ -540,7 +546,7 @@ INSERT INTO `recorrente` (`identificador`, `transacao_pid`, `de`, `para`, `valor
 --
 
 CREATE TABLE `transacao` (
-  `identificador_conta` varchar(255) DEFAULT NULL,
+  `cliente_identificador` varchar(255) DEFAULT NULL,
   `pid` varchar(500) NOT NULL,
   `tipo` varchar(200) NOT NULL,
   `de` varchar(500) NOT NULL,
@@ -560,7 +566,7 @@ CREATE TABLE `transacao` (
 -- Extraindo dados da tabela `transacao`
 --
 
-INSERT INTO `transacao` (`identificador_conta`, `pid`, `tipo`, `de`, `para`, `onde`, `valor`, `descricao`, `quando`, `dia`, `mes`, `ano`, `executado`, `pedido`) VALUES
+INSERT INTO `transacao` (`cliente_identificador`, `pid`, `tipo`, `de`, `para`, `onde`, `valor`, `descricao`, `quando`, `dia`, `mes`, `ano`, `executado`, `pedido`) VALUES
 ('6710363e3da27', '1', 'normal', '921797626', '947436662', 'app', 7000.09, 'urgente', '07-09-2024', '07', '09', '2023', 1, 0),
 ('671039056e3cc', '10', 'normal', '947436662', '921797626', 'app', 500.00, 'urgente', '18-10-2024', '18', '10', '2023', 0, 0),
 ('6710363e3da27', '2', 'normal', '921797626', '947436662', 'app', 17000.00, 'urgente', '08-09-2024', '08', '09', '2024', 1, 0),
@@ -632,7 +638,9 @@ INSERT INTO `transacao` (`identificador_conta`, `pid`, `tipo`, `de`, `para`, `on
 ('671039056e3cc', '6726f464868a6', 'parcelado', '921797626', '947436662', 'app', 150000.00, 'uma descricao', '03-11-2024 04:56:20', '03', '11', '2024', 0, 1),
 ('6710363e3da27', '6726f4cb80f53', 'parcelado', '947436662', '921797626', 'App', 2469.00, '', '03-11-2024 04:58:03', '03', '11', '2024', 1, 1),
 ('6710363e3da27', '6726f80484f35', 'parcelado', '947436662', '921797626', 'App', 1727.50, '', '03-11-2024 05:11:48', '03', '11', '2024', 1, 1),
-('6710363e3da27', '67295b9f81ade', 'normal', '921797626', '947436662', 'App', 987.00, '', '05-11-2024 12:41:19 AM', '05', '11', '2024', 1, 0);
+('6710363e3da27', '67295b9f81ade', 'normal', '921797626', '947436662', 'App', 987.00, '', '05-11-2024 12:41:19 AM', '05', '11', '2024', 1, 0),
+('674d95bf0e4c2', '6756c42314f5f', 'normal', '921797626', '921797627', 'App', 500000.00, 'Outro...', '09-12-2024 11:19:15 AM', '09', '12', '2024', 1, 0),
+(NULL, '6756c4dd6ec11', 'normal', '921797627', '921797626', 'App', 90000.00, 'Fornecedores', '09-12-2024 11:22:21', '09', '12', '2024', 0, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -741,7 +749,7 @@ ALTER TABLE `configuracao`
 -- AUTO_INCREMENT de tabela `confirmar`
 --
 ALTER TABLE `confirmar`
-  MODIFY `identificador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `identificador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de tabela `contacto`
@@ -771,7 +779,7 @@ ALTER TABLE `endereco`
 -- AUTO_INCREMENT de tabela `extrato`
 --
 ALTER TABLE `extrato`
-  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `identificador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
 
 --
 -- AUTO_INCREMENT de tabela `levantamento`

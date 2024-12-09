@@ -45,18 +45,18 @@ class Receber
         
         
         if ($tipo == "normal") {
-            $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
+            $this->transacao($emissor["cliente_identificador"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
             return (["payload" => "", "ok" => true]);
         }
 
         if ($tipo == "recorrente") {
-            $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando);
+            $this->transacao($emissor["cliente_identificador"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando);
             $this->recorrente($pid, $de, $para, $valor, $opcoes["periodicidade"], $quando);
             return (["payload" => "", "ok" => true]);
         }
 
         if ($tipo == "parcelado") {
-            $this->transacao($emissor["identificador_conta"], $pid, $de, $para, $tipo, $onde, $opcoes["valor_parcelas"], $descricao, $quando);
+            $this->transacao($emissor["cliente_identificador"], $pid, $de, $para, $tipo, $onde, $opcoes["valor_parcelas"], $descricao, $quando);
             $this->parcelado($pid, $de, $para, $opcoes["parcelas"], $opcoes["valor_parcelas"], $valor, $opcoes["periodicidade"], $quando);
             return (["payload" => "", "ok" => true]);
         }
@@ -64,7 +64,7 @@ class Receber
     public function transacao($contaEmissor, $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado = false, $pedido = true)
     {
 
-        $queryTransacao = $this->conexao->prepare("INSERT INTO transacao (identificador_conta, pid, tipo, de, para, onde, valor, descricao, quando, dia, mes, ano, executado, pedido) VALUES (:conta, :pid, :tipo, :de, :para, :onde, :valor, :descricao, :quando, :dia, :mes, :ano, :executado, :pedido)");
+        $queryTransacao = $this->conexao->prepare("INSERT INTO transacao (cliente_identificador, pid, tipo, de, para, onde, valor, descricao, quando, dia, mes, ano, executado, pedido) VALUES (:conta, :pid, :tipo, :de, :para, :onde, :valor, :descricao, :quando, :dia, :mes, :ano, :executado, :pedido)");
         $queryTransacao->bindValue(':conta', $contaEmissor);
         $queryTransacao->bindValue(':pid', $pid);
         $queryTransacao->bindValue(':tipo', $tipo);
@@ -142,7 +142,7 @@ class Receber
         } catch (\PDOException $e) {
 
             $this->conexao->rollBack();
-            return (["payload" => "Algo inexperado aconteceu, verifique os dados da operação", "ok" => false]);
+            return (["payload" => "Erro inexperado, verifique os dados da operação", "ok" => false]);
 
         }
 
