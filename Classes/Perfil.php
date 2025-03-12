@@ -29,14 +29,14 @@ class Perfil
         $query->execute();
         $tempo_bloqueio = $query->fetch(\PDO::FETCH_COLUMN);
 
-        $query = $this->conexao->prepare("SELECT identificador, nome, balanco FROM cliente WHERE identificador = :cliente");
-            $query->bindValue(':cliente', $id_cliente);
-            $query->execute();
-            $res = $query->fetch(\PDO::FETCH_ASSOC);
-            $res["telefone"] = ($telefone);
-            $res["bloqueio"] = ($tempo_bloqueio);
-            $res["transacoes"] = $this->initTransacoes($res["identificador"],$telefone);
-            return ["ok"=>true, "payload"=> $res];
+        $query = $this->conexao->prepare("SELECT identificador, tipo, nome, balanco FROM cliente WHERE identificador = :cliente");
+        $query->bindValue(':cliente', $id_cliente);
+        $query->execute();
+        $res = $query->fetch(\PDO::FETCH_ASSOC);
+        $res["telefone"] = ($telefone);
+        $res["bloqueio"] = ($tempo_bloqueio);
+        $res["transacoes"] = $this->initTransacoes($res["identificador"],$telefone);
+        return ["ok"=>true, "payload"=> $res];
     }
 
 
