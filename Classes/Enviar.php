@@ -115,6 +115,24 @@ class Enviar
 
             return (["ok" => true]);
         }
+        if ($tipo == "deposito") {
+            if ($emissor["saldo"] < $valor) {
+                return (["payload" => "Saldo insuficiente", "ok" => false]);
+            }
+            $this->transacao($emissor["cliente_identificador"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
+            #$this->poeExtrato($emissor["cliente_identificador"], $pid, 0, $valor, $emissor["saldo"], $quando);
+            $this->poeExtrato($receptor["cliente_identificador"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
+            return (["ok" => true]);
+        }
+        if ($tipo == "levantamento") {
+            if ($emissor["saldo"] < $valor) {
+                return (["payload" => "Saldo insuficiente", "ok" => false]);
+            }
+            $this->transacao($emissor["cliente_identificador"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
+            $this->poeExtrato($emissor["cliente_identificador"], $pid, 0, $valor, $emissor["saldo"], $quando);
+            #$this->poeExtrato($receptor["cliente_identificador"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
+            return (["ok" => true]);
+        }
     }
     public function transacao($contaEmissor, $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado = true)
     {

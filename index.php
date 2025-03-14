@@ -128,6 +128,7 @@ $app->group('/transacao', function (RouteCollectorProxy $group) {
     $group->post('/detalhes', TransacaoControl::class . ":detalhe");
     $group->post('/receber', ReceberControl::class . ":novo"); // Da class Receber
     $group->post('/enviar', EnviarControl::class . ":novo"); // Da class Enviar
+    $group->post('/depositar', EnviarControl::class . ":novo"); // Da class Enviar - Deposito
     $group->post('/aceitarpendente', EnviarControl::class . ":aceitarPendente"); // Da class Enviar
 });
 
