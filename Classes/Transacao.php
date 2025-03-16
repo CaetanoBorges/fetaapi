@@ -90,6 +90,9 @@ class Transacao {
             }else{
                 $res[$k]["enviar"] = 0;
             }
+            if($v["tipo"]=="levantamento"){
+                $res[$k]["enviar"] = 1;
+            }
         }
         array_multisort(array_map(function($element) {
             return $element['pid'];
@@ -151,6 +154,9 @@ class Transacao {
                 $res[$k]["enviar"] = 1;
             }else{
                 $res[$k]["enviar"] = 0;
+            }
+            if($v["tipo"]=="levantamento"){
+                $res[$k]["enviar"] = 1;
             }
         }
         

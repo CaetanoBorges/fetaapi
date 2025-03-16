@@ -53,6 +53,22 @@ class Autorizacao extends Funcoes{
 
         return ["ok"=>true, "payload"=>""];
     }
+    public function enviaCodigoLevantamento($telefone, $numero, $acao){
+        $codigo = self::seisDigitos();
+        self::setRemetente('FETA-FACIL');
+        $mensagem = "$codigo, é o número para confirmar a sua operação. \n $acao \n Expira em 5 minutos.";
+        self::enviaSMS($numero, $mensagem);
+
+        $query=$this->conn->prepare("INSERT INTO confirmar (cliente_identificador, acao, codigo_enviado, quando, confirmou) VALUES (:cliente, :acao, :codigo, :quando, :confirmou)");
+        $query->bindValue(':cliente', $telefone);
+        $query->bindValue(':acao', $acao);
+        $query->bindValue(':codigo', $codigo);
+        $query->bindValue(':quando', time());
+        $query->bindValue(':confirmou', 0);
+        $query->execute();
+
+        return ["ok"=>true, "payload"=>""];
+    }
 
     /**
      * Verifica se o código de confirmação recebido é o mesmo que

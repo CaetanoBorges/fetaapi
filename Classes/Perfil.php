@@ -42,7 +42,10 @@ class Perfil
 
     public function verDetalhes($id_cliente)
     {
-
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+        
         $query = $this->conexao->prepare("SELECT telefone FROM contacto WHERE cliente_identificador = :cliente");
         $query->bindValue(':cliente', $id_cliente);
         $query->execute();

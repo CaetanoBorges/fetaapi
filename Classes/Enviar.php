@@ -47,6 +47,15 @@ class Enviar
             $r = array_merge($resPrincipal, $res, ["pagamentos" => $transacoes]);
             return $r;
         }
+        if ($resPrincipal["tipo"] == "deposito") {
+
+            $query = $this->conexao->prepare("SELECT * FROM deposito WHERE transacao_pid LIKE '%$pid%'");
+            //$query->bindValue(':pid', $pid);
+            $query->execute();
+            $res = $query->fetch(\PDO::FETCH_ASSOC);
+            $r = array_merge($resPrincipal, $res);
+            return $r;
+        }
 
         return $resPrincipal;
     }
@@ -76,7 +85,7 @@ class Enviar
         $emissor = $this->contaBalancoTipo($de);
 
         if ($de == $para) {
-            return (["payload" => "Não pode transferir para a mesma conta", "ok" => false]);
+            return (["payload" => "Não pode fazer operação para a mesma conta", "ok" => false]);
         }
 
         $receptor = $this->contaBalancoTipo($para);
@@ -116,21 +125,23 @@ class Enviar
             return (["ok" => true]);
         }
         if ($tipo == "deposito") {
-            if ($emissor["saldo"] < $valor) {
+           /*  if ($emissor["saldo"] < $valor) {
                 return (["payload" => "Saldo insuficiente", "ok" => false]);
-            }
+            } */
             $this->transacao($emissor["cliente_identificador"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
             #$this->poeExtrato($emissor["cliente_identificador"], $pid, 0, $valor, $emissor["saldo"], $quando);
+            $this->deposito($pid, $emissor["cliente_identificador"], $receptor["cliente_identificador"], $valor, $quando);
             $this->poeExtrato($receptor["cliente_identificador"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
             return (["ok" => true]);
         }
         if ($tipo == "levantamento") {
-            if ($emissor["saldo"] < $valor) {
+            if ($receptor["saldo"] < $valor) {
                 return (["payload" => "Saldo insuficiente", "ok" => false]);
-            }
+            } 
             $this->transacao($emissor["cliente_identificador"], $pid, $de, $para, $tipo, $onde, $valor, $descricao, $quando, $executado);
-            $this->poeExtrato($emissor["cliente_identificador"], $pid, 0, $valor, $emissor["saldo"], $quando);
-            #$this->poeExtrato($receptor["cliente_identificador"], $pid, 1, $valor, $receptor["saldo"], $quando, false);
+            #$this->poeExtrato($emissor["cliente_identificador"], $pid, 0, $valor, $emissor["saldo"], $quando);
+            $this->levantamento($pid, $emissor["cliente_identificador"], $receptor["cliente_identificador"], $valor, $quando);
+            $this->poeExtrato($receptor["cliente_identificador"], $pid, 0, $valor, $receptor["saldo"], $quando, true);
             return (["ok" => true]);
         }
     }
@@ -196,6 +207,38 @@ class Enviar
 
 
         array_push($this->commits, $queryParcelado);
+    }
+    public function deposito($pid, $de, $para, $total, $quando)
+    {
+        $id = $this->funcoes->chaveDB();
+        $queryDeposito = $this->conexao->prepare("INSERT INTO deposito (cliente_identificador, transacao_pid, agente, total, quando, dia, mes, ano) 
+        VALUES (:para, :pid, :de, :total, :quando, :dia, :mes, :ano)");
+        $queryDeposito->bindValue(':para', $para);
+        $queryDeposito->bindValue(':pid', $pid);
+        $queryDeposito->bindValue(':de', $de);
+        $queryDeposito->bindValue(':total', $total);
+        $queryDeposito->bindValue(':quando', $quando);
+        $queryDeposito->bindValue(':dia', date('d'));
+        $queryDeposito->bindValue(':mes', date('m'));
+        $queryDeposito->bindValue(':ano', date('Y'));
+
+        array_push($this->commits, $queryDeposito);
+    }
+    public function levantamento($pid, $de, $para, $total, $quando)
+    {
+        $id = $this->funcoes->chaveDB();
+        $queryLevantar = $this->conexao->prepare("INSERT INTO levantamento (cliente_identificador, transacao_pid, agente, total, quando, dia, mes, ano) 
+        VALUES (:para, :pid, :de, :total, :quando, :dia, :mes, :ano)");
+        $queryLevantar->bindValue(':para', $para);
+        $queryLevantar->bindValue(':pid', $pid);
+        $queryLevantar->bindValue(':de', $de);
+        $queryLevantar->bindValue(':total', $total);
+        $queryLevantar->bindValue(':quando', $quando);
+        $queryLevantar->bindValue(':dia', date('d'));
+        $queryLevantar->bindValue(':mes', date('m'));
+        $queryLevantar->bindValue(':ano', date('Y'));
+
+        array_push($this->commits, $queryLevantar);
     }
     public function poeExtrato($conta, $pid, $entrada, $movimento, $balancoAtual, $quando, $enviar = true)
     {

@@ -30,7 +30,7 @@ class EnviarControl extends CheckIn
         }
         if (!$this->autorizado) {
             return $this->_($response, ['ok' => false, "nivel" => 0, 'payload' => 'Autorização errada']);
-        }
+        } 
         
 
         $res = $this->enviar->nova($this->autorizacao->getId(), $this->body["para"], $this->body["tipo"], $this->body["onde"], $this->body["valor"], $this->body["descricao"], $this->body["opcoes"]);

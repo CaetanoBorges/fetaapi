@@ -107,6 +107,7 @@ $app->group('/auth', function (RouteCollectorProxy $group) {
     $group->post('/novopin', AuthControl::class . ":novoPin");
 });
 $app->post('/pedecodigo', ConfiguracaoControl::class . ":pedecodigo");
+$app->post('/pedecodigolevantamento', ConfiguracaoControl::class . ":pedeCodigoLevantamento");
 
 $app->group('/config', function (RouteCollectorProxy $group) {
     $group->get('/timeout', ConfiguracaoControl::class . ":timeout");
@@ -129,6 +130,7 @@ $app->group('/transacao', function (RouteCollectorProxy $group) {
     $group->post('/receber', ReceberControl::class . ":novo"); // Da class Receber
     $group->post('/enviar', EnviarControl::class . ":novo"); // Da class Enviar
     $group->post('/depositar', EnviarControl::class . ":novo"); // Da class Enviar - Deposito
+    $group->post('/levantar', EnviarControl::class . ":novo"); // Da class Enviar - Levantar
     $group->post('/aceitarpendente', EnviarControl::class . ":aceitarPendente"); // Da class Enviar
 });
 

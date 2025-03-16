@@ -43,7 +43,9 @@ class PerfilControl extends CheckIn
             return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
         }
         //------FIM--CHECK-IN-------//
-
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
         $res = $this->perfil->verDetalhes($this->autorizacao->getCliente());
 
         return $this->_($response, $res);

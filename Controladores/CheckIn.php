@@ -58,6 +58,10 @@ class CheckIn
     {
         return $this->autorizacao->enviaCodigo($this->autorizacao->getId(), $acao);
     }
+    protected function enviaCodigoAoCliente($numero, $acao)
+    {
+        return $this->autorizacao->enviaCodigoLevantamento($this->autorizacao->getId(), $numero, $acao);
+    }
     public function convidar($telefone,$id){
         $query=$this->conexao->prepare("SELECT * FROM contacto WHERE telefone = :telefone");
         $query->bindValue(':telefone', $telefone);
