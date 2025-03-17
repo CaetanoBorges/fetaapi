@@ -25,6 +25,7 @@ use Controladores\PerfilControl;
 use Controladores\PendenteControl;
 use Controladores\ReceberControl;
 use Controladores\EnviarControl;
+use Controladores\SemCartaoControl;
 
 require 'vendor/autoload.php';
 
@@ -150,6 +151,13 @@ $app->group('/pendente', function (RouteCollectorProxy $group) {
     $group->get('/init', PendenteControl::class . ":init");
     $group->post('/detalhes', PendenteControl::class . ":detalhe");
     $group->post('/cancelar', PendenteControl::class . ":cancelar");
+});
+
+$app->group('/semcartao', function (RouteCollectorProxy $group) {
+    $group->get('/init', PendenteControl::class . ":init");
+    $group->post('/detalhes', PendenteControl::class . ":detalhe");
+    $group->post('/cancelar', PendenteControl::class . ":cancelar");
+    $group->post('/levantar', SemCartaoControl::class . ":novoLevantamentoSemCartao");
 });
 
 $app->post('/scan', function (ServerRequestInterface $request, ResponseInterface $response) {

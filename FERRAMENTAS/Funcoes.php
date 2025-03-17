@@ -38,6 +38,14 @@ class Funcoes
     {
         return mt_rand(100000, 999999);
     }
+    static function tresDigitos()
+    {
+        return mt_rand(100, 999);
+    }
+    static function umDigito()
+    {
+        return mt_rand(0, 9);
+    }
 
     static function HTTPpost($url, $opt)
     {
