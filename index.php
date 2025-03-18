@@ -154,9 +154,9 @@ $app->group('/pendente', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/semcartao', function (RouteCollectorProxy $group) {
-    $group->get('/init', PendenteControl::class . ":init");
-    $group->post('/detalhes', PendenteControl::class . ":detalhe");
-    $group->post('/cancelar', PendenteControl::class . ":cancelar");
+    $group->get('/init', SemCartaoControl::class . ":verTodos");
+    $group->post('/detalhes', SemCartaoControl::class . ":detalhe");
+    $group->post('/cancelar', SemCartaoControl::class . ":cancelar");
     $group->post('/levantar', SemCartaoControl::class . ":novoLevantamentoSemCartao");
 });
 

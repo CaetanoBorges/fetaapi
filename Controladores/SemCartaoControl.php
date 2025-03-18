@@ -36,40 +36,7 @@ class SemCartaoControl extends CheckIn
         #return $this->_($response, $res);
     }
 
-    public function setTimeout(Request $request, Response $response, $args)
-    {
-        //------INICIO--CHECK-IN-------//
-        $this->fazCheckIn($request);
-        if ($this->expirou) {
-            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
-        }
-        if (!$this->autorizado) {
-            return $this->_($response, ['ok' => false, "nivel" => 0, 'payload' => 'Autorização errada']);
-        }
-        //------FIM--CHECK-IN-------//
-
-        #$res = $this->semcartao->setTimeOut($this->autorizacao->getCliente(), $this->body['tempo_bloqueio']);
-        #return $this->_($response, $res);
-    }
-
-    public function setPin(Request $request, Response $response, $args)
-    {
-        //------INICIO--CHECK-IN-------//
-        $this->fazCheckIn($request);
-        if ($this->expirou) {
-            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
-        }
-        if (!$this->autorizado) {
-            return $this->_($response, ['ok' => false, "nivel" => 0, 'payload' => 'Autorização errada']);
-        }
-        //------FIM--CHECK-IN-------//
-
-        #$res = $this->semcartao->alteraPin($this->autorizacao->getCliente(), $this->body['pin'], $this->autorizacao->getId());
-        #return $this->_($response, $res);
-    }
-
-
-    public function pedeCodigo(Request $request, Response $response, $args)
+    public function cancelar(Request $request, Response $response, $args)
     {
         //------INICIO--CHECK-IN-------//
         $this->fazCheckIn($request);
@@ -79,7 +46,35 @@ class SemCartaoControl extends CheckIn
         //------FIM--CHECK-IN-------//
 
         
-        $res = $this->enviaCodigo($this->body['acao']);
+        $res = $this->semcartao->cancelarLevantamentoSemCartao($this->body['identificador'],$this->autorizacao->getId());
+        return $this->_($response, $res);
+    }
+
+    public function detalhe(Request $request, Response $response, $args)
+    {
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        $res = $this->semcartao->verDetalhes($this->body['identificador']);
+        return $this->_($response, $res);
+    }
+
+
+    public function verTodos(Request $request, Response $response, $args)
+    {
+        //------INICIO--CHECK-IN-------//
+        $this->fazCheckIn($request);
+        if ($this->expirou) {
+            return $this->_($response, ['ok' => false, "nivel" => 1, 'payload' => 'Sessão expirou, acesse com o pin']);
+        }
+        //------FIM--CHECK-IN-------//
+
+        
+        $res = $this->semcartao->verTodos($this->autorizacao->getCliente());
         return $this->_($response, $res);
     }
     public function novoLevantamentoSemCartao(Request $request, Response $response, $args)

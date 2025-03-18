@@ -12,60 +12,34 @@ class SemCartao {
     }
 
    
-    public function verDetalhes($pid){
+    public function verDetalhes($id){
 
         $r = [];
 
-        $query=$this->conexao->prepare("SELECT * FROM levantamentosemcartao WHERE identificador = :pid");
-        $query->bindValue(':pid', $pid);
+        $query=$this->conexao->prepare("SELECT * FROM levantamentosemcartao WHERE identificador = :id");
+        $query->bindValue(':id', $id);
         $query->execute();
         $resPrincipal = $query->fetch(\PDO::FETCH_ASSOC);
         //var_dump($resPrincipal);
         return ["ok"=>true, "payload"=> $resPrincipal];
     }
     public function verTodos($conta){
-                
-        $query=$this->conexao->prepare("SELECT * FROM transacao WHERE de = :de AND executado = :executado");
+        
+        $dataLimite = strtotime(date('Y-m-d h:i:s',strtotime("-1 days")));
+        $query=$this->conexao->prepare("SELECT * FROM levantamentosemcartao WHERE cliente_identificador = :de AND tempo > :quando");
         $query->bindValue(':de', $conta);
-        $query->bindValue(':executado', '0');
+        $query->bindValue(':quando', $dataLimite);
         $query->execute();
-        $resUm = $query->fetchAll(\PDO::FETCH_ASSOC);
-        
-        
-        $query=$this->conexao->prepare("SELECT * FROM transacao WHERE para = :para AND executado = :executado AND pedido = :pedido");
-        $query->bindValue(':para', $conta);
-        $query->bindValue(':executado', '0');
-        $query->bindValue(':pedido', '1');
-        $query->execute();
-        $resDois = $query->fetchAll(\PDO::FETCH_ASSOC);
-        $res = array_merge($resUm,$resDois);
-
-
-        foreach($res as $k => $v){
-            $pid = $v["pid"];
-            if($v["tipo"]=="parcelado"){
-                $query=$this->conexao->prepare("SELECT periodicidade, parcelas, valor_parcela, valor_total FROM parcelado WHERE transacao_pid LIKE '%$pid%'");
-                $query->execute();
-                $resParcelado = $query->fetch(\PDO::FETCH_ASSOC);
-                $res[$k]["tipo"] = "Parcelado, ".$resParcelado["periodicidade"]." | ".$resParcelado["valor_total"].", em ".$resParcelado["parcelas"]."x de ".$resParcelado["valor_parcela"];
-            }
-            if($v["tipo"]=="recorrente"){
-
-                $query=$this->conexao->prepare("SELECT periodicidade, valor FROM recorrente WHERE transacao_pid LIKE '%$pid%'");
-                $query->execute();
-                $resRecorrente = $query->fetch(\PDO::FETCH_ASSOC);
-                $res[$k]["tipo"] = "Recorrente, ".$resRecorrente["periodicidade"]." | de ".$resRecorrente["valor"];
-            }
-        }
+        $res = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         array_multisort(array_map(function($element) {
-            return $element['pid'];
+            return $element['quando'];
         }, $res), SORT_DESC, $res);
         
         return ["ok"=>true, "payload"=> $res];
     }
 
-    public function cancelarPendente($id){
+    public function cancelarLevantamentoSemCartao($id, $conta){
         #ini_set('display_errors', 1);
         #ini_set('display_startup_errors', 1);
         #error_reporting(E_ALL);
@@ -74,7 +48,7 @@ class SemCartao {
         $quando = date("d-m-Y h:i:s");
         
         $query=$this->conexao->prepare("INSERT INTO anulado (conta, operacao, dados, quando) VALUES (:id, :pid, :dados, :quando)");
-        $query->bindValue(':id', $levantamento["identificador"]);
+        $query->bindValue(':id', $conta);
         $query->bindValue(':pid', $id);
         $query->bindValue(':dados', json_encode($levantamento));
         $query->bindValue(':quando', $quando);
@@ -84,19 +58,22 @@ class SemCartao {
         $queryT->bindValue(':id', $id);
         $query->execute();
 
-        return ["ok"=>true, "payload"=> "Cancelou o levantamento se cartão"];
+        return ["ok"=>true, "payload"=> "Cancelou o levantamento sem cartão"];
     }
 
     public function novoLevantamento($clienteIdentificador,$total,$codigo, $telefone){
+        $id = $this->funcoes::chaveDB();
         $quando = date("d-m-Y h:i:s A");
         $usuario = $this->contaBalancoTipo($telefone);
         if($usuario["saldo"]<$total){
             return ["ok"=>false, "payload"=> "Saldo insuficiente"];
         }
         $referencia = $this->geraReferencia();
-        $query=$this->conexao->prepare("INSERT INTO levantamentosemcartao (cliente_identificador, total, quando, dia, mes, ano, codigo, referencia) VALUES (:clienteIdentificador, :total, :quando, :dia, :mes, :ano, :codigo, :referencia)");
+        $query=$this->conexao->prepare("INSERT INTO levantamentosemcartao (identificador, cliente_identificador, total, tempo, quando, dia, mes, ano, codigo, referencia) VALUES (:identificador, :clienteIdentificador, :total, :tempo, :quando, :dia, :mes, :ano, :codigo, :referencia)");
+        $query->bindValue(':identificador', $id);
         $query->bindValue(':clienteIdentificador', $clienteIdentificador);
         $query->bindValue(':total', $total);
+        $query->bindValue(':tempo', strtotime(date('Y-m-d h:i:s')));
         $query->bindValue(':quando', $quando);
         $query->bindValue(':dia', date("d"));
         $query->bindValue(':mes', date("m"));
