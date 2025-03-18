@@ -56,7 +56,7 @@ class SemCartao {
 
         $queryT=$this->conexao->prepare("DELETE FROM levantamentosemcartao WHERE identificador = :id");
         $queryT->bindValue(':id', $id);
-        $query->execute();
+        $queryT->execute();
 
         return ["ok"=>true, "payload"=> "Cancelou o levantamento sem cartão"];
     }

@@ -26,6 +26,7 @@ use Controladores\PendenteControl;
 use Controladores\ReceberControl;
 use Controladores\EnviarControl;
 use Controladores\SemCartaoControl;
+use Controladores\DepositoLevantamentoControl;
 
 require 'vendor/autoload.php';
 
@@ -133,6 +134,12 @@ $app->group('/transacao', function (RouteCollectorProxy $group) {
     $group->post('/depositar', EnviarControl::class . ":novo"); // Da class Enviar - Deposito
     $group->post('/levantar', EnviarControl::class . ":novo"); // Da class Enviar - Levantar
     $group->post('/aceitarpendente', EnviarControl::class . ":aceitarPendente"); // Da class Enviar
+});
+
+$app->group('/depositolevantamento', function (RouteCollectorProxy $group) {
+    $group->get('/init', DepositoLevantamentoControl::class . ":init");
+    $group->post('/ver', DepositoLevantamentoControl::class . ":ver");
+    $group->post('/detalhes', DepositoLevantamentoControl::class . ":detalhe");
 });
 
 

@@ -211,8 +211,9 @@ class Enviar
     public function deposito($pid, $de, $para, $total, $quando)
     {
         $id = $this->funcoes->chaveDB();
-        $queryDeposito = $this->conexao->prepare("INSERT INTO deposito (cliente_identificador, transacao_pid, agente, total, quando, dia, mes, ano) 
-        VALUES (:para, :pid, :de, :total, :quando, :dia, :mes, :ano)");
+        $queryDeposito = $this->conexao->prepare("INSERT INTO deposito (identificador, cliente_identificador, transacao_pid, agente, total, quando, dia, mes, ano) 
+        VALUES (:id, :para, :pid, :de, :total, :quando, :dia, :mes, :ano)");
+        $queryDeposito->bindValue(':id', $id);
         $queryDeposito->bindValue(':para', $para);
         $queryDeposito->bindValue(':pid', $pid);
         $queryDeposito->bindValue(':de', $de);
@@ -227,8 +228,9 @@ class Enviar
     public function levantamento($pid, $de, $para, $total, $quando)
     {
         $id = $this->funcoes->chaveDB();
-        $queryLevantar = $this->conexao->prepare("INSERT INTO levantamento (cliente_identificador, transacao_pid, agente, total, quando, dia, mes, ano) 
-        VALUES (:para, :pid, :de, :total, :quando, :dia, :mes, :ano)");
+        $queryLevantar = $this->conexao->prepare("INSERT INTO levantamento (identificador, cliente_identificador, transacao_pid, agente, total, quando, dia, mes, ano) 
+        VALUES (:id, :para, :pid, :de, :total, :quando, :dia, :mes, :ano)");
+        $queryLevantar->bindValue(':id', $id);
         $queryLevantar->bindValue(':para', $para);
         $queryLevantar->bindValue(':pid', $pid);
         $queryLevantar->bindValue(':de', $de);
